@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400&family=Zen+Dots&display=swap');
+
+@font-face {
+  font-family: 'Supreme';
+  src: url('./assets/fonts/Supreme-Variable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background-dark: #1f1f1f;
+  --text-dark: #d4d4d4;
+  --accent-dark: #ffa84a;
+  --unselected-dark: #6e6e6e;
+  --font-family-Zen-Dots: 'Zen Dots', system-ui, sans-serif;
+  --font-family-Barlow: 'Supreme', system-ui, sans-serif;
+  --font-size-0: 1.125rem;
+  --font-size-1: 4rem;
+  --font-size-2: 2.25rem;
+  --font-size-4: 2rem;
+  --nav-min-height: 5rem;
+  --nav-max-width: 108rem;
+  --layout-stroke: 0.5px;
+  --tint-dark: rgba(23, 23, 23, 0.2);
+  --frosted-blur: 0.15625rem;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --content-width: 93.75rem; /* 1400px */
+  --vertical-large-padding:3.125rem;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--background-dark, #1f1f1f);
+  color: var(--text-dark, #d4d4d4);
+  font-family: var(--font-family-Barlow, 'Barlow');
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+h1 {
+  overflow: hidden;
+  color: var(--text-dark, #d4d4d4);
+  text-overflow: ellipsis;
+  font-family: var(--font-family-Zen-Dots, 'Zen Dots');
+  font-size: var(--font-size-1, 4rem);
+  font-style: normal;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: normal;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+  max-lines: 1;
+}
+
+h2 {
+  overflow: hidden;
+  color: var(--text-dark, #d4d4d4);
+  text-overflow: ellipsis;
+  font-family: var(--font-family-Zen-Dots, 'Zen Dots');
+  font-size: var(--font-size-2, 2.25rem);
+  font-style: normal;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: normal;
+  letter-spacing: 0.1125rem;
+  text-transform: uppercase;
+  max-lines: 1;
+}
+
+h3 {
+  font-family: var(--font-family-Barlow, 'Barlow');
+  font-size: var(--font-size-4, 3rem);
+  font-style: normal;
+  font-weight: var(--font-weight-light, 300);
+  line-height: normal;
+  letter-spacing: 0.3rem;
+  text-transform: uppercase;
+}
+
+nav li {
+  overflow: hidden;
+  color: var(--unselected-dark, #6e6e6e);
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-family-Barlow, 'Barlow');
+  font-size: var(--font-size-0, 1.5rem);
+  font-style: normal;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: normal;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+}
+
+p {
+  font-family: var(--font-family-Barlow, 'Barlow');
+  font-size: var(--font-size-0, 1.5rem);
+  font-style: normal;
+  font-weight: var(--font-weight-light, 300);
+  line-height: 1.5;
+  letter-spacing: 0.15rem;
+  /* text-transform: lowercase; */
+}
+
+p strong{
+  color: var(--accent-dark);
+}

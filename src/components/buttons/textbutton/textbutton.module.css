@@ -1,0 +1,19 @@
+.textButton {
+  display: block;
+  color: var(--unselected-dark, #6e6e6e);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  transition: color 150ms ease-in-out;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.textButton:hover,
+.textButton:focus-visible {
+  color: var(--text-dark, #d4d4d4);
+}

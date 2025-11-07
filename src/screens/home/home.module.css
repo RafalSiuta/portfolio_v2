@@ -1,0 +1,40 @@
+.heroPage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.heroMain {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroContent {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: 
+    url('../../assets/images/hero.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.heroContent p {
+  margin: 0;
+  /* text-transform: lowercase; */
+}
+
+@media (max-width: 48rem) {
+  .heroPage {
+    padding: 2rem;
+  }
+}

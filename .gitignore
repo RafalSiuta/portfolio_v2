@@ -1,0 +1,47 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies / build
+node_modules/
+dist/
+dist-ssr/
+
+# Vite
+.vite/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Coverage / caches
+coverage/
+.eslintcache
+.stylelintcache
+.parcel-cache
+.turbo
+.pnpm-store
+
+# Editor / OS files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.history/
+.vs/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Hosting / platforms
+.vercel/
+.netlify/
