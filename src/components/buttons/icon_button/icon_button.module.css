@@ -1,0 +1,59 @@
+.iconButton {
+  width: var(--icon-button-size, 3rem);
+  height: var(--icon-button-size, 3rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dark, #d4d4d4);
+  text-decoration: none;
+  border: var(--layout-stroke, 0.5px) solid transparent;
+  border-radius: 999px;
+  transition:
+    color 150ms ease-in-out,
+    transform 150ms ease-in-out,
+    border-color 150ms ease-in-out;
+}
+
+.iconButton:hover,
+.iconButton:focus-visible {
+  color: var(--accent-dark, #ffa84a);
+  /* border-color: var(--accent-dark, #ffa84a); */
+  transform: translateY(-0.125rem);
+}
+
+.iconButton:focus-visible {
+  outline: none;
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.icon path,
+.icon circle,
+.icon rect,
+.icon line,
+.icon polyline,
+.icon polygon {
+  stroke: currentColor;
+  /* fill: currentColor; */
+  transition: stroke 150ms ease-in-out, fill 150ms ease-in-out;
+}
+
+/* .iconButton:hover .icon path,
+.iconButton:hover .icon circle,
+.iconButton:hover .icon rect,
+.iconButton:hover .icon line,
+.iconButton:hover .icon polyline,
+.iconButton:hover .icon polygon,
+.iconButton:focus-visible .icon path,
+.iconButton:focus-visible .icon circle,
+.iconButton:focus-visible .icon rect,
+.iconButton:focus-visible .icon line,
+.iconButton:focus-visible .icon polyline,
+.iconButton:focus-visible .icon polygon {
+  stroke: var(--accent-dark, #ffa84a);
+  /* fill: var(--accent-dark, #ffa84a); 
+} */

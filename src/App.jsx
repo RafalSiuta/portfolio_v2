@@ -5,17 +5,21 @@ import Projects from './screens/projects/projects'
 import About from './screens/about/about'
 import Contact from './screens/contact/contact'
 import styles from './screens/home/home.module.css'
+import Footer from './components/footer/footer'
+import SideIndicator from './components/side_indicator/sideIndicator'
 
 function App() {
   return (
     <div className={styles.heroPage}>
       <Nav />
+      <SideIndicator />
       <main className={styles.heroMain}>
         <Home />
         <Projects />
         <About />
         <Contact />
       </main>
+      <Footer />
     </div>
   )
 }

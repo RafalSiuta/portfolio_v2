@@ -2,8 +2,42 @@
 
 @font-face {
   font-family: 'Supreme';
-  src: url('./assets/fonts/Supreme-Variable.ttf') format('truetype');
-  font-weight: 100 900;
+  src: url('./assets/fonts/Supreme-Extralight.otf') format('opentype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Supreme';
+  src: url('./assets/fonts/Supreme-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Supreme';
+  src: url('./assets/fonts/Supreme-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Supreme';
+  src: url('./assets/fonts/Supreme-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Supreme';
+  src:
+    url('./assets/fonts/Supreme-Extrabold.woff2') format('woff2'),
+    url('./assets/fonts/Supreme-Extrabold.otf') format('opentype');
+  font-weight: 800;
   font-style: normal;
   font-display: swap;
 }
@@ -13,8 +47,9 @@
   --text-dark: #d4d4d4;
   --accent-dark: #ffa84a;
   --unselected-dark: #6e6e6e;
-  --font-family-Zen-Dots: 'Zen Dots', system-ui, sans-serif;
-  --font-family-Barlow: 'Supreme', system-ui, sans-serif;
+  --stroke-color:#ABABAB;
+  --font-family-zen-dots: 'Zen Dots', system-ui, sans-serif;
+  --font-family-supreme: 'Supreme', system-ui, sans-serif;
   --font-size-0: 1.125rem;
   --font-size-1: 4rem;
   --font-size-2: 2.25rem;
@@ -26,6 +61,11 @@
   --frosted-blur: 0.15625rem;
   --font-weight-light: 300;
   --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --icon-button-size: 3rem;
+  --sidebar-width: 3.125rem;
   --content-width: 93.75rem; /* 1400px */
   --vertical-large-padding:3.125rem;
 
@@ -46,18 +86,34 @@ body {
   min-height: 100vh;
   background-color: var(--background-dark, #1f1f1f);
   color: var(--text-dark, #d4d4d4);
-  font-family: var(--font-family-Barlow, 'Barlow');
+  font-family: var(--font-family-supreme, 'Supreme');
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 html {
   scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 h1 {
   overflow: hidden;
   color: var(--text-dark, #d4d4d4);
   text-overflow: ellipsis;
-  font-family: var(--font-family-Zen-Dots, 'Zen Dots');
+  font-family: var(--font-family-zen-dots, 'Zen Dots');
   font-size: var(--font-size-1, 4rem);
   font-style: normal;
   font-weight: var(--font-weight-regular, 400);
@@ -71,7 +127,7 @@ h2 {
   overflow: hidden;
   color: var(--text-dark, #d4d4d4);
   text-overflow: ellipsis;
-  font-family: var(--font-family-Zen-Dots, 'Zen Dots');
+  font-family: var(--font-family-zen-dots, 'Zen Dots');
   font-size: var(--font-size-2, 2.25rem);
   font-style: normal;
   font-weight: var(--font-weight-regular, 400);
@@ -82,7 +138,7 @@ h2 {
 }
 
 h3 {
-  font-family: var(--font-family-Barlow, 'Barlow');
+  font-family: var(--font-family-supreme, 'Supreme');
   font-size: var(--font-size-4, 3rem);
   font-style: normal;
   font-weight: var(--font-weight-light, 300);
@@ -91,23 +147,24 @@ h3 {
   text-transform: uppercase;
 }
 
+
 nav li {
   overflow: hidden;
   color: var(--unselected-dark, #6e6e6e);
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family: var(--font-family-Barlow, 'Barlow');
+  font-family: var(--font-family-supreme, 'Supreme');
   font-size: var(--font-size-0, 1.5rem);
   font-style: normal;
   font-weight: var(--font-weight-regular, 400);
   line-height: normal;
-  letter-spacing: 0.15rem;
+  letter-spacing: 0.313rem;
   text-transform: uppercase;
 }
 
 p {
-  font-family: var(--font-family-Barlow, 'Barlow');
+  font-family: var(--font-family-supreme, 'Supreme');
   font-size: var(--font-size-0, 1.5rem);
   font-style: normal;
   font-weight: var(--font-weight-light, 300);
@@ -118,4 +175,13 @@ p {
 
 p strong{
   color: var(--accent-dark);
+}
+button{
+  font-family: var(--font-family-supreme, 'Supreme');
+  font-size: var(--font-size-0, 1.5rem);
+  font-style: normal;
+  font-weight: var(--font-weight-extrabold, 800);
+  line-height: normal;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
 }

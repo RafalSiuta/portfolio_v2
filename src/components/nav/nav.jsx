@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import styles from './nav.module.css'
 import TextButton from '../buttons/textbutton/textbutton'
+import { useNavContext } from '../../utils/providers/navProvider'
 
 const links = [
-  { href: '#home', label: 'home', isCurrent: true },
+  { href: '#home', label: 'home' },
   { href: '#projects', label: 'projects' },
   { href: '#about', label: 'about' },
   { href: '#contact', label: 'contact' },
@@ -13,56 +14,85 @@ const links = [
 function Nav() {
   const menuRef = useRef(null)
   const indicatorRef = useRef(null)
+  const linkRefs = useRef({})
+  const [activeHash, setActiveHash] = useState(links[0].href)
+  const { setPageCounter, setScrollProgress } = useNavContext()
+
+  const setCounterFromHash = useCallback((hash) => {
+    const index = links.findIndex((link) => link.href === hash)
+    if (index !== -1) {
+      setPageCounter(index)
+    }
+  }, [setPageCounter])
 
   useEffect(() => {
     const menuEl = menuRef.current
     const indicatorEl = indicatorRef.current
-    if (!menuEl || !indicatorEl) return
+    const activeEl = linkRefs.current[activeHash]
+    if (!menuEl || !indicatorEl || !activeEl) return
 
-    const links = Array.from(menuEl.querySelectorAll('a'))
-    let currentEl = menuEl.querySelector("a[aria-current='page']") || links[0]
-
-    const moveTo = (el) => {
-      if (!el) return
-      const linkRect = el.getBoundingClientRect()
+    const moveIndicator = () => {
+      const linkRect = activeEl.getBoundingClientRect()
       const menuRect = menuEl.getBoundingClientRect()
       const x = linkRect.left - menuRect.left
       const width = linkRect.width
       gsap.to(indicatorEl, { x, width, duration: 0.3, ease: 'power3.out' })
     }
 
-    moveTo(currentEl)
-
-    const onEnter = (e) => moveTo(e.currentTarget)
-    const onLeave = () => moveTo(currentEl)
-    const onClick = (e) => {
-      const el = e.currentTarget
-      links.forEach((a) => a.removeAttribute('aria-current'))
-      el.setAttribute('aria-current', 'page')
-      currentEl = el
-      moveTo(currentEl)
-    }
-
-    links.forEach((a) => {
-      a.addEventListener('mouseenter', onEnter)
-      a.addEventListener('focus', onEnter)
-      a.addEventListener('click', onClick)
-    })
-    menuEl.addEventListener('mouseleave', onLeave)
-
-    const onResize = () => moveTo(currentEl)
-    window.addEventListener('resize', onResize)
+    moveIndicator()
+    setCounterFromHash(activeHash)
+    window.addEventListener('resize', moveIndicator)
 
     return () => {
-      links.forEach((a) => {
-        a.removeEventListener('mouseenter', onEnter)
-        a.removeEventListener('focus', onEnter)
-        a.removeEventListener('click', onClick)
-      })
-      menuEl.removeEventListener('mouseleave', onLeave)
-      window.removeEventListener('resize', onResize)
+      window.removeEventListener('resize', moveIndicator)
     }
-  }, [])
+  }, [activeHash, setCounterFromHash])
+
+  useEffect(() => {
+    const sectionIds = links.map(({ href }) => href.replace('#', ''))
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean)
+
+    if (!sections.length) return undefined
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntry = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+
+        if (!visibleEntry) return
+        const nextHash = `#${visibleEntry.target.id}`
+        setActiveHash((prev) => {
+          if (prev === nextHash) return prev
+          setCounterFromHash(nextHash)
+          return nextHash
+        })
+      },
+      { threshold: 0.45 }
+    )
+
+    sections.forEach((section) => observer.observe(section))
+
+    return () => observer.disconnect()
+  }, [setCounterFromHash])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const doc = document.documentElement
+      const scrollHeight = doc.scrollHeight - doc.clientHeight
+      const progress = scrollHeight > 0 ? window.scrollY / scrollHeight : 0
+      setScrollProgress(progress)
+    }
+
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [setScrollProgress])
 
   return (
     <header className={styles.container}>
@@ -75,7 +105,18 @@ function Nav() {
                 <a
                   className={styles.link}
                   href={link.href}
-                  aria-current={link.isCurrent ? 'page' : undefined}
+                  aria-current={activeHash === link.href ? 'page' : undefined}
+                  onClick={() => {
+                    setActiveHash(link.href)
+                    setCounterFromHash(link.href)
+                  }}
+                  ref={(el) => {
+                    if (el) {
+                      linkRefs.current[link.href] = el
+                    } else {
+                      delete linkRefs.current[link.href]
+                    }
+                  }}
                 >
                   {link.label}
                 </a>
@@ -83,7 +124,7 @@ function Nav() {
             ))}
             <span className={styles.indicator} ref={indicatorRef} aria-hidden="true" />
           </ul>
-          <TextButton>pl</TextButton>
+          <TextButton className={styles.langButton}>pl</TextButton>
         </div>
       </nav>
     </header>
