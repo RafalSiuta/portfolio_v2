@@ -55,8 +55,10 @@
   --font-size-2: 2.25rem;
   --font-size-4: 2rem;
   --small-card-title-font-size:0.75rem;
-  --small-card-max-width:146.256px;
-  --small-card-max-height:195px;
+  /* --small-card-max-width:calc(146.256px * 0.9);
+  --small-card-max-height:calc(195px * 0.9); */
+  --small-card-max-width:131.63px;
+  --small-card-max-height:175.5px;
   --nav-min-height: 5rem;
   --base-gap:3rem;
   --nav-max-width: 108rem;

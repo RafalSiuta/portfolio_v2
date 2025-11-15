@@ -46,7 +46,7 @@
   display: flex;
   width: var(--max-box-width, 600px);
   min-width: var(--max-box-width, 600px);
-  margin-top: calc(var(--base-gap)/2);
+  /* margin-top: calc(var(--base-gap)/2); */
   padding: var(--base-gap) 10px var(--base-gap) 0;
   justify-content: start;
   gap: var(--base-gap);

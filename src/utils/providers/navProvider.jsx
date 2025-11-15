@@ -5,6 +5,7 @@ const NavContext = createContext(null)
 export function NavProvider({ children }) {
   const [pageCounter, setPageCounter] = useState(0)
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [scrollDirection, setScrollDirection] = useState('down')
 
   const value = useMemo(
     () => ({
@@ -12,8 +13,10 @@ export function NavProvider({ children }) {
       setPageCounter,
       scrollProgress,
       setScrollProgress,
+      scrollDirection,
+      setScrollDirection,
     }),
-    [pageCounter, scrollProgress]
+    [pageCounter, scrollProgress, scrollDirection]
   )
 
   return <NavContext.Provider value={value}>{children}</NavContext.Provider>

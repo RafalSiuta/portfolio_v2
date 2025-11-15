@@ -25,6 +25,11 @@
   width: calc(var(--icon-button-width)/2.2);
   height: calc(var(--icon-button-width)/2.2);
   display: block;
+  transition: transform 200ms ease-in-out;
+}
+
+.iconButton:hover .icon {
+  transform: rotate(45deg);
 }
 
 .icon path,
