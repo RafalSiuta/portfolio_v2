@@ -1,33 +1,29 @@
-.iconButton {
-  width: var(--icon-button-size, 3rem);
-  height: var(--icon-button-size, 3rem);
+﻿.iconButton {
+  width: var(--icon-button-width);
+  height: var(--icon-button-width);
+  border-radius: 999px;
+  border: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab);
+  background: transparent;
+  /* backdrop-filter: blur(var(--frosted-blur, 0.15625rem)); */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-dark, #d4d4d4);
-  text-decoration: none;
-  border: var(--layout-stroke, 0.5px) solid transparent;
-  border-radius: 999px;
-  transition:
-    color 150ms ease-in-out,
-    transform 150ms ease-in-out,
-    border-color 150ms ease-in-out;
-}
-
-.iconButton:hover,
-.iconButton:focus-visible {
-  color: var(--accent-dark, #ffa84a);
-  /* border-color: var(--accent-dark, #ffa84a); */
-  transform: translateY(-0.125rem);
+  cursor: pointer;
+  transition: transform 150ms ease-in-out, border-color 150ms ease-in-out;
 }
 
 .iconButton:focus-visible {
   outline: none;
+  transform: translateY(-0.0625rem);
+}
+
+.iconButton:hover {
+  transform: translateY(-0.125rem);
 }
 
 .icon {
-  width: 100%;
-  height: 100%;
+  width: calc(var(--icon-button-width)/2.2);
+  height: calc(var(--icon-button-width)/2.2);
   display: block;
 }
 
@@ -37,23 +33,5 @@
 .icon line,
 .icon polyline,
 .icon polygon {
-  stroke: currentColor;
-  /* fill: currentColor; */
-  transition: stroke 150ms ease-in-out, fill 150ms ease-in-out;
+  stroke: var(--text-dark, #d4d4d4);
 }
-
-/* .iconButton:hover .icon path,
-.iconButton:hover .icon circle,
-.iconButton:hover .icon rect,
-.iconButton:hover .icon line,
-.iconButton:hover .icon polyline,
-.iconButton:hover .icon polygon,
-.iconButton:focus-visible .icon path,
-.iconButton:focus-visible .icon circle,
-.iconButton:focus-visible .icon rect,
-.iconButton:focus-visible .icon line,
-.iconButton:focus-visible .icon polyline,
-.iconButton:focus-visible .icon polygon {
-  stroke: var(--accent-dark, #ffa84a);
-  /* fill: var(--accent-dark, #ffa84a); 
-} */

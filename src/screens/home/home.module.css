@@ -14,6 +14,15 @@
   justify-content: center;
 }
 
+.herotext{
+  padding: var(--base-gap) 0;
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items: flex-start;
+  gap: calc(var(--base-gap)/2);
+}
+
 .heroContent {
   width: 100%;
   min-height: 100vh;
@@ -33,8 +42,20 @@
   /* text-transform: lowercase; */
 }
 
+.heroUtilityRow {
+  display: flex;
+  width: var(--max-box-width, 600px);
+  min-width: var(--max-box-width, 600px);
+  margin-top: calc(var(--base-gap)/2);
+  padding: var(--base-gap) 10px var(--base-gap) 0;
+  justify-content: start;
+  gap: var(--base-gap);
+  align-items: center;
+  border-top: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab);
+}
+
 @media (max-width: 48rem) {
   .heroPage {
-    padding: 2rem;
+    padding: var(--base-gap);
   }
 }

@@ -1,4 +1,4 @@
-import IconButton from '../buttons/icon_button/icon_button'
+import IconLink from '../buttons/icon_link/icon_link'
 import styles from './footer.module.css'
 
 const iconsList = [
@@ -14,7 +14,7 @@ function Footer() {
       <div className={styles.footerContainer}>
         <div className={styles.socialList}>
           {iconsList.map(({ link, name, label }) => (
-            <IconButton key={name} link={link} iconName={name} label={label} />
+            <IconLink key={name} link={link} iconName={name} label={label} />
           ))}
         </div>
       </div>

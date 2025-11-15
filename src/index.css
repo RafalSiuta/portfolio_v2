@@ -54,11 +54,17 @@
   --font-size-1: 4rem;
   --font-size-2: 2.25rem;
   --font-size-4: 2rem;
+  --small-card-title-font-size:0.75rem;
+  --small-card-max-width:146.256px;
+  --small-card-max-height:195px;
   --nav-min-height: 5rem;
+  --base-gap:3rem;
   --nav-max-width: 108rem;
+  --icon-button-width:5rem;
   --layout-stroke: 0.5px;
   --tint-dark: rgba(23, 23, 23, 0.2);
   --frosted-blur: 0.15625rem;
+  --max-box-width: 700px;
   --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
@@ -121,6 +127,8 @@ h1 {
   letter-spacing: 0.2rem;
   text-transform: uppercase;
   max-lines: 1;
+  padding: 0;
+  margin: 0;
 }
 
 h2 {
@@ -135,6 +143,8 @@ h2 {
   letter-spacing: 0.1125rem;
   text-transform: uppercase;
   max-lines: 1;
+  padding: 0;
+  margin: 0;
 }
 
 h3 {
