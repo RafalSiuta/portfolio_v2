@@ -58,6 +58,12 @@
   transform: scaleY(0);
 }
 
+@media screen and (max-width: 1194px) {
+ .container{
+  right:var(--menu-button-margin-right);
+ }
+}
+
 @media screen and (max-width: 1024px) {
   .container {
     display: none;

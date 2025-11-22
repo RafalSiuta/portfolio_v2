@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+﻿import { useCallback } from 'react'
 import { gsap } from 'gsap'
 import styles from './home.module.css'
 import ContentWrapper from '../../components/wrapper/content_wrapper'
@@ -35,7 +35,7 @@ function Home() {
 
   return (
     <section className={styles.heroContent} id="home">
-      <ContentWrapper style={{ alignItems: 'flex-start', textAlign: 'left' }}>
+      {/* <ContentWrapper style={{ alignItems: 'flex-start', textAlign: 'left' }}>
         <article className={styles.herotext}>
           <h1>UI UX designer</h1>
           <h2>idea | design | code</h2>
@@ -56,7 +56,7 @@ function Home() {
             />
           </div>
         </article>
-      </ContentWrapper>
+      </ContentWrapper> */}
     </section>
   )
 }
