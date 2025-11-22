@@ -54,6 +54,18 @@
   padding: 0 calc(var(--vertical-large-padding, 3.125rem) / 3);
 }
 
+.indicator {
+  position: absolute;
+  height: 0.125rem; /* 2px */
+  left: 0;
+  bottom: -1.78rem;
+  width: 0;
+  background-color: var(--accent-dark, #d4d4d4);
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .link {
   display: block;
   color: var(--unselected-dark, #6e6e6e);
@@ -75,14 +87,84 @@
   color: var(--text-dark);
 }
 
-@media (max-width: 48rem) {
+@media screen and (max-width: 1194px) {
+  .container {
+    width: 100%;
+    max-width: 100%;
+    min-height: var(--nav-min-height, 6.25rem);
+    height: auto;
+    padding: 1.5rem var(--vertical-large-padding) 1.5rem var(--vertical-large-padding);
+    align-items: flex-start;
+    justify-content: space-between;
+    background: transparent;
+    backdrop-filter: none;
+  }
+
   .navigation {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 100%;
+    height: auto;
+  }
+
+  .logo {
+    align-self: flex-start;
+    position: fixed;
+    top: 1.5rem;
+    left: var(--vertical-large-padding);
+    z-index: 40;
+  }
+
+  .menuList {
+    position: fixed;
+    inset: 0;
+    margin: 0;
+    padding: 6rem var(--vertical-large-padding) 3rem var(--vertical-large-padding);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    background: rgba(23, 23, 23, 0.72);
+    backdrop-filter: blur(1.75rem);
+    transform: translateX(110%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 280ms ease, opacity 220ms ease;
+    z-index: 20;
+  }
+
+  .menuOpen .menuList {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .menuClosed .menuList {
+    transform: translateX(110%);
+    opacity: 0;
+    pointer-events: none;
   }
 
   .menu {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .indicator {
+    top: 0.25rem;
+    bottom: auto;
+    left: -1.25rem;
+    width: 0.1875rem;
+    height: 0;
+    border-radius: 999px;
+  }
+
+  .link {
+    text-align: center;
   }
 }

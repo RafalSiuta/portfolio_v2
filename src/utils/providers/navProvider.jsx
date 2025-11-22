@@ -6,6 +6,19 @@ export function NavProvider({ children }) {
   const [pageCounter, setPageCounter] = useState(0)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [scrollDirection, setScrollDirection] = useState('down')
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => {
+      const next = !prev
+      if (next) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = ''
+      }
+      return next
+    })
+  }
 
   const value = useMemo(
     () => ({
@@ -15,8 +28,11 @@ export function NavProvider({ children }) {
       setScrollProgress,
       scrollDirection,
       setScrollDirection,
+      isMenuOpen,
+      setIsMenuOpen,
+      toggleMenu,
     }),
-    [pageCounter, scrollProgress, scrollDirection]
+    [pageCounter, scrollProgress, scrollDirection, isMenuOpen]
   )
 
   return <NavContext.Provider value={value}>{children}</NavContext.Provider>

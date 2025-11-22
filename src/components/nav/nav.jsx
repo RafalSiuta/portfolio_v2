@@ -4,14 +4,51 @@ import styles from './nav.module.css'
 import TextButton from '../buttons/textbutton/textbutton'
 import { useNavContext } from '../../utils/providers/navProvider'
 import navLinks from '../../utils/constants/navLinks'
+import MenuBtn from '../buttons/nav_button/navButton'
 
 function Nav() {
   const menuRef = useRef(null)
+  const buttonRef = useRef(null)
   const indicatorRef = useRef(null)
   const linkRefs = useRef({})
   const [activeHash, setActiveHash] = useState(navLinks[0].href)
   const lastScrollYRef = useRef(0)
-  const { pageCounter, setPageCounter, setScrollProgress, scrollProgress, setScrollDirection } = useNavContext()
+  const {
+    pageCounter,
+    setPageCounter,
+    setScrollProgress,
+    scrollProgress,
+    setScrollDirection,
+    isMenuOpen,
+    setIsMenuOpen,
+    toggleMenu,
+  } = useNavContext()
+  const [isSmallHorizontal, setIsSmallHorizontal] = useState(false)
+  const toggleMenuAndBlur = () => {
+    buttonRef.current?.blur()
+    toggleMenu()
+  }
+
+  useEffect(() => {
+    const updateBreakpoint = () => {
+      const breakpoint = 1194
+      setIsSmallHorizontal(window.innerWidth <= breakpoint)
+    }
+
+    updateBreakpoint()
+    window.addEventListener('resize', updateBreakpoint)
+
+    return () => {
+      window.removeEventListener('resize', updateBreakpoint)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isSmallHorizontal) {
+      setIsMenuOpen(false)
+      document.body.style.overflow = ''
+    }
+  }, [isSmallHorizontal, setIsMenuOpen])
 
   useEffect(() => {
     const menuEl = menuRef.current
@@ -23,8 +60,16 @@ function Nav() {
       const linkRect = activeEl.getBoundingClientRect()
       const menuRect = menuEl.getBoundingClientRect()
       const x = linkRect.left - menuRect.left
+
+      if (isSmallHorizontal) {
+        const y = linkRect.top - menuRect.top
+        const height = linkRect.height
+        gsap.to(indicatorEl, { x: 0, y, height, width: '0.1875rem', duration: 0.3, ease: 'power3.out' })
+        return
+      }
+
       const width = linkRect.width
-      gsap.to(indicatorEl, { x, width, duration: 0.3, ease: 'power3.out' })
+      gsap.to(indicatorEl, { x, y: 0, width, height: '0.125rem', duration: 0.3, ease: 'power3.out' })
     }
 
     moveIndicator()
@@ -33,7 +78,7 @@ function Nav() {
     return () => {
       window.removeEventListener('resize', moveIndicator)
     }
-  }, [activeHash])
+  }, [activeHash, isSmallHorizontal])
 
   useEffect(() => {
     const nextLink = navLinks[pageCounter]
@@ -80,8 +125,12 @@ function Nav() {
       if (isSamePage) {
         animateProgressToZero()
       }
+      if (isSmallHorizontal) {
+        setIsMenuOpen(false)
+        document.body.style.overflow = ''
+      }
     })
-  }, [animateProgressToFull, animateProgressToZero, pageCounter, setActiveHash, setPageCounter])
+  }, [animateProgressToFull, animateProgressToZero, pageCounter, setActiveHash, setPageCounter, isSmallHorizontal, setIsMenuOpen])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -134,8 +183,12 @@ function Nav() {
     }
   }, [pageCounter, setScrollProgress, setPageCounter])
 
+  const containerClassName = isSmallHorizontal
+    ? `${styles.container} ${isMenuOpen ? styles.menuOpen : styles.menuClosed}`
+    : styles.container
+
   return (
-    <header className={styles.container}>
+    <header className={containerClassName}>
       <nav className={styles.navigation} aria-label="Primary">
         <img src="/text_logo.svg" className={styles.logo} alt="Portfolio logo" />
         <div className={styles.menuList}>
@@ -164,6 +217,7 @@ function Nav() {
           <TextButton className={styles.langButton}>pl</TextButton>
         </div>
       </nav>
+      <MenuBtn toogle={toggleMenuAndBlur} buttonRef={buttonRef} isOpen={isMenuOpen}/>
     </header>
   )
 }

@@ -60,6 +60,9 @@
   --small-card-max-width:131.63px;
   --small-card-max-height:175.5px;
   --nav-min-height: 5rem;
+  --menu-icon-btn:3.75rem;
+  --menu-button-margin-right:1.25rem;
+  --menu-button-margin-top:0.625rem;
   --base-gap:3rem;
   --nav-max-width: 108rem;
   --icon-button-width:5rem;
@@ -76,6 +79,9 @@
   --sidebar-width: 3.125rem;
   --content-width: 93.75rem; /* 1400px */
   --vertical-large-padding:3.125rem;
+
+  /* screens sizes: */
+  --ipad-small-horizontal:1194px;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

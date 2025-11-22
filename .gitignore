@@ -45,3 +45,5 @@ Thumbs.db
 # Hosting / platforms
 .vercel/
 .netlify/
+
+image_prompts.json

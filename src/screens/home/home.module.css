@@ -37,6 +37,20 @@
   background-repeat: no-repeat;
 }
 
+@media (max-width: 64rem) {
+  .heroContent {
+    background-image:
+      url('../../assets/images/hero_M.jpg');
+  }
+}
+
+@media (max-width: 26.875rem) {
+  .heroContent {
+    background-image:
+      url('../../assets/images/hero_S.jpg');
+  }
+}
+
 .heroContent p {
   margin: 0;
   /* text-transform: lowercase; */
