@@ -35,9 +35,9 @@ function Home() {
 
   return (
     <section className={styles.heroContent} id="home">
-      {/* <ContentWrapper style={{ alignItems: 'flex-start', textAlign: 'left' }}>
+      <ContentWrapper className={styles.wrapper}>
         <article className={styles.herotext}>
-          <h1>UI UX designer</h1>
+          <h1>UI Engineer</h1>
           <h2>idea | design | code</h2>
           <p>
             Hi I'm <strong>Rafal</strong>, UI designer and frontend developer.<br /> Technologies are just
@@ -56,7 +56,7 @@ function Home() {
             />
           </div>
         </article>
-      </ContentWrapper> */}
+      </ContentWrapper>
     </section>
   )
 }

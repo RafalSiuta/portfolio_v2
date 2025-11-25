@@ -10,8 +10,8 @@
   padding: 0;
   margin: 0;
   font: inherit;
-  font-family: var(--font-family-supreme, 'Supreme');
-  font-weight: var(--font-weight-bold, 700);
+  font-family: var(--font-family-clash-display, 'ClashDisplay');
+  font-weight: var(--font-weight-light, 300);
   cursor: pointer;
 }
 

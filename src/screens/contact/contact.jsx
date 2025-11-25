@@ -4,7 +4,7 @@ import styles from './contact.module.css'
 export default function Contact() {
   return (
     <section id="contact" className={styles.section}>
-      <ContentWrapper>
+      <ContentWrapper className={styles.wrapper}>
         <div className={styles.content}>
           <h1>contact</h1>
         </div>
@@ -12,4 +12,3 @@ export default function Contact() {
     </section>
   )
 }
-

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400&family=Zen+Dots&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400&display=swap');
 
 @font-face {
   font-family: 'Supreme';
@@ -42,49 +42,91 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('./assets/fonts/ClashDisplay-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('./assets/fonts/ClashDisplay-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('./assets/fonts/ClashDisplay-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background-dark: #1f1f1f;
   --text-dark: #d4d4d4;
   --accent-dark: #ffa84a;
   --unselected-dark: #6e6e6e;
   --stroke-color:#ABABAB;
-  --font-family-zen-dots: 'Zen Dots', system-ui, sans-serif;
+  --font-family-clash-display: 'ClashDisplay', system-ui, sans-serif;
+  --font-family-zen-dots: var(--font-family-clash-display);
   --font-family-supreme: 'Supreme', system-ui, sans-serif;
-  --font-size-0: 1.125rem;
-  --font-size-1: 4rem;
-  --font-size-2: 2.25rem;
-  --font-size-4: 2rem;
+
+  /* ####### font sizes ####### */
+  --font-size-menu: 1.125rem;
+  --font-size-large-title: 6rem;
+  --font-size-subtitle: 2.25rem;
+  --font-size-body: 1.5rem;
+  --font-size-button: 1.125rem;
+  --font-size-counter: 2rem;
   --small-card-title-font-size:0.75rem;
-  --small-card-max-width:131.63px;
-  --small-card-max-height:175.5px;
-  --nav-min-height: 5rem;
-  --menu-icon-btn:3.75rem;
-  --menu-button-margin-right:1.25rem;
-  --menu-button-margin-top:0.625rem;
-  --base-gap:3rem;
-  --nav-max-width: 108rem;
-  --icon-button-width:5rem;
-  --layout-stroke: 0.5px;
-  --tint-dark: rgba(23, 23, 23, 0.2);
-  --frosted-blur: 0.15625rem;
-  --max-box-width: 700px;
+
+  /* ####### font weight ####### */
   --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
+  --font-weight-semibold: 600;
   --font-weight-bold: 700;
   --font-weight-extrabold: 800;
-  --icon-button-size: 3rem;
-  --sidebar-width: 3.125rem;
-  --content-width: 93.75rem; /* 1400px */
-  --vertical-large-padding:3.125rem;
-
-  /* screens sizes: */
-  --ipad-small-horizontal:1194px;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* ####### widgets dimentions ####### */
+  --small-card-max-width:131.63px;
+  --small-card-max-height:175.5px;
+  --nav-min-height: 5rem;
+  --menu-icon-btn:3.75rem;
+  --link-icon-button-size: 3rem;
+  --rail-align-offset: max(0px, calc((var(--sidebar-width, 3.125rem) - var(--link-icon-button-size, 3rem)) / 2));
+  --icon-button-width:5rem;
+
+  /* ####### spacing, paddings, margin ####### */
+  --menu-button-margin-right:1.25rem;
+  --menu-button-margin-top:0.625rem;
+  --base-gap:3rem;
+  --vertical-large-padding:3.125rem;
+  
+  --layout-stroke: 0.5px;
+  --tint-dark: rgba(23, 23, 23, 0.2);
+  --frosted-blur: 0.15625rem;
+
+  /* ####### layout dimentions ####### */
+  --max-box-width: 700px;
+  --nav-max-width: 108rem;
+  --sidebar-width: 3.125rem;
+  --content-width: 93.75rem; /* 1400px */
+  
+
+  /* screens sizes: */
+  --ipad-small-horizontal:1194px;
+
+  
 }
 
 *,
@@ -112,6 +154,7 @@ body {
 html {
   width: 100%;
   min-width: 100%;
+  overflow-x: clip;
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -137,10 +180,10 @@ h1 {
   overflow: hidden;
   color: var(--text-dark, #d4d4d4);
   text-overflow: ellipsis;
-  font-family: var(--font-family-zen-dots, 'Zen Dots');
-  font-size: var(--font-size-1, 4rem);
+  font-family: var(--font-family-clash-display, 'ClashDisplay');
+  font-size: var(--font-size-large-title, 4rem);
   font-style: normal;
-  font-weight: var(--font-weight-regular, 400);
+  font-weight: var(--font-weight-bold, 700);
   line-height: normal;
   letter-spacing: 0.2rem;
   text-transform: uppercase;
@@ -153,10 +196,10 @@ h2 {
   overflow: hidden;
   color: var(--text-dark, #d4d4d4);
   text-overflow: ellipsis;
-  font-family: var(--font-family-zen-dots, 'Zen Dots');
-  font-size: var(--font-size-2, 2.25rem);
+  font-family: var(--font-family-clash-display, 'ClashDisplay');
+  font-size: var(--font-size-subtitle, 2.25rem);
   font-style: normal;
-  font-weight: var(--font-weight-regular, 400);
+  font-weight: var(--font-weight-semibold, 600);
   line-height: normal;
   letter-spacing: 0.1125rem;
   text-transform: uppercase;
@@ -166,8 +209,8 @@ h2 {
 }
 
 h3 {
-  font-family: var(--font-family-supreme, 'Supreme');
-  font-size: var(--font-size-4, 3rem);
+  font-family: var(--font-family-clash-display, 'ClashDisplay');
+  font-size: var(--font-size-counter, 3rem);
   font-style: normal;
   font-weight: var(--font-weight-light, 300);
   line-height: normal;
@@ -182,10 +225,10 @@ nav li {
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family: var(--font-family-supreme, 'Supreme');
-  font-size: var(--font-size-0, 1.5rem);
+  font-family: var(--font-family-clash-display, 'ClashDisplay');
+  font-size: var(--font-size-menu, 1.5rem);
   font-style: normal;
-  font-weight: var(--font-weight-regular, 400);
+  font-weight: var(--font-weight-light, 300);
   line-height: normal;
   letter-spacing: 0.313rem;
   text-transform: uppercase;
@@ -193,25 +236,58 @@ nav li {
 
 p {
   font-family: var(--font-family-supreme, 'Supreme');
-  font-size: var(--font-size-0, 1.5rem);
+  font-size: var(--font-size-body, 1.5rem);
   font-style: normal;
   font-weight: var(--font-weight-light, 300);
   line-height: 1.5;
   letter-spacing: 0.15rem;
-  /* text-transform: lowercase; */
 }
 
 p strong{
   color: var(--accent-dark);
 }
 button{
-  font-family: var(--font-family-supreme, 'Supreme');
-  font-size: var(--font-size-0, 1.5rem);
+  font-family: var(--font-family-clash-display, 'ClashDisplay');
+  font-size: var(--font-size-button, 1.5rem);
   font-style: normal;
-  font-weight: var(--font-weight-extrabold, 800);
+  font-weight: var(--font-weight-light, 300);
   line-height: normal;
   letter-spacing: 0.15rem;
   text-transform: uppercase;
+}
+
+
+@media screen and (max-width: 1280px) {
+  :root {
+    --content-width: 100%; 
+    --max-box-width: 100%;
+    --nav-max-width: 100%;
+    --vertical-large-padding: 1.5rem;
+
+     /* ####### font sizes ####### */
+    --font-size-menu: 1rem;
+    --font-size-large-title: 3.5rem;
+    --font-size-subtitle: 2.25rem;
+    --font-size-body: 1rem;
+    --font-size-button: 1.125rem;
+    --font-size-counter: 2rem;
+    --small-card-title-font-size:0.625rem;
+
+    /* ####### widgets dimentions ####### */
+    --small-card-max-width:97.5px;
+    --small-card-max-height:130px;
+    --nav-min-height: 5rem;
+    --menu-icon-btn:3.75rem;
+    --link-icon-button-size: 2.25rem;
+    --icon-button-width:5rem;
+
+    /* ####### spacing, paddings, margin ####### */
+    --menu-button-margin-right:1.25rem;
+    --menu-button-margin-top:0.625rem;
+    --base-gap:2rem;
+    --vertical-large-padding:3.125rem;
+  }
+  
 }
 
 
@@ -221,16 +297,58 @@ button{
     --max-box-width: 100%;
     --nav-max-width: 100%;
     --vertical-large-padding: 1.5rem;
+
+     /* ####### font sizes ####### */
+    --font-size-menu: 2rem;
+    --font-size-large-title: 3.5rem;
+    --font-size-subtitle: 2.25rem;
+    --font-size-body: 1rem;
+    --font-size-button: 1.125rem;
+    --font-size-counter: 2rem;
+    --small-card-title-font-size:0.625rem;
   }
   
 }
 
-@media screen and (max-width: 48rem) {
+@media screen and (max-width: 768px) {
   :root {
     --content-width: 100%;
     --max-box-width: 100%;
     --nav-max-width: 100%;
     --vertical-large-padding: 1.25rem;
     --base-gap: 2rem;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  :root {
+    --content-width: 100%;
+    --max-box-width: 100%;
+    --nav-max-width: 100%;
+    --vertical-large-padding: 1.25rem;
+    --base-gap: 2rem;
+
+     /* ####### font sizes ####### */
+    --font-size-menu: 1.5rem;
+    --font-size-large-title: 3rem;
+    --font-size-subtitle: 1.5rem;
+    --font-size-body: 1rem;
+    --font-size-button: 1.125rem;
+    --font-size-counter: 2rem;
+    --small-card-title-font-size:0.5rem;
+
+    /* ####### widgets dimentions ####### */
+    --small-card-max-width:80px;
+    --small-card-max-height:107px;
+    --nav-min-height: 5rem;
+    --menu-icon-btn:3.75rem;
+    --link-icon-button-size: 2.25rem;
+    --icon-button-width:5rem;
+
+    /* ####### spacing, paddings, margin ####### */
+    --menu-button-margin-right:1.25rem;
+    --menu-button-margin-top:0.625rem;
+    --base-gap:1rem;
+    --vertical-large-padding:3.125rem;
   }
 }

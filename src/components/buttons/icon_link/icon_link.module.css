@@ -1,6 +1,6 @@
 .iconLink {
-  width: var(--icon-button-size, 3rem);
-  height: var(--icon-button-size, 3rem);
+  width: var(--link-icon-button-size);
+  height: var(--link-icon-button-size);
   display: inline-flex;
   align-items: center;
   justify-content: center;

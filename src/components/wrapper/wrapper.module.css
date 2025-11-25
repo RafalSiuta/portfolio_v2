@@ -5,7 +5,8 @@
     padding: 0 var(--vertical-large-padding);
     min-height: 70vh;
     margin: auto;
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 
 @media (max-width: 80rem) { /* 1280px and down */
@@ -16,6 +17,6 @@
 
 @media (max-width: 48rem) { /* 768px and down */
   .wrapper {
-    padding: 0 calc(var(--vertical-large-padding) / 2);
+    padding: 0 ;
   }
 }

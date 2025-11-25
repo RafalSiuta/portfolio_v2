@@ -35,8 +35,8 @@
 }
 
 .icon {
-  width: calc(var(--small-card-max-width) / 2);
-  height: calc(var(--small-card-max-width) / 2);
+  width: calc(var(--small-card-max-width) / 1.8);
+  height: calc(var(--small-card-max-width) / 1.8);
   object-fit: contain;
 }
 
@@ -55,5 +55,13 @@
   stroke: var(--stroke-color, #ababab);
   /* jednostka w układzie viewBox, skaluje się z kartą */
   stroke-width: var(--layout-stroke, 0.5);
+}
+
+@media screen and (max-width: 1280px) {
+  .icon {
+  width: calc(var(--small-card-max-width) / 1.2);
+  height: calc(var(--small-card-max-width) / 1.2);
+  object-fit: contain;
+}
 }
 

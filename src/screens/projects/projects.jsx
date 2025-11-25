@@ -4,7 +4,7 @@ import styles from './projects.module.css'
 export default function Projects() {
   return (
     <section id="projects" className={styles.section}>
-      <ContentWrapper style={{ alignItems: 'flex-center', textAlign: 'center' }}>
+      <ContentWrapper className={styles.wrapper}>
         <div className={styles.content}>
           <h1>projects</h1>
         </div>
@@ -12,4 +12,3 @@ export default function Projects() {
     </section>
   )
 }
-

@@ -11,15 +11,17 @@ import SideIndicator from './components/side_indicator/sideIndicator'
 function App() {
   return (
     <div className={styles.heroPage}>
+      
       <Nav />
-      <SideIndicator />
       <main className={styles.heroMain}>
         <Home />
         <Projects />
         <About />
         <Contact />
       </main>
+      <SideIndicator />
       <Footer />
+      
     </div>
   )
 }
