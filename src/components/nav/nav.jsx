@@ -10,6 +10,7 @@ function Nav() {
   const menuRef = useRef(null)
   const buttonRef = useRef(null)
   const indicatorRef = useRef(null)
+  const navDividerRef = useRef(null)
   const linkRefs = useRef({})
   const [activeHash, setActiveHash] = useState(navLinks[0].href)
   const lastScrollYRef = useRef(0)
@@ -64,12 +65,12 @@ function Nav() {
       if (isSmallHorizontal) {
         const y = linkRect.top - menuRect.top
         const height = linkRect.height
-        gsap.to(indicatorEl, { x: 0, y, height, width: '0.1875rem', duration: 0.3, ease: 'power3.out' })
+        gsap.to(indicatorEl, { x: 0, y, height, width: 'var(--layout-stroke)', duration: 0.3, ease: 'power3.out' })
         return
       }
 
       const width = linkRect.width
-      gsap.to(indicatorEl, { x, y: 0, width, height: '0.125rem', duration: 0.3, ease: 'power3.out' })
+      gsap.to(indicatorEl, { x, y: 0, width, height: 'calc(var(--layout-stroke, 0.125rem) * 3)', duration: 0.3, ease: 'power3.out' })
     }
 
     moveIndicator()
@@ -77,6 +78,36 @@ function Nav() {
 
     return () => {
       window.removeEventListener('resize', moveIndicator)
+    }
+  }, [activeHash, isSmallHorizontal])
+
+  useEffect(() => {
+    const indicatorEl = indicatorRef.current
+    const dividerEl = navDividerRef.current
+    const menuEl = menuRef.current
+    if (!indicatorEl || !dividerEl || !menuEl) return
+
+    const alignIndicatorToDivider = () => {
+      if (isSmallHorizontal) {
+        indicatorEl.style.bottom = ''
+        return
+      }
+
+      const dividerRect = dividerEl.getBoundingClientRect()
+      const menuRect = menuEl.getBoundingClientRect()
+      const indicatorHeight = indicatorEl.getBoundingClientRect().height
+        || parseFloat(window.getComputedStyle(indicatorEl).height)
+        || 0
+      const dividerCenterY = dividerRect.top + (dividerRect.height / 2)
+      const bottomOffset = menuRect.bottom - dividerCenterY - (indicatorHeight / 2)
+      indicatorEl.style.bottom = `${bottomOffset}px`
+    }
+
+    alignIndicatorToDivider()
+    window.addEventListener('resize', alignIndicatorToDivider)
+
+    return () => {
+      window.removeEventListener('resize', alignIndicatorToDivider)
     }
   }, [activeHash, isSmallHorizontal])
 
@@ -217,6 +248,7 @@ function Nav() {
           <TextButton className={styles.langButton}>pl</TextButton>
         </div>
       </nav>
+      <div className={styles.divider} ref={navDividerRef} aria-hidden="true" />
       <MenuBtn toogle={toggleMenuAndBlur} buttonRef={buttonRef} isOpen={isMenuOpen}/>
     </header>
   )

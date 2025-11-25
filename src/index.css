@@ -71,7 +71,7 @@
   --text-dark: #d4d4d4;
   --accent-dark: #ffa84a;
   --unselected-dark: #6e6e6e;
-  --stroke-color:#ABABAB;
+  --stroke-color:#ababab80;
   --font-family-clash-display: 'ClashDisplay', system-ui, sans-serif;
   --font-family-zen-dots: var(--font-family-clash-display);
   --font-family-supreme: 'Supreme', system-ui, sans-serif;
@@ -111,6 +111,7 @@
   --menu-button-margin-top:0.625rem;
   --base-gap:3rem;
   --vertical-large-padding:3.125rem;
+  --menu-padding-vertical:1rem;
   
   --layout-stroke: 0.5px;
   --tint-dark: rgba(23, 23, 23, 0.2);

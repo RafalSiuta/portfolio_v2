@@ -65,7 +65,17 @@
   justify-content: start;
   gap: var(--base-gap);
   align-items: center;
-  border-top: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab);
+}
+
+.heroDivider {
+  width: calc(var(--small-card-max-width) + var(--base-gap));
+  height: var(--layout-stroke, 0.5px);
+  background: var(--stroke-color, #ababab);
+}
+
+.cardSlot {
+  display: flex;
+  flex-shrink: 0;
 }
 
 @media screen and (max-width: 1280px) {

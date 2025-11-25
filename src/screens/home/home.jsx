@@ -1,4 +1,4 @@
-﻿import { useCallback } from 'react'
+﻿import { useCallback, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import styles from './home.module.css'
 import ContentWrapper from '../../components/wrapper/content_wrapper'
@@ -9,6 +9,12 @@ import navLinks from '../../utils/constants/navLinks'
 
 function Home() {
   const { pageCounter, setPageCounter, scrollProgress, setScrollProgress, setScrollDirection } = useNavContext()
+  const dividerRef = useRef(null)
+  const utilityRowRef = useRef(null)
+  const cardRefs = useRef([])
+  const cardWidthsRef = useRef([])
+  const gapRef = useRef(0)
+  const baseWidthRef = useRef(0)
 
   const handleNextSection = useCallback(() => {
     const nextIndex = Math.min(pageCounter + 1, navLinks.length - 1)
@@ -33,11 +39,62 @@ function Home() {
     })
   }, [pageCounter, scrollProgress, setPageCounter, setScrollProgress, setScrollDirection])
 
+  const measureDivider = useCallback(() => {
+    const rowEl = utilityRowRef.current
+    const dividerEl = dividerRef.current
+    if (!rowEl || !dividerEl) return
+
+    const stylesComputed = window.getComputedStyle(rowEl)
+    const gapValue = parseFloat(stylesComputed.columnGap || stylesComputed.gap || '0') || 0
+    gapRef.current = gapValue
+
+    cardWidthsRef.current = cardRefs.current.map((card) => (card ? card.getBoundingClientRect().width : 0))
+    if (!cardWidthsRef.current[0]) return
+
+    baseWidthRef.current = cardWidthsRef.current[0] + gapValue
+    gsap.set(dividerEl, { width: baseWidthRef.current })
+  }, [])
+
+  useEffect(() => {
+    measureDivider()
+    window.addEventListener('resize', measureDivider)
+
+    return () => {
+      window.removeEventListener('resize', measureDivider)
+    }
+  }, [measureDivider])
+
+  const animateDividerTo = useCallback((targetWidth) => {
+    const dividerEl = dividerRef.current
+    if (!dividerEl) return
+
+    gsap.to(dividerEl, { width: targetWidth, duration: 0.35, ease: 'power3.out' })
+  }, [])
+
+  const resetDivider = useCallback(() => {
+    if (!cardWidthsRef.current[0]) return
+    const gapValue = gapRef.current
+    const fallbackBase = cardWidthsRef.current[0] + gapValue
+    const targetWidth = baseWidthRef.current || fallbackBase
+    animateDividerTo(targetWidth)
+  }, [animateDividerTo])
+
+  const handleCardHover = useCallback((cardIndex) => {
+    if (!cardWidthsRef.current[0]) return
+    const gapValue = gapRef.current
+    const baseWidth = baseWidthRef.current || (cardWidthsRef.current[0] + gapValue)
+    const additionalWidth = cardWidthsRef.current
+      .slice(1, cardIndex + 1)
+      .reduce((total, width) => total + width + gapValue, 0)
+
+    animateDividerTo(baseWidth + additionalWidth)
+  }, [animateDividerTo])
+
   return (
     <section className={styles.heroContent} id="home">
       <ContentWrapper className={styles.wrapper}>
         <article className={styles.herotext}>
-          <h1>UI Engineer</h1>
+          <h1>R85 studio</h1>
           <h2>idea | design | code</h2>
           <p>
             Hi I'm <strong>Rafal</strong>, UI designer and frontend developer.<br /> Technologies are just
@@ -45,12 +102,31 @@ function Home() {
             projects and let me know how <strong>I can help</strong>.
           </p>
           <p>my projects...</p>
-          <div className={styles.heroUtilityRow}>
-            <SmallCard label="name" />
-            <SmallCard label="name" />
-            <SmallCard label="name" />
+          <div className={styles.heroDivider} ref={dividerRef} aria-hidden="true" />
+          <div className={styles.heroUtilityRow} ref={utilityRowRef} onMouseLeave={resetDivider}>
+            <div
+              className={styles.cardSlot}
+              ref={(el) => { cardRefs.current[0] = el }}
+              onMouseEnter={() => handleCardHover(0)}
+            >
+              <SmallCard label="name" />
+            </div>
+            <div
+              className={styles.cardSlot}
+              ref={(el) => { cardRefs.current[1] = el }}
+              onMouseEnter={() => handleCardHover(1)}
+            >
+              <SmallCard label="name" />
+            </div>
+            <div
+              className={styles.cardSlot}
+              ref={(el) => { cardRefs.current[2] = el }}
+              onMouseEnter={() => handleCardHover(2)}
+            >
+              <SmallCard label="name" />
+            </div>
             <IconButton
-              iconName="ArrowRight"
+              iconName="ArrowThinRight"
               onClick={handleNextSection}
               ariaLabel="Show next content"
             />

@@ -46,4 +46,6 @@ Thumbs.db
 .vercel/
 .netlify/
 
+# NOTES FOLDERS
+notes/
 image_prompts.json

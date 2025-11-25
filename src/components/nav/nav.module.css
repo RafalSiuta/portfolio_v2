@@ -1,15 +1,26 @@
 .container {
   width: 100%;
   max-width: 100%;
-  min-height: var(--nav-min-height, 6.25rem);
-  padding: 0 var(--vertical-large-padding) 1.5rem var(--vertical-large-padding);
+  /* min-height: var(--nav-min-height, 6.25rem); */
+  padding: var(--menu-padding-vertical) var(--vertical-large-padding) var(--menu-padding-vertical) var(--vertical-large-padding);
   display: flex;
   position: fixed;
   align-items: end;
   justify-content: center;
-  border-bottom: var(--layout-stroke) solid var(--stroke-color, #d4d4d4);
+
+  /* border-bottom: var(--layout-stroke) solid var(--stroke-color, #d4d4d4); */
   background: var(--tint-dark, rgba(23, 23, 23, 0.5));
   backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
+}
+
+.divider {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: var(--layout-stroke, 0.125rem);
+  background: var(--stroke-color, #d4d4d4);
+  pointer-events: none;
 }
 
 .navigation {
@@ -34,18 +45,6 @@
   position: relative;
 }
 
-.indicator {
-  position: absolute;
-  height: 0.125rem; /* 2px */
-  left: 0;
-  bottom: -1.78rem;
-  width: 0;
-  background-color: var(--accent-dark, #d4d4d4);
-  border-radius: 999px;
-  pointer-events: none;
-  z-index: 1;
-}
-
 .menuList {
   display: flex;
   align-items: center;
@@ -58,14 +57,14 @@
 
 .indicator {
   position: absolute;
-  height: 0.125rem; /* 2px */
+  height: calc(var(--layout-stroke, 0.125rem) * 3);
   left: 0;
-  bottom: -1.78rem;
+  bottom: 0;
   width: 0;
   background-color: var(--accent-dark, #d4d4d4);
   border-radius: 999px;
   pointer-events: none;
-  z-index: 1;
+  z-index: 3;
 }
 
 .link {
@@ -167,13 +166,17 @@
     top: 0.25rem;
     bottom: auto;
     left: -1.25rem;
-    width: 0.1875rem;
+    width: var(--layout-stroke, 0.1875rem);
     height: 0;
     border-radius: 999px;
   }
 
   .link {
     text-align: center;
+  }
+
+  .divider {
+    display: none;
   }
 }
 
@@ -187,4 +190,3 @@
     z-index: 40;
   }
 }
-
