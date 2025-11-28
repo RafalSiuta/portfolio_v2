@@ -1,14 +1,15 @@
-import ContentWrapper from '../../components/wrapper/content_wrapper'
+import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
+import ParticlesBackground from '../../components/containers/particles/particlesBackground'
 import styles from './projects.module.css'
 
 export default function Projects() {
   return (
-    <section id="projects" className={styles.section}>
-      <ContentWrapper className={styles.wrapper}>
+    <ParticlesBackground id="projects" className={styles.section}>
+      <SectionWrapper className={styles.wrapper}>
         <div className={styles.content}>
           <h1>projects</h1>
         </div>
-      </ContentWrapper>
-    </section>
+      </SectionWrapper>
+    </ParticlesBackground>
   )
 }

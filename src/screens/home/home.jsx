@@ -1,7 +1,7 @@
 ﻿import { useCallback, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import styles from './home.module.css'
-import ContentWrapper from '../../components/wrapper/content_wrapper'
+import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
 import SmallCard from '../../components/cards/small_card/smallCard'
 import IconButton from '../../components/buttons/icon_button/icon_button'
 import { useNavContext } from '../../utils/providers/navProvider'
@@ -92,7 +92,7 @@ function Home() {
 
   return (
     <section className={styles.heroContent} id="home">
-      <ContentWrapper className={styles.wrapper}>
+      <SectionWrapper className={styles.wrapper}>
         <article className={styles.herotext}>
           <h1>R85 studio</h1>
           <h2>idea | design | code</h2>
@@ -132,7 +132,7 @@ function Home() {
             />
           </div>
         </article>
-      </ContentWrapper>
+      </SectionWrapper>
     </section>
   )
 }

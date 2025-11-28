@@ -1,14 +1,14 @@
-import ContentWrapper from '../../components/wrapper/content_wrapper'
+import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
 import styles from './contact.module.css'
 
 export default function Contact() {
   return (
     <section id="contact" className={styles.section}>
-      <ContentWrapper className={styles.wrapper}>
+      <SectionWrapper className={styles.wrapper}>
         <div className={styles.content}>
           <h1>contact</h1>
         </div>
-      </ContentWrapper>
+      </SectionWrapper>
     </section>
   )
 }

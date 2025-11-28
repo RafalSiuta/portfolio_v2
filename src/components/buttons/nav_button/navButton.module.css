@@ -23,7 +23,9 @@
     transform-origin: center;
 }
 
+
 .bar3rotated {
+    opacity: 1;
     transform: rotate(45deg);   
 }
 
@@ -38,6 +40,10 @@
 }
 .bar2fade{
     transform: translateY(calc((var(--menu-icon-btn) * -1)/3));
+    opacity: 0;
+}
+
+.transparent{
     opacity: 0;
 }
 

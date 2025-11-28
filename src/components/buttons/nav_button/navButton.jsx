@@ -22,11 +22,14 @@ const MenuBtn = (props) => {
     });
 
     if (props.isOpen) {
+      bar3?.classList.remove(styles.transparent);
       bar1?.classList.add(styles.bar1fade);
       bar2?.classList.add(styles.bar2fade);
       bar3?.classList.add(styles.bar3rotated);
       bar4?.classList.add(styles.bar4rotated);
+      
     } else {
+      bar3?.classList.add(styles.transparent);
       bar1?.classList.remove(styles.bar1fade);
       bar2?.classList.remove(styles.bar2fade);
       bar3?.classList.remove(styles.bar3rotated);

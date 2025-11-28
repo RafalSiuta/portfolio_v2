@@ -25,7 +25,7 @@ function SmallCard({ label = 'name', iconName = 'PhotoIcon' }) {
     if (!tiltRef.current) return;
     const el = tiltRef.current;
     VanillaTilt.init(el, {
-      max: 12,
+      max: 14,
       speed: 1000,
       perspective: 1000,
       scale: 1.01,

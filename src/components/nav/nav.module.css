@@ -7,7 +7,7 @@
   position: fixed;
   align-items: end;
   justify-content: center;
-
+  z-index: 5;
   /* border-bottom: var(--layout-stroke) solid var(--stroke-color, #d4d4d4); */
   background: var(--tint-dark, rgba(23, 23, 23, 0.5));
   backdrop-filter: blur(var(--frosted-blur, 0.15625rem));

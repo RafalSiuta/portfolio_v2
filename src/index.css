@@ -72,6 +72,7 @@
   --accent-dark: #ffa84a;
   --unselected-dark: #6e6e6e;
   --stroke-color:#ababab80;
+  --pattern-color:#3F3F3F;
   --font-family-clash-display: 'ClashDisplay', system-ui, sans-serif;
   --font-family-zen-dots: var(--font-family-clash-display);
   --font-family-supreme: 'Supreme', system-ui, sans-serif;

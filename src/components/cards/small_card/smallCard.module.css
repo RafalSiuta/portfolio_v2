@@ -1,10 +1,12 @@
-.tiltWrapper {
+﻿.tiltWrapper {
   display: inline-block;
   width: var(--small-card-max-width);
   max-width: var(--small-card-max-width);
   aspect-ratio: 97.5 / 130;
   clip-path: polygon(0% 0%, 82% 0%, 90.7% 7%, 100% 14.8%, 100% 100%, 0% 100%);
   overflow: hidden;
+  transform-style: preserve-3d;
+  cursor: pointer;
 }
 
 .container {
@@ -26,9 +28,6 @@
   justify-content: space-between;
   align-items: flex-end;
   perspective: 1000px;
-  transform-style: preserve-3d;
-
-  /* efekt szklanej karty jak wcześniej */
   background: var(--tint-dark, rgba(23, 23, 23, 0.5));
   backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
 
@@ -42,7 +41,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateZ(12px);
+  transform: translateZ(16px);
   transition: transform 200ms ease;
 }
 
@@ -59,7 +58,7 @@
   font-weight: var(--font-weight-light, 300);
   letter-spacing: 0.1rem;
   text-transform: uppercase;
-  transform: translateZ(10px);
+  transform: translateZ(16px);
   transition: transform 200ms ease;
 }
 
