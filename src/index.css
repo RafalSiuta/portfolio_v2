@@ -272,7 +272,7 @@ button{
     --font-size-body: 1rem;
     --font-size-button: 1.125rem;
     --font-size-counter: 2rem;
-    --small-card-title-font-size:0.625rem;
+    --small-card-title-font-size:0.875rem;
 
     /* ####### widgets dimentions ####### */
     --small-card-max-width:97.5px;
@@ -280,7 +280,7 @@ button{
     --nav-min-height: 5rem;
     --menu-icon-btn:3.75rem;
     --link-icon-button-size: 2.25rem;
-    --icon-button-width:5rem;
+    --icon-button-width:4.375rem;
 
     /* ####### spacing, paddings, margin ####### */
     --menu-button-margin-right:1.25rem;
@@ -336,7 +336,7 @@ button{
     --font-size-body: 1rem;
     --font-size-button: 1.125rem;
     --font-size-counter: 2rem;
-    --small-card-title-font-size:0.5rem;
+    --small-card-title-font-size:0.875rem;
 
     /* ####### widgets dimentions ####### */
     --small-card-max-width:80px;
@@ -344,12 +344,47 @@ button{
     --nav-min-height: 5rem;
     --menu-icon-btn:3.75rem;
     --link-icon-button-size: 2.25rem;
-    --icon-button-width:5rem;
+    --icon-button-width:3.75rem;
 
     /* ####### spacing, paddings, margin ####### */
     --menu-button-margin-right:1.25rem;
     --menu-button-margin-top:0.625rem;
     --base-gap:1rem;
-    --vertical-large-padding:3.125rem;
+  }
+
+  br{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  :root {
+    --content-width: 100%;
+    --max-box-width: 100%;
+    --nav-max-width: 100%;
+    --vertical-large-padding: 1.25rem;
+    --base-gap: 2rem;
+
+     /* ####### font sizes ####### */
+    --font-size-menu: 1.5rem;
+    --font-size-large-title: 3rem;
+    --font-size-subtitle: 1.5rem;
+    --font-size-body: 1rem;
+    --font-size-button: 1.125rem;
+    --font-size-counter: 2rem;
+    --small-card-title-font-size:0.875rem;
+
+    /* ####### widgets dimentions ####### */
+    --small-card-max-width:68px;
+    --small-card-max-height:91px;
+    --nav-min-height: 5rem;
+    --menu-icon-btn:3.75rem;
+    --link-icon-button-size: 2.25rem;
+    --icon-button-width:3.25rem;
+
+    /* ####### spacing, paddings, margin ####### */
+    --menu-button-margin-right:1.25rem;
+    --menu-button-margin-top:0.625rem;
+    --base-gap:1rem;
   }
 }

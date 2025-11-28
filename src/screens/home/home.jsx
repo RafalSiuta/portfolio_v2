@@ -97,7 +97,7 @@ function Home() {
           <h1>R85 studio</h1>
           <h2>idea | design | code</h2>
           <p>
-            Hi I'm <strong>Rafal</strong>, UI designer and frontend developer.<br /> Technologies are just
+            Hi I'm <strong>Rafal</strong>, UI designer and frontend developer.<br/> Technologies are just
             a tools that help us<br /> bring our beautiful <strong>ideas</strong> to life.<br /> Check out my
             projects and let me know how <strong>I can help</strong>.
           </p>

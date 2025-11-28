@@ -47,7 +47,6 @@
 .wrapper{
   display: flex;
   flex-direction: column;
-  
   align-items: flex-start;
   text-align: left;
 }
@@ -93,33 +92,29 @@
   text-align: left;
   }
   .herotext{
+    justify-content: end;
+    height: 100%;
     padding: 0;
   }
+  .wrapper{
+    min-height: 90vh;
+  }
   .heroContent {
+    min-width: 100%;
     justify-content: end;
-     align-items: center;
+    align-items: center;
     padding: 0 var(--menu-button-margin-right);
     background-image:
       url('../../assets/images/hero_M.jpg');
   }
 }
 
-@media (max-width: 430px) {
+
+@media (max-width: 500px) {
   .heroContent {
     background-image:
       url('../../assets/images/hero_S.jpg');
   }
-}
-
-
-
-@media (max-width: 48rem) {
-  .heroPage {
-    padding: 0 0;
-  }
-
-  .heroContent {
-    width: 100%;
-    min-width: 100%;
-  }
+  
+ 
 }

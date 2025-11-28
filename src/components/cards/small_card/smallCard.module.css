@@ -1,14 +1,22 @@
-﻿
+.tiltWrapper {
+  display: inline-block;
+  width: var(--small-card-max-width);
+  max-width: var(--small-card-max-width);
+  aspect-ratio: 97.5 / 130;
+  clip-path: polygon(0% 0%, 82% 0%, 90.7% 7%, 100% 14.8%, 100% 100%, 0% 100%);
+  overflow: hidden;
+}
+
 .container {
   display: block;
   width: var(--small-card-max-width);
   max-width: var(--small-card-max-width);
-  /* odpowiada proporcjom patha: 146 / 195 ≈ 97.5 / 130 */
+  /* odpowiada proporcjom patha: 146 / 195 ~ 97.5 / 130 */
   aspect-ratio: 97.5 / 130;
   flex-shrink: 0;
 }
 
-/* Właściwy layout wnętrza – HTML w foreignObject */
+/* Właściwy layout wnętrza - HTML w foreignObject */
 .content {
   display: flex;
   width: 100%;
@@ -17,21 +25,25 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
+  perspective: 1000px;
+  transform-style: preserve-3d;
 
   /* efekt szklanej karty jak wcześniej */
   background: var(--tint-dark, rgba(23, 23, 23, 0.5));
   backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
 
-  /* overflow tu już niepotrzebne – robi to clipPath */
+  /* overflow tu już niepotrzebne - robi to clipPath */
 }
 
-/* Ikonka i label jak wcześniej */
+/* Ikonka i label */
 .iconWrapper {
   width: 100%;
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: translateZ(12px);
+  transition: transform 200ms ease;
 }
 
 .icon {
@@ -47,9 +59,11 @@
   font-weight: var(--font-weight-light, 300);
   letter-spacing: 0.1rem;
   text-transform: uppercase;
+  transform: translateZ(10px);
+  transition: transform 200ms ease;
 }
 
-/* OBRYS – pełna kontrola stroke */
+/* OBRYS - pełna kontrola stroke */
 .border {
   fill: none;
   stroke: var(--stroke-color, #ababab);
@@ -59,9 +73,16 @@
 
 @media screen and (max-width: 1280px) {
   .icon {
-  width: calc(var(--small-card-max-width) / 1.2);
-  height: calc(var(--small-card-max-width) / 1.2);
-  object-fit: contain;
-}
+    width: calc(var(--small-card-max-width) / 1.2);
+    height: calc(var(--small-card-max-width) / 1.2);
+    object-fit: contain;
+  }
 }
 
+@media screen and (max-width: 500px) {
+  .icon {
+    width: var(--small-card-max-width);
+    height: var(--small-card-max-width);
+    object-fit: contain;
+  }
+}

@@ -1,6 +1,7 @@
-﻿.iconButton {
+.iconButton {
   width: var(--icon-button-width);
   height: var(--icon-button-width);
+  --icon-hover-shift: calc(var(--icon-button-width) * 0.18);
   border-radius: 999px;
   border: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab);
   background: transparent;
@@ -18,7 +19,7 @@
 }
 
 .iconButton:hover {
-  transform: translateY(-0.125rem);
+  transform: translateY(-0.125rem) rotate(45deg);
 }
 
 .icon {
@@ -29,7 +30,7 @@
 }
 
 .iconButton:hover .icon {
-  transform: rotate(45deg);
+  transform: translateX(var(--icon-hover-shift)) ;
 }
 
 .icon path,

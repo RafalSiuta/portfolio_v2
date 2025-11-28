@@ -3,7 +3,7 @@
     width: 100%;
     height: 100%;
     padding: 0 var(--vertical-large-padding);
-    min-height: 70vh;
+    /* min-height: 70vh; */
     margin: auto;
     display: flex;
     flex-direction: column;
