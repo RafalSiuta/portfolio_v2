@@ -60,7 +60,7 @@
   display: flex;
   width: min(100%, var(--max-box-width));
   /* margin-top: calc(var(--base-gap)/2); */
-  padding: var(--base-gap) 10px var(--base-gap) 0;
+  padding: 10px 10px var(--base-gap) 0;
   justify-content: start;
   gap: var(--base-gap);
   align-items: center;
@@ -75,6 +75,14 @@
 .cardSlot {
   display: flex;
   flex-shrink: 0;
+}
+
+.heroIconButton:hover {
+  transform: translateY(var(--icon-hover-translate, -0.125rem)) rotate(var(--icon-hover-rotation, 0deg));
+}
+
+.heroIconButton:hover .heroIcon {
+  transform: translateX(var(--icon-hover-shift, calc(var(--icon-button-width) * 0.18)));
 }
 
 @media screen and (max-width: 1280px) {

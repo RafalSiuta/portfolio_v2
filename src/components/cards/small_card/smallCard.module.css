@@ -46,8 +46,8 @@
 }
 
 .icon {
-  width: calc(var(--small-card-max-width) / 1.8);
-  height: calc(var(--small-card-max-width) / 1.8);
+  width: calc(var(--small-card-max-width) / 1.6);
+  height: calc(var(--small-card-max-width) / 1.6);
   object-fit: contain;
 }
 

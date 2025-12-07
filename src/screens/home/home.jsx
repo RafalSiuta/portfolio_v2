@@ -129,6 +129,9 @@ function Home() {
               iconName="ArrowThinRight"
               onClick={handleNextSection}
               ariaLabel="Show next content"
+              hover="45deg"
+              className={styles.heroIconButton}
+              iconClassName={styles.heroIcon}
             />
           </div>
         </article>

@@ -1,0 +1,25 @@
+@media (prefers-reduced-motion: no-preference) {
+  .textLinkButton {
+    transition: color 150ms ease, transform 150ms ease;
+  }
+}
+
+.textLinkButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: none;
+  border: none;
+  color: var(--text-dark, #d4d4d4);
+  text-transform: none;
+  transform: translateY(0);
+  cursor: pointer;
+}
+
+.textLinkButton:hover,
+.textLinkButton:focus-visible {
+  color: var(--accent-dark, #ffa84a);
+  transform: translateY(-0.125rem);
+  outline: none;
+}
