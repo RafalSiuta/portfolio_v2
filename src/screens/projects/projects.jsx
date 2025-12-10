@@ -1,4 +1,4 @@
-﻿import { useEffect } from 'react'
+﻿import { useEffect, useMemo, useState } from 'react'
 import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
 import ParticlesBackground from '../../components/containers/particles/particlesBackground'
 import projectsData from '../../assets/data/projects_data.json'
@@ -6,12 +6,24 @@ import ChipButton from '../../components/buttons/chip_button/chipButton'
 import TextLinkButton from '../../components/buttons/textlink_button/textLinkButton'
 import IconButton from '../../components/buttons/icon_button/icon_button'
 import SmallCard from '../../components/cards/small_card/smallCard'
-import vipImage from '../../assets/data/image_data/vip.png'
+import SectionTitle from '../../components/headers/section_title/secctionTitle'
 import styles from './projects.module.css'
 
 const projectsList = projectsData
+const heroImages = import.meta.glob('../../assets/data/image_data/*', {
+  eager: true,
+  import: 'default'
+})
 
 export default function Projects() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const currentProject = projectsList[currentIndex] ?? {}
+
+  const heroImage = useMemo(() => {
+    if (!currentProject.hero_img) return ''
+    const key = `../../${currentProject.hero_img}`
+    return heroImages[key] ?? ''
+  }, [currentProject.hero_img])
 
   useEffect(() => {
     const logProjects = () => {
@@ -27,34 +39,44 @@ export default function Projects() {
 
     logProjects()
   }, [])
-  
+
+  const prevProject = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === projectsList.length - 1 ? 0 : prevIndex + 1
+    )
+  }
+
+  const nextProject = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? projectsList.length - 1 : prevIndex - 1
+    )
+  }
+
   return (
     <ParticlesBackground id="projects" className={styles.section}>
       <SectionWrapper className={styles.wrapper}>
-        <h1>projects</h1>
+        <SectionTitle />
         <div className={styles.content}>
           <div className={styles.imageContainer}>
             <div className={styles.imageFrame} aria-hidden="true">
-              <img src={vipImage} alt="" />
+              <img src={heroImage} alt={currentProject.title ?? ''} />
             </div>
           </div>
           <div className={styles.textContainer}>
-            <h2>project title</h2>
-            <h4>project subtitle</h4>
-            <p className='description'>
-              Description for the highlighted project goes here. Share a quick overview of what
-              the project is about and why it stands out.Description for the highlighted project goes here. Share a quick overview of what
-              the project is about and why it stands out.
+            <h2>{currentProject.title}</h2>
+            <h4>{currentProject.subtitle}</h4>
+            <p className={`description ${styles.descriptionClamp}`}>
+              {currentProject.description}
             </p>
             <div className={styles.divider} aria-hidden="true" />
-            <p className='description'>project tools...</p>
+            <p className="description">project tools...</p>
             <div className={styles.chipRow}>
-              <ChipButton text="test" onClick={() => {}} />
-              <ChipButton text="test" onClick={() => {}} />
-              <ChipButton text="test" onClick={() => {}} />
+              {currentProject.tools?.map(({ tool_name }) => (
+                <ChipButton key={tool_name} text={tool_name} onClick={() => {}} />
+              ))}
             </div>
             <div className={styles.linkRow}>
-              <TextLinkButton name="see more..." to="/projects" className='description' />
+              <TextLinkButton name="see more..." to="/projects" className="description" />
             </div>
           </div>
         </div>
@@ -62,24 +84,23 @@ export default function Projects() {
           <div className={styles.navButtonsContainer}>
             <IconButton
               iconName="ArrowThinLeft"
-              onClick={() => {}}
+              onClick={nextProject}
               className={styles.navButtonLeft}
               iconClassName={styles.navIconLeft}
               style={{ '--icon-hover-shift': 'calc(var(--icon-button-width) * 0.18)' }}
             />
             <IconButton
               iconName="ArrowThinRight"
-              onClick={() => {}}
+              onClick={prevProject}
               className={styles.navButtonRight}
               iconClassName={styles.navIconRight}
               style={{ '--icon-hover-shift': 'calc(var(--icon-button-width) * 0.18)' }}
             />
           </div>
           <div className={styles.cardsContainer}>
-            <SmallCard label="name" />
-            <SmallCard label="name" />
-            <SmallCard label="name" />
-            <SmallCard label="name" />
+            {projectsList.map(({ title }, index) => (
+              <SmallCard key={title ?? index} label={title} />
+            ))}
           </div>
         </div>
       </SectionWrapper>

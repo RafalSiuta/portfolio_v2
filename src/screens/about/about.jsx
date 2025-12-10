@@ -1,4 +1,5 @@
 import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
+import SectionTitle from '../../components/headers/section_title/secctionTitle'
 import styles from './about.module.css'
 
 export default function About() {
@@ -6,7 +7,7 @@ export default function About() {
     <section id="about" className={styles.section}>
       <SectionWrapper className={styles.wrapper}>
         <div className={styles.content}>
-          <h1>about</h1>
+          <SectionTitle />
         </div>
       </SectionWrapper>
     </section>

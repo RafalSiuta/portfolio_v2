@@ -3,7 +3,7 @@
   top: 50%;
   right: var(--vertical-large-padding, 3.125rem);
   width: var(--sidebar-width, 3.125rem);
-  height: 50vh;
+  height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,10 +26,7 @@
   margin: 0;
   padding: calc(var(--vertical-large-padding, 3.125rem) / 2) 0;
   color: var(--text-dark, #d4d4d4);
-  /* font-family: var(--font-family-zen-dots, 'Zen Dots', system-ui, sans-serif);
-  font-weight: var(--font-weight-extrabold, 800);
-  letter-spacing: 0.15rem;
-  text-transform: uppercase; */
+
 }
 
 .progressBar {

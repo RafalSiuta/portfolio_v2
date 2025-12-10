@@ -1,16 +1,4 @@
-﻿// import SystemIcon from '../../../utils/icons/system_icon'
-// import styles from './smallCard.module.css'
-
-// function SmallCard({ label = 'name', iconName = 'PhotoIcon' }) {
-//   return (
-//     <article className={styles.container}>
-//       <div className={styles.iconWrapper}>
-//         <SystemIcon name={iconName} className={styles.icon} aria-hidden="true" focusable="false" />
-//       </div>
-//       <span className={styles.label}>{label}</span>
-//     </article>
-//   )
-// }
+﻿
 
 // export default SmallCard
 import { useEffect, useRef } from 'react';
@@ -20,6 +8,12 @@ import styles from './smallCard.module.css';
 
 function SmallCard({ label = 'name', iconName = 'PhotoIcon' }) {
   const tiltRef = useRef(null);
+  const displayLabel =
+    typeof label === 'string'
+      ? label.length > 8
+        ? `${label.slice(0, 8)}..`
+        : label
+      : String(label ?? '');
 
   useEffect(() => {
     if (!tiltRef.current) return;
@@ -72,7 +66,7 @@ function SmallCard({ label = 'name', iconName = 'PhotoIcon' }) {
                 focusable="false"
               />
             </div>
-            <span className={styles.label}>{label}</span>
+            <span className={styles.label}>{displayLabel}</span>
           </div>
         </foreignObject>
       </g>

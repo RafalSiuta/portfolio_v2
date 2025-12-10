@@ -33,15 +33,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 60%;
-  padding: var(--vertical-large-padding, 3.125rem);
+  flex: 0 0 55%;
+  padding: var(--project-card-spacing);
 }
 
 .imageFrame {
   width: 100%;
-  height: 100%;
   aspect-ratio: 1728 / 1117;
-  min-height: 20rem;
+  /* min-height: 20rem; */
   border-radius: var(--image-frame-radius, 1.2rem);
   border: var(--image-frame-border-width, 0.375rem) solid black;
   overflow: hidden;
@@ -60,10 +59,10 @@
 .textContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: var(--menu-padding-vertical, 1rem);
-  flex: 0 0 40%;
-  padding: var(--vertical-large-padding, 3.125rem);
+  justify-content: start;
+  gap: var(--vertical-text-gap);
+  flex: 0 0 45%;
+  padding: var(--project-card-spacing);
   border-left: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab80);
 }
 
@@ -71,22 +70,31 @@
   width: calc(var(--small-card-max-width) + var(--base-gap));
   height: var(--layout-stroke, 0.5px);
   background: var(--stroke-color, #ababab);
+  margin-top: var(--vertical-text-gap);
 }
 
 .toolsLabel {
   font-size: var(--small-card-title-font-size, 0.75rem);
 }
 
+.descriptionClamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .chipRow {
   display: flex;
   flex-wrap: wrap;
   gap: var(--menu-padding-vertical, 1rem);
+  margin-top: var(--vertical-text-gap);
 }
 
 .linkRow {
   display: flex;
   justify-content: flex-end;
-  margin-top: var(--menu-padding-vertical, 1rem);
+  margin-top: var(--vertical-text-gap);
 }
 
 .projectCardsContainer {
@@ -94,21 +102,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: var(--vertical-large-padding, 3.125rem);
+  margin-top: var(--project-card-spacing);
 }
 
 .navButtonsContainer {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: var(--base-gap, 3rem);
+  gap: var(--project-card-spacing);
 }
 
 .cardsContainer {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: var(--base-gap, 3rem);
+  gap: var(--project-card-spacing);
 }
 
 .navButtonLeft:hover .navIconLeft {
@@ -117,4 +125,61 @@
 
 .navButtonRight:hover .navIconRight {
   transform: translateX(var(--icon-hover-shift, calc(var(--icon-button-width) * 0.18)));
+}
+
+@media screen and (max-width: 1280px) {
+  .wrapper{
+    margin-left: var(--vertical-large-padding);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .wrapper{
+    margin:var(--vertical-large-padding);
+  }
+  .content {
+    flex-direction: column;
+  }
+  .imageFrame {
+      width: 90%;
+    }
+
+  .imageContainer {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+
+  .textContainer {
+    flex: 0 0 100%;
+    width: 100%;
+    border-left: none;
+    border-top: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab80);
+  }
+}
+
+@media screen and (max-width: 768px) {
+    .wrapper{
+      margin:0;
+    }
+    .descriptionClamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    }
+    .imageFrame {
+      width: 85%;
+    }
+    .projectCardsContainer {
+      flex-direction: column-reverse;
+    }
+}
+
+@media screen and (max-width: 500px) {
+  .imageFrame {
+      width: 100%;
+  }
+  .wrapper{
+    padding: 0 var(--menu-button-margin-right);
+  }
 }

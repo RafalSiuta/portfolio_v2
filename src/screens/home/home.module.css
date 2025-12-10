@@ -26,7 +26,7 @@
   flex-direction: column;
   justify-content:center;
   align-items: flex-start;
-  gap: calc(var(--base-gap)/2);
+  gap: calc(var(--vertical-text-gap));
 }
 
 .heroContent {
@@ -62,7 +62,7 @@
   /* margin-top: calc(var(--base-gap)/2); */
   padding: 10px 10px var(--base-gap) 0;
   justify-content: start;
-  gap: var(--base-gap);
+  gap: var(--project-card-spacing);
   align-items: center;
 }
 
@@ -70,6 +70,7 @@
   width: calc(var(--small-card-max-width) + var(--base-gap));
   height: var(--layout-stroke, 0.5px);
   background: var(--stroke-color, #ababab);
+  margin: var(--vertical-text-gap) 0;
 }
 
 .cardSlot {

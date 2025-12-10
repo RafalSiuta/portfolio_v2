@@ -1,0 +1,19 @@
+.sectionTitle {
+  display: block;
+}
+
+@media screen and (max-width: 1194px) {
+  .sectionTitle {
+    position: fixed;
+    align-self: flex-start;
+    top: var(--menu-button-margin-top);
+    left: var(--menu-button-margin-right);
+    z-index: 5;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .sectionTitle {
+    left: var(--menu-button-margin-right);
+  }
+}

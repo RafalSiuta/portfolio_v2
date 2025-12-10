@@ -70,5 +70,28 @@
         "tool_name": "gsap"
       }
     ]
+  },
+  {
+    "title": "vip security",
+    "subtitle": "events security company website",
+    "description": "VIP Security crafts a modern web presence for a company specializing in large-scale event protection. The landing hero highlights rapid deployment teams and crowd management expertise. Service sections outline risk assessments, perimeter control, and discreet VIP escorts. A credibility band lists certifications, insurance coverage, and emergency protocols. The site includes a timeline showing pre-event planning through post-event reporting. Case study cards summarize stadium concerts, trade fairs, and sports tournaments. A stats row emphasizes response times, personnel readiness, and satisfied partners. Testimonials from organizers build trust and social proof. A contact CTA keeps an always-visible phone number and urgent request form. The design uses strong typography, dark gradients, and metallic accents to convey authority.",
+    "hero_img": "assets/data/image_data/vip.png",
+    "tools": [
+      {
+        "tool_name": "figma"
+      },
+      {
+        "tool_name": "affinity"
+      },
+      {
+        "tool_name": "next.js"
+      },
+      {
+        "tool_name": "tailwind"
+      },
+      {
+        "tool_name": "framer motion"
+      }
+    ]
   }
 ]

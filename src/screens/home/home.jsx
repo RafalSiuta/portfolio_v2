@@ -6,6 +6,7 @@ import SmallCard from '../../components/cards/small_card/smallCard'
 import IconButton from '../../components/buttons/icon_button/icon_button'
 import { useNavContext } from '../../utils/providers/navProvider'
 import navLinks from '../../utils/constants/navLinks'
+import SectionTitle from '../../components/headers/section_title/secctionTitle'
 
 function Home() {
   const { pageCounter, setPageCounter, scrollProgress, setScrollProgress, setScrollDirection } = useNavContext()
@@ -94,7 +95,7 @@ function Home() {
     <section className={styles.heroContent} id="home">
       <SectionWrapper className={styles.wrapper}>
         <article className={styles.herotext}>
-          <h1>R85 studio</h1>
+          <SectionTitle />
           <h2>idea | design | code</h2>
           <p>
             Hi I'm <strong>Rafal</strong>, UI designer and frontend developer.<br/> Technologies are just

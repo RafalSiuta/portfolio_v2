@@ -221,8 +221,17 @@ function Nav() {
   return (
     <header className={containerClassName}>
       <nav className={styles.navigation} aria-label="Primary">
-        <img src="/text_logo.svg" className={styles.logo} alt="Portfolio logo" />
+        {!isSmallHorizontal && (
+          <img src="/text_logo.svg" className={styles.logo} alt="Portfolio logo" />
+        )}
         <div className={styles.menuList}>
+          {isSmallHorizontal && (
+            <img
+              src="/text_logo.svg"
+              className={`${styles.logo} ${styles.mobileLogo}`}
+              alt="Portfolio logo"
+            />
+          )}
           <ul className={styles.menu} ref={menuRef}>
             {navLinks.map((link, index) => (
               <li key={link.href}>
