@@ -17,13 +17,28 @@ const heroImages = import.meta.glob('../../assets/data/image_data/*', {
 
 export default function Projects() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isMobileViewport, setIsMobileViewport] = useState(false)
   const currentProject = projectsList[currentIndex] ?? {}
 
   const heroImage = useMemo(() => {
     if (!currentProject.hero_img) return ''
-    const key = `../../${currentProject.hero_img}`
+    const heroKey =
+      typeof currentProject.hero_img === 'string'
+        ? currentProject.hero_img
+        : isMobileViewport
+          ? currentProject.hero_img.mobile ?? currentProject.hero_img.desktop
+          : currentProject.hero_img.desktop ?? currentProject.hero_img.mobile
+    if (!heroKey) return ''
+    const key = `../../${heroKey}`
     return heroImages[key] ?? ''
-  }, [currentProject.hero_img])
+  }, [currentProject.hero_img, isMobileViewport])
+
+  useEffect(() => {
+    const updateViewport = () => setIsMobileViewport(window.innerWidth < 500)
+    updateViewport()
+    window.addEventListener('resize', updateViewport)
+    return () => window.removeEventListener('resize', updateViewport)
+  }, [])
 
   useEffect(() => {
     const logProjects = () => {
@@ -76,7 +91,12 @@ export default function Projects() {
               ))}
             </div>
             <div className={styles.linkRow}>
-              <TextLinkButton name="see more..." to="/projects" className="description" />
+              <TextLinkButton
+                name="case study"
+                to="/projects"
+                iconName="ArrowRight"
+                className="description"
+              />
             </div>
           </div>
         </div>

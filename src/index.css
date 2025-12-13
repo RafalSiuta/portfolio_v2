@@ -108,6 +108,8 @@
   --icon-button-width:5rem;
   --image-frame-border-width: 0.375rem;
   --image-frame-radius: 1.2rem;
+  --image-frame-radius-mobile: var(--image-frame-radius, 1.2rem);
+  --mobile-frame-height-offset: 14rem;
 
   /* ####### spacing, paddings, margin ####### */
   --menu-button-margin-right:1.25rem;
@@ -120,6 +122,9 @@
   --chipbutton_padding-vertical:0.375rem;
   --chipbutton_padding-horizontal:1.125rem;
   --container-large-horizontal-padding:2%;
+  --project-text-block-height-mobile: 7.5rem;
+  --project-mobile-top-offset: calc(var(--font-size-large-title) * 1.5);
+  --project-nav-height-mobile: 5rem;
   
   --layout-stroke: 0.5px;
   --tint-dark: rgba(23, 23, 23, 0.2);
@@ -430,6 +435,11 @@ button{
     --chipbutton_padding-vertical:0.25rem;
     --chipbutton_padding-horizontal:0.625rem;
     --project-card-spacing:0.75rem;
+    --image-frame-radius-mobile:0.938rem;
+    --mobile-frame-height-offset: 12rem;
+    --project-text-block-height-mobile: 6.5rem;
+    --project-mobile-top-offset: calc(var(--font-size-large-title) * 1.5);
+    --project-nav-height-mobile: 4.5rem;
   }
 
   br{
@@ -467,5 +477,7 @@ button{
     --menu-button-margin-right:1.25rem;
     --menu-button-margin-top:0.625rem;
     --base-gap:1rem;
+    --image-frame-radius-mobile:0.938rem;
+    --mobile-frame-height-offset: 12rem;
   }
 }
