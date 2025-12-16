@@ -1,9 +1,14 @@
 .sectionTitle {
-  display: block;
+  display: none;
+}
+
+.hidden {
+  display: none !important;
 }
 
 @media screen and (max-width: 1194px) {
   .sectionTitle {
+    display: block;
     position: fixed;
     align-self: flex-start;
     top: var(--menu-button-margin-top);

@@ -1,4 +1,4 @@
-﻿.tiltWrapper {
+.tiltWrapper {
   display: inline-block;
   width: var(--small-card-max-width);
   max-width: var(--small-card-max-width);
@@ -18,7 +18,7 @@
   flex-shrink: 0;
 }
 
-/* Właściwy layout wnętrza - HTML w foreignObject */
+/* Wˆa˜ciwy layout wn©trza - HTML w foreignObject */
 .content {
   display: flex;
   width: 100%;
@@ -31,7 +31,7 @@
   background: var(--tint-dark, rgba(23, 23, 23, 0.5));
   backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
 
-  /* overflow tu już niepotrzebne - robi to clipPath */
+  /* overflow tu ju¾ niepotrzebne - robi to clipPath */
 }
 
 /* Ikonka i label */
@@ -62,12 +62,16 @@
   transition: transform 200ms ease;
 }
 
-/* OBRYS - pełna kontrola stroke */
+/* OBRYS - peˆna kontrola stroke */
 .border {
   fill: none;
   stroke: var(--stroke-color, #ababab);
-  /* jednostka w układzie viewBox, skaluje się z kartą */
+  /* jednostka w ukˆadzie viewBox, skaluje si© z kart¥ */
   stroke-width: var(--layout-stroke, 0.5);
+}
+
+.border.active {
+  stroke: var(--accent-dark, #ffa84a);
 }
 
 @media screen and (max-width: 1280px) {

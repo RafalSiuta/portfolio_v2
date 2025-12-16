@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
 import ParticlesBackground from '../../components/containers/particles/particlesBackground'
 import projectsData from '../../assets/data/projects_data.json'
@@ -6,7 +6,6 @@ import ChipButton from '../../components/buttons/chip_button/chipButton'
 import TextLinkButton from '../../components/buttons/textlink_button/textLinkButton'
 import IconButton from '../../components/buttons/icon_button/icon_button'
 import SmallCard from '../../components/cards/small_card/smallCard'
-import SectionTitle from '../../components/headers/section_title/secctionTitle'
 import styles from './projects.module.css'
 
 const projectsList = projectsData
@@ -19,6 +18,8 @@ export default function Projects() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobileViewport, setIsMobileViewport] = useState(false)
   const currentProject = projectsList[currentIndex] ?? {}
+  const swipeAreaRef = useRef(null)
+  const touchStartRef = useRef({ x: 0, y: 0 })
 
   const heroImage = useMemo(() => {
     if (!currentProject.hero_img) return ''
@@ -67,11 +68,54 @@ export default function Projects() {
     )
   }
 
+  const isProjectActive = (projectId) =>
+    !!projectId && projectId === currentProject?.id
+
+  const handleCardClick = (index) => {
+    setCurrentIndex(index)
+  }
+
+  useEffect(() => {
+    if (!isMobileViewport || !swipeAreaRef.current) return
+    const touchThreshold = 50
+
+    const handleTouchStart = (event) => {
+      const touch = event.changedTouches?.[0]
+      if (!touch) return
+      touchStartRef.current = { x: touch.clientX, y: touch.clientY }
+    }
+
+    const handleTouchEnd = (event) => {
+      const touch = event.changedTouches?.[0]
+      if (!touch) return
+      const deltaX = touch.clientX - touchStartRef.current.x
+      const deltaY = touch.clientY - touchStartRef.current.y
+
+      if (Math.abs(deltaX) < touchThreshold || Math.abs(deltaX) < Math.abs(deltaY)) return
+
+      setCurrentIndex((prevIndex) => {
+        if (deltaX < 0) {
+          return prevIndex === projectsList.length - 1 ? 0 : prevIndex + 1
+        }
+        return prevIndex === 0 ? projectsList.length - 1 : prevIndex - 1
+      })
+    }
+
+    const node = swipeAreaRef.current
+    node.addEventListener('touchstart', handleTouchStart, { passive: true })
+    node.addEventListener('touchend', handleTouchEnd)
+
+    return () => {
+      node.removeEventListener('touchstart', handleTouchStart)
+      node.removeEventListener('touchend', handleTouchEnd)
+    }
+  }, [isMobileViewport])
+
   return (
     <ParticlesBackground id="projects" className={styles.section}>
       <SectionWrapper className={styles.wrapper}>
-        <SectionTitle />
-        <div className={styles.content}>
+        <h1 className='strokeText'>my work</h1>
+        <div className={styles.content} ref={swipeAreaRef}>
           <div className={styles.imageContainer}>
             <div className={styles.imageFrame} aria-hidden="true">
               <img src={heroImage} alt={currentProject.title ?? ''} />
@@ -118,8 +162,13 @@ export default function Projects() {
             />
           </div>
           <div className={styles.cardsContainer}>
-            {projectsList.map(({ title }, index) => (
-              <SmallCard key={title ?? index} label={title} />
+            {projectsList.map(({ title, id }, index) => (
+              <SmallCard
+                key={id ?? index}
+                label={title}
+                isActive={isProjectActive(id)}
+                onClick={() => handleCardClick(index)}
+              />
             ))}
           </div>
         </div>

@@ -7,7 +7,7 @@ export default function About() {
     <section id="about" className={styles.section}>
       <SectionWrapper className={styles.wrapper}>
         <div className={styles.content}>
-          <SectionTitle />
+          <h1 className='strokeText'>about</h1>
         </div>
       </SectionWrapper>
     </section>

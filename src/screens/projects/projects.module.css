@@ -139,6 +139,11 @@
     margin-left: var(--vertical-large-padding);
   }
 }
+@media screen and (max-width: 1194px) {
+  .wrapper h1{
+    display: none;
+  }
+}
 
 @media screen and (max-width: 1024px) {
   .wrapper{
@@ -184,11 +189,11 @@
       height: auto;
       max-height: calc(100vh - var(--mobile-frame-height-offset, 14rem));
     }
-    /* .projectCardsContainer {
-      flex-direction: column-reverse;
-      gap:var(--project-card-spacing);
+
+    .projectCardsContainer {
       align-items: end;
-    } */
+      justify-content: end;
+    }
 }
 
 @media screen and (max-width: 500px) {
@@ -223,7 +228,7 @@
 
   .imageFrame {
       width: auto;
-      max-width: min(65vw, calc((100vh - var(--project-mobile-top-offset, 0rem) - var(--project-text-block-height-mobile, 6.5rem) - var(--project-nav-height-mobile, 5rem) - var(--project-card-spacing, 1.5rem)) * 0.47463768));
+      max-width: min(62vw, calc((100vh - var(--project-mobile-top-offset, 0rem) - var(--project-text-block-height-mobile, 6.5rem) - var(--project-nav-height-mobile, 5rem) - var(--project-card-spacing, 1.5rem)) * 0.47463768));
       max-height: calc(100vh - var(--project-mobile-top-offset, 0rem) - var(--project-text-block-height-mobile, 6.5rem) - var(--project-nav-height-mobile, 5rem) - var(--project-card-spacing, 1.5rem));
       aspect-ratio: 393 / 828;
       border-radius: var(--image-frame-radius-mobile, var(--image-frame-radius, 1.2rem));

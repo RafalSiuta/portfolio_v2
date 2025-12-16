@@ -19,3 +19,9 @@
   text-align: center;
   gap: 1rem;
 }
+
+@media screen and (max-width: 1194px) {
+  .wrapper h1 {
+    display: none;
+  }
+}

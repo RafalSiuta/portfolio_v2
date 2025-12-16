@@ -7,6 +7,8 @@ import Contact from './screens/contact/contact'
 import styles from './screens/home/home.module.css'
 import Footer from './components/footer/footer'
 import SideIndicator from './components/side_indicator/sideIndicator'
+import SectionTitle from './components/headers/section_title/secctionTitle'
+
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
       
       <Nav />
       <main className={styles.heroMain}>
+        <SectionTitle />
         <Home />
         <Projects />
         <About />

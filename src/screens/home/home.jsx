@@ -95,7 +95,8 @@ function Home() {
     <section className={styles.heroContent} id="home">
       <SectionWrapper className={styles.wrapper}>
         <article className={styles.herotext}>
-          <SectionTitle />
+          {/* <SectionTitle /> */}
+          <h1 className='strokeText'>r85studio</h1>
           <h2>idea | design | code</h2>
           <p>
             Hi I'm <strong>Rafal</strong>, UI designer and frontend developer.<br/> Technologies are just

@@ -1,5 +1,6 @@
 [
   {
+    "id": "001",
     "title": "vip security",
     "subtitle": "events security company website",
     "description": "VIP Security crafts a modern web presence for a company specializing in large-scale event protection. The landing hero highlights rapid deployment teams and crowd management expertise. Service sections outline risk assessments, perimeter control, and discreet VIP escorts. A credibility band lists certifications, insurance coverage, and emergency protocols. The site includes a timeline showing pre-event planning through post-event reporting. Case study cards summarize stadium concerts, trade fairs, and sports tournaments. A stats row emphasizes response times, personnel readiness, and satisfied partners. Testimonials from organizers build trust and social proof. A contact CTA keeps an always-visible phone number and urgent request form. The design uses strong typography, dark gradients, and metallic accents to convey authority.",
@@ -26,6 +27,7 @@
     ]
   },
   {
+    "id": "002",
     "title": "noti",
     "subtitle": "mobile app promo website",
     "description": "Noti is a promo site for a mobile note-taking app focused on speed and clarity. The hero pairs download buttons with a looping screen capture of the app in action. Feature sections highlight color-coded notebooks, quick voice capture, and offline sync. A productivity banner shows calendar and reminder integration. Interactive tiles explain how handwriting recognition turns scribbles into clean text. A short comparison chart shows how Noti stacks up against other note apps. A mini gallery cycles through themed templates for school, work, and personal life. Testimonials from students and managers reinforce usability and reliability. Pricing and plan cards clarify free versus pro features without clutter. A sticky footer CTA keeps the app store links accessible as you scroll.",
@@ -52,6 +54,7 @@
     ]
   },
   {
+    "id": "003",
     "title": "organic nutrition",
     "subtitle": "supplements store website",
     "description": "Organic Nutrition is an ecommerce site for premium dietary supplements. The hero showcases clean product renders with a guarantee badge and subscription CTA. Category grids make it easy to browse vitamins, performance blends, and daily essentials. Each product page highlights ingredients, sourcing transparency, and lab results. An education hub covers routines for energy, immunity, and recovery. A quiz funnels shoppers to personalized stacks based on lifestyle and goals. Animated charts explain absorption rates and recommended timing. Reviews and trust signals emphasize third-party testing and customer satisfaction. A membership banner presents free shipping, refills, and loyalty rewards. The visual language uses earthy gradients, precise typography, and bright accent highlights.",
@@ -81,6 +84,7 @@
     ]
   },
   {
+    "id": "004",
     "title": "vip security",
     "subtitle": "events security company website",
     "description": "VIP Security crafts a modern web presence for a company specializing in large-scale event protection. The landing hero highlights rapid deployment teams and crowd management expertise. Service sections outline risk assessments, perimeter control, and discreet VIP escorts. A credibility band lists certifications, insurance coverage, and emergency protocols. The site includes a timeline showing pre-event planning through post-event reporting. Case study cards summarize stadium concerts, trade fairs, and sports tournaments. A stats row emphasizes response times, personnel readiness, and satisfied partners. Testimonials from organizers build trust and social proof. A contact CTA keeps an always-visible phone number and urgent request form. The design uses strong typography, dark gradients, and metallic accents to convey authority.",

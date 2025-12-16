@@ -1,12 +1,17 @@
 ﻿
 
 // export default SmallCard
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import VanillaTilt from 'vanilla-tilt';
 import SystemIcon from '../../../utils/icons/system_icon';
 import styles from './smallCard.module.css';
 
-function SmallCard({ label = 'name', iconName = 'PhotoIcon' }) {
+function SmallCard({
+  label = 'name',
+  iconName = 'PhotoIcon',
+  isActive = false,
+  onClick,
+}) {
   const tiltRef = useRef(null);
   const displayLabel =
     typeof label === 'string'
@@ -35,8 +40,13 @@ function SmallCard({ label = 'name', iconName = 'PhotoIcon' }) {
     };
   }, []);
 
+  const borderClassName = useMemo(
+    () => `${styles.border} ${isActive ? styles.active : ''}`.trim(),
+    [isActive]
+  );
+
   return (
-    <div ref={tiltRef} className={styles.tiltWrapper}>
+    <div ref={tiltRef} className={styles.tiltWrapper} onClick={onClick}>
       <svg
         className={styles.container}
         viewBox="0 0 146.25 195"
@@ -74,7 +84,7 @@ function SmallCard({ label = 'name', iconName = 'PhotoIcon' }) {
       {/* OBRYS – pełna kontrola stroke */}
       <path
         d="M120.1524 0.225586 L132.5406 13.690425 V13.691895 L146.0244 28.79445 V194.775 H0.225586 V0.225586 H120.1524 Z"
-        className={styles.border}
+        className={borderClassName}
       />
     </svg>
     </div>
