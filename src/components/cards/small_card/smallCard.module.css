@@ -7,6 +7,8 @@
   overflow: hidden;
   transform-style: preserve-3d;
   cursor: pointer;
+  background: var(--tint-dark, rgba(23, 23, 23, 0.3));
+  backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
 }
 
 .container {

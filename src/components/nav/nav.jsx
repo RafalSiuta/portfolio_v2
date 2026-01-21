@@ -222,7 +222,7 @@ function Nav() {
     <header className={containerClassName}>
       <nav className={styles.navigation} aria-label="Primary">
         {!isSmallHorizontal && (
-          <img src="/text_logo.svg" className={styles.logo} alt="Portfolio logo" />
+          <img src="/logo.svg" className={styles.logo} alt="Portfolio logo" />
         )}
         <div className={styles.menuList}>
           {isSmallHorizontal && (

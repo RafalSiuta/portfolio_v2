@@ -110,6 +110,7 @@
   --image-frame-radius: 1.2rem;
   --image-frame-radius-mobile: var(--image-frame-radius, 1.2rem);
   --mobile-frame-height-offset: 14rem;
+  --logo-height:2.5rem;
 
   /* ####### spacing, paddings, margin ####### */
   --menu-button-margin-right:1.25rem;

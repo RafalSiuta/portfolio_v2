@@ -1,0 +1,12 @@
+.canvas {
+  height: 70vh;
+  aspect-ratio: 2 / 2;
+  margin-right: var(--vertical-large-padding);
+  /* background-color: black; */
+}
+
+.canvas canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
