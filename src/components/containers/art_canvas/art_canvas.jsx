@@ -1,59 +1,19 @@
 import { useEffect, useRef } from 'react'
 import p5 from 'p5'
 import styles from './art_canvas.module.css'
+import { drawDot, drawSquare } from '../../../utils/shapes/draw_shapes'
+import profileImageSrc from '../../../assets/images/profile_4.png'
+import {
+  ARC_LIST,
+  LINES_LIST,
+  SQUARES_LIST,
+  SMALL_LINES_BOTTOM,
+  SMALL_LINES_TOP,
+  DOTS_LIST_TOP,
+  DOTS_LIST_BOTTOM,
+} from './shapes_data'
 
 const SVG_VIEWBOX_SIZE = 800
-
-// const ARC_CENTER = { x: 407, y: 407 }
-// const ARC_RADIUS = 292.75
-// const ARC_STROKE = 20
-// const ARC_START = 4.7
-// const ARC_END = 0
-
-const ARC_LIST = [
-  {
-    "arc1":{
-      "arc_center": { x: 407, y: 407 },
-      "arc_radius": 300,
-      "arc_stroke": 35,
-      "arc_start": 4.7,
-      "arc_end": 0, 
-      "color":"#6e6e6e"
-    },
-    "arc2":{
-      "arc_center": { x: 407, y: 407 },
-      "arc_radius": 255,
-      "arc_stroke": 8,
-      "arc_start": 5,
-      "arc_end": 0, 
-      "color":"#ffa84a"
-    },
-    "arc3":{
-      "arc_center": { x: 407, y: 407 },
-      "arc_radius": 300,
-      "arc_stroke": 15,
-      "arc_start": 1.65,
-      "arc_end": 3.2,
-      "color":"#ffa84a"
-    },
-    "arc4":{
-      "arc_center": { x: 407, y: 407 },
-      "arc_radius": 255,
-      "arc_stroke": 18,
-      "arc_start": 1.8,
-      "arc_end": 2.8,
-      "color":"#6e6e6e"
-    },
-    "arc5":{
-      "arc_center": { x: 407, y: 407 },
-      "arc_radius": 350,
-      "arc_stroke": 8,
-      "arc_start": 0.1,
-      "arc_end": 1.7,
-      "color":"#ffa84a"
-    },
-  }
-]
 
 export default function ArtCanvas() {
   const containerRef = useRef(null)
@@ -81,6 +41,12 @@ export default function ArtCanvas() {
       }
       const drawLargeArc = () => {
         const scaleFactor = p.width / SVG_VIEWBOX_SIZE
+        const context = p.drawingContext
+        const line5 = LINES_LIST[0]?.line5
+        const line5Dx = line5 ? line5.end.x - line5.start.x : 0
+        const line5Dy = line5 ? line5.end.y - line5.start.y : 0
+        const line5Length = Math.hypot(line5Dx, line5Dy)
+        const line5Angle = Math.atan2(line5Dy, line5Dx)
 
         p.clear()
         p.noFill()
@@ -88,6 +54,24 @@ export default function ArtCanvas() {
         p.strokeCap(p.SQUARE)
         p.push()
         p.scale(scaleFactor)
+
+        const circleCenter = { x: 407, y: 407 }
+        const circleRadius = 220
+        const circleGradient = context.createLinearGradient(
+          0,
+          circleCenter.y - circleRadius,
+          0,
+          circleCenter.y + circleRadius
+        )
+        circleGradient.addColorStop(0, '#1B1B1B')
+        circleGradient.addColorStop(1, '#2F2F2F')
+        context.save()
+        context.beginPath()
+        context.arc(circleCenter.x, circleCenter.y, circleRadius, 0, Math.PI * 2)
+        context.fillStyle = circleGradient
+        context.fill()
+        context.restore()
+
         for (let i = 0; i < ARC_LIST.length; i += 1) {
           const arcItem = ARC_LIST[i]
           for (const key in arcItem) {
@@ -107,24 +91,110 @@ export default function ArtCanvas() {
           }
         }
 
-        p.stroke('#6E6E6E')
-        p.strokeWeight(layoutStrokePx / scaleFactor)
-        p.line(394, 793, 394, 7)
+        for (let i = 0; i < LINES_LIST.length; i += 1) {
+          const lineItem = LINES_LIST[i]
+          for (const key in lineItem) {
+            if (!Object.prototype.hasOwnProperty.call(lineItem, key)) continue
+            const line = lineItem[key]
+            p.stroke(line.color)
+            p.strokeWeight(layoutStrokePx / scaleFactor)
+            p.line(
+              line.start.x,
+              line.start.y,
+              line.end.x,
+              line.end.y
+            )
+          }
+        }
 
-        p.stroke('#6E6E6E')
-        p.strokeWeight(layoutStrokePx / scaleFactor)
-        p.line(73.7875, 766.068, 316.8, 537.044)
+        for (let i = 0; i < SQUARES_LIST.length; i += 1) {
+          const squareItem = SQUARES_LIST[i]
+          for (const key in squareItem) {
+            if (!Object.prototype.hasOwnProperty.call(squareItem, key)) continue
+            const square = squareItem[key]
+            context.save()
+            context.translate(square.center.x, square.center.y)
+            context.rotate(line5Angle)
+            drawSquare(context, {
+              x: 0,
+              y: 0,
+              sideWidth: line5Length,
+              color: square.color,
+              thickness: layoutStrokePx / scaleFactor,
+              isFill: false,
+            })
+            context.restore()
+          }
+        }
 
-        p.stroke('#FFA84A')
-        p.strokeWeight(layoutStrokePx / scaleFactor)
-        p.line(24, 766.068, 317.197, 489.007)
-        p.stroke('#FFA84A')
-        p.strokeWeight(layoutStrokePx / scaleFactor)
-        p.line(404, 360.898, 647.012, 131.874)
-        p.line(647.012, 131.874, 662.824, 146.775)
-        p.stroke('#6E6E6E')
-        p.strokeWeight(layoutStrokePx / scaleFactor)
-        p.line(742.819, 87.0001, 473.667, 340.659)
+        for (let i = 0; i < SMALL_LINES_BOTTOM.length; i += 1) {
+          const smallLineItem = SMALL_LINES_BOTTOM[i]
+          for (const key in smallLineItem) {
+            if (!Object.prototype.hasOwnProperty.call(smallLineItem, key)) continue
+            const line = smallLineItem[key]
+            p.stroke(line.color)
+            p.strokeWeight(layoutStrokePx / scaleFactor)
+            p.line(
+              line.start.x,
+              line.start.y,
+              line.end.x,
+              line.end.y
+            )
+          }
+        }
+
+        for (let i = 0; i < SMALL_LINES_TOP.length; i += 1) {
+          const smallLineItem = SMALL_LINES_TOP[i]
+          for (const key in smallLineItem) {
+            if (!Object.prototype.hasOwnProperty.call(smallLineItem, key)) continue
+            const line = smallLineItem[key]
+            p.stroke(line.color)
+            p.strokeWeight(layoutStrokePx / scaleFactor)
+            p.line(
+              line.start.x,
+              line.start.y,
+              line.end.x,
+              line.end.y
+            )
+          }
+        }
+
+        for (let i = 0; i < DOTS_LIST_TOP.length; i += 1) {
+          const dotItem = DOTS_LIST_TOP[i]
+          for (const key in dotItem) {
+            if (!Object.prototype.hasOwnProperty.call(dotItem, key)) continue
+            const dot = dotItem[key]
+            drawDot(context, {
+              x: dot.center.x,
+              y: dot.center.y,
+              color: dot.color,
+              radius: 6,
+            })
+          }
+        }
+
+        for (let i = 0; i < DOTS_LIST_BOTTOM.length; i += 1) {
+          const dotItem = DOTS_LIST_BOTTOM[i]
+          for (const key in dotItem) {
+            if (!Object.prototype.hasOwnProperty.call(dotItem, key)) continue
+            const dot = dotItem[key]
+            if (dot.isStroke) {
+              p.push()
+              p.noFill()
+              p.stroke(dot.color)
+              p.strokeWeight(dot.thickness ?? 0.3)
+              p.circle(dot.center.x, dot.center.y, 12)
+              p.pop()
+            } else {
+              drawDot(context, {
+                x: dot.center.x,
+                y: dot.center.y,
+                color: dot.color,
+                radius: 6,
+              })
+            }
+          }
+        }
         p.pop()
       }
 
@@ -171,5 +241,13 @@ export default function ArtCanvas() {
     }
   }, [])
 
-  return <div ref={containerRef} className={styles.canvas} />
+  return (
+    <div ref={containerRef} className={styles.canvas}>
+      <img
+        className={styles.profileImage}
+        src={profileImageSrc}
+        alt=""
+      />
+    </div>
+  )
 }
