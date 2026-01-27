@@ -5,15 +5,15 @@ export const ARC_LIST = [
       "arc_radius": 300,
       "arc_stroke": 37,
       "arc_start": 4.7,
-      "arc_end": 0,
+      "arc_end": 6.28,
       "color":"#6e6e6e"
     },
     "arc2":{
       "arc_center": { x: 407, y: 407 },
       "arc_radius": 255,
       "arc_stroke": 8,
-      "arc_start": 5,
-      "arc_end": 0,
+      "arc_start": 4.85,
+      "arc_end": 6.28,
       "color":"#ffa84a"
     },
     "arc3":{
@@ -51,8 +51,8 @@ export const LARGE_LINES = [
     //   "color": "#6E6E6E"
     // },
      "line1": { //linia środkowa
-      "start": { x: 394, y: 230 },
-      "end": { x: 394, y: 7 },
+      "start": { x: 394, y: 7 },
+      "end": { x: 394, y: 230 },
       "color": "#6E6E6E"
     },
     "line2": { //dolna szara
