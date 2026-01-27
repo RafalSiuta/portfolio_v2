@@ -43,34 +43,66 @@ export const ARC_LIST = [
   }
 ]
 
-export const LINES_LIST = [
+export const LARGE_LINES = [
   {
-    "line1": {
-      "start": { x: 394, y: 793 },
+    // "line1": { //linia środkowa
+    //   "start": { x: 394, y: 793 },
+    //   "end": { x: 394, y: 7 },
+    //   "color": "#6E6E6E"
+    // },
+     "line1": { //linia środkowa
+      "start": { x: 394, y: 230 },
       "end": { x: 394, y: 7 },
       "color": "#6E6E6E"
     },
-    "line2": {
+    "line2": { //dolna szara
       "start": { x: 73.7875, y: 766.068 },
       "end": { x: 316.8, y: 537.044 },
       "color": "#6E6E6E"
     },
-    "line3": {
+    "line3": { //dolna żółta
       "start": { x: 24, y: 766.068 },
       "end": { x: 317.197, y: 489.007 },
       "color": "#FFA84A"
     },
-    "line4": {
-      "start": { x: 404, y: 360.898 },
-      "end": { x: 647.012, y: 131.874 },
-      "color": "#FFA84A"
+    "line4": { //linia środkowa
+      "start": { x: 394, y: 800 },//794
+      "end": { x: 394, y: 550 },//7
+      "color": "#6E6E6E"
     },
-    "line5": {
+    "line5": { //mała równoległa, żółta
       "start": { x: 647.012, y: 131.874 },
       "end": { x: 662.824, y: 146.775 },
       "color": "#FFA84A"
     },
-    "line6": {
+    // "line4": { //górna żółta
+    //   "start": { x: 404, y: 360.898 },
+    //   "end": { x: 647.012, y: 131.874 },
+    //   "color": "#FFA84A"
+    // },
+    // "line5": { //mała równoległa, żółta
+    //   "start": { x: 647.012, y: 131.874 },
+    //   "end": { x: 662.824, y: 146.775 },
+    //   "color": "#FFA84A"
+    // },
+    // "line6": { //górna szara
+    //   "start": { x: 742.819, y: 87.0001 },
+    //   "end": { x: 473.667, y: 340.659 },
+    //   "color": "#6E6E6E"
+    // }
+  }
+]
+
+export const LARGE_LINES_2 = [
+  {
+    
+    "line2": { //górna żółta
+      "start": { x: 404, y: 360.898 },
+      "end": { x: 647.012, y: 131.874 },
+      "color": "#FFA84A"
+    },
+    
+    "line4": { //górna szara
       "start": { x: 742.819, y: 87.0001 },
       "end": { x: 473.667, y: 340.659 },
       "color": "#6E6E6E"

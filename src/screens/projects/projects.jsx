@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+﻿import { useEffect, useMemo, useRef, useState } from 'react'
 import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
 import ParticlesBackground from '../../components/containers/particles/particlesBackground'
 import projectsData from '../../assets/data/projects_data.json'
@@ -44,11 +44,11 @@ export default function Projects() {
   useEffect(() => {
     const logProjects = () => {
       projectsList.map(({ title, subtitle, description, hero_img, tools }) => {
-        console.log('title:', title)
-        console.log('subtitle:', subtitle)
-        console.log('description:', description)
-        console.log('hero_img:', hero_img)
-        console.log('tools:', tools)
+        // console.log('title:', title)
+        // console.log('subtitle:', subtitle)
+        // console.log('description:', description)
+        // console.log('hero_img:', hero_img)
+        // console.log('tools:', tools)
         return null
       })
     }

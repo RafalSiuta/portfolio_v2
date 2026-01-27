@@ -1,8 +1,13 @@
+.canvasContainer{
+  /* background-color: black; */
+  position: relative;
+}
 .canvas {
   height: 70vh;
   aspect-ratio: 2 / 2;
   margin-right: var(--vertical-large-padding);
   position: relative;
+  transform: translateX(-10%);
   /* background-color: black; */
 }
 
@@ -16,10 +21,10 @@
 
 .profileImage {
   position: absolute;
-  top: 55%;
-  left: 50%;
-  height: 43vh;
+  top: 51%;
+  left: 48%;
+  height: 450px;
   width: auto;
   transform: translate(-50%, -50%);
-  z-index: 5;
+  z-index: -5;
 }

@@ -2,10 +2,11 @@ import { useEffect, useRef } from 'react'
 import p5 from 'p5'
 import styles from './art_canvas.module.css'
 import { drawDot, drawSquare } from '../../../utils/shapes/draw_shapes'
-import profileImageSrc from '../../../assets/images/profile_4.png'
+import profileImageSrc from '../../../assets/images/profile_2.png'
 import {
   ARC_LIST,
-  LINES_LIST,
+  LARGE_LINES,
+  LARGE_LINES_2,
   SQUARES_LIST,
   SMALL_LINES_BOTTOM,
   SMALL_LINES_TOP,
@@ -39,10 +40,28 @@ export default function ArtCanvas() {
         const parsed = parseFloat(value)
         layoutStrokePx = Number.isFinite(parsed) ? parsed : 0.5
       }
+      let img = null
+      const loadProfileImage = () => {
+        p.loadImage(
+          profileImageSrc,
+          (loaded) => {
+            img = loaded
+            console.log(`IMAGE SOURCE ARE LOADED ${profileImageSrc}`)
+            p.redraw()
+          },
+          (err) => {
+            console.error('IMAGE SOURCE LOAD FAILED', err)
+          }
+        )
+      }
+      loadProfileImage()
       const drawLargeArc = () => {
         const scaleFactor = p.width / SVG_VIEWBOX_SIZE
         const context = p.drawingContext
-        const line5 = LINES_LIST[0]?.line5
+        const imageCenterX = 407
+        const imageCenterY = 407
+        const imageSize = 500
+        const line5 = LARGE_LINES[0]?.line5
         const line5Dx = line5 ? line5.end.x - line5.start.x : 0
         const line5Dy = line5 ? line5.end.y - line5.start.y : 0
         const line5Length = Math.hypot(line5Dx, line5Dy)
@@ -54,58 +73,26 @@ export default function ArtCanvas() {
         p.strokeCap(p.SQUARE)
         p.push()
         p.scale(scaleFactor)
+        
 
-        const circleCenter = { x: 407, y: 407 }
-        const circleRadius = 220
-        const circleGradient = context.createLinearGradient(
-          0,
-          circleCenter.y - circleRadius,
-          0,
-          circleCenter.y + circleRadius
-        )
-        circleGradient.addColorStop(0, '#1B1B1B')
-        circleGradient.addColorStop(1, '#2F2F2F')
-        context.save()
-        context.beginPath()
-        context.arc(circleCenter.x, circleCenter.y, circleRadius, 0, Math.PI * 2)
-        context.fillStyle = circleGradient
-        context.fill()
-        context.restore()
-
-        for (let i = 0; i < ARC_LIST.length; i += 1) {
-          const arcItem = ARC_LIST[i]
-          for (const key in arcItem) {
-            if (!Object.prototype.hasOwnProperty.call(arcItem, key)) continue
-            const arc = arcItem[key]
-            p.stroke(arc.color)
-            p.strokeWeight(arc.arc_stroke)
-            p.arc(
-              arc.arc_center.x,
-              arc.arc_center.y,
-              arc.arc_radius * 2,
-              arc.arc_radius * 2,
-              arc.arc_start,
-              arc.arc_end
-            )
-            
-          }
-        }
-
-        for (let i = 0; i < LINES_LIST.length; i += 1) {
-          const lineItem = LINES_LIST[i]
-          for (const key in lineItem) {
-            if (!Object.prototype.hasOwnProperty.call(lineItem, key)) continue
-            const line = lineItem[key]
-            p.stroke(line.color)
-            p.strokeWeight(layoutStrokePx / scaleFactor)
-            p.line(
-              line.start.x,
-              line.start.y,
-              line.end.x,
-              line.end.y
-            )
-          }
-        }
+        //##################
+        // const circleCenter = { x: 407, y: 407 }
+        // const circleRadius = 230
+        // const circleGradient = context.createLinearGradient(
+        //   0,
+        //   circleCenter.y - circleRadius,
+        //   0,
+        //   circleCenter.y + circleRadius
+        // )
+        // circleGradient.addColorStop(0, '#1B1B1B')
+        // circleGradient.addColorStop(1, '#2F2F2F')
+        // context.save()
+        // context.beginPath()
+        // context.arc(circleCenter.x, circleCenter.y, circleRadius, 0, Math.PI * 2)
+        // context.fillStyle = circleGradient
+        // context.fill()
+        // context.restore()
+        //##################
 
         for (let i = 0; i < SQUARES_LIST.length; i += 1) {
           const squareItem = SQUARES_LIST[i]
@@ -126,6 +113,65 @@ export default function ArtCanvas() {
             context.restore()
           }
         }
+
+        for (let i = 0; i < ARC_LIST.length; i += 1) {
+          const arcItem = ARC_LIST[i]
+          for (const key in arcItem) {
+            if (!Object.prototype.hasOwnProperty.call(arcItem, key)) continue
+            const arc = arcItem[key]
+            p.stroke(arc.color)
+            p.strokeWeight(arc.arc_stroke)
+            p.arc(
+              arc.arc_center.x,
+              arc.arc_center.y,
+              arc.arc_radius * 2,
+              arc.arc_radius * 2,
+              arc.arc_start,
+              arc.arc_end
+            )
+            
+          }
+        }
+        for (let i = 0; i < LARGE_LINES_2.length; i += 1) {
+          const lineItem = LARGE_LINES_2[i]
+          for (const key in lineItem) {
+            if (!Object.prototype.hasOwnProperty.call(lineItem, key)) continue
+            const line = lineItem[key]
+            p.stroke(line.color)
+            p.strokeWeight(layoutStrokePx / scaleFactor)
+            p.line(
+              line.start.x,
+              line.start.y,
+              line.end.x,
+              line.end.y
+            )
+          }
+        }
+
+        if (img) {
+          p.push()
+          p.imageMode(p.CENTER)
+          p.image(img, imageCenterX, imageCenterY, imageSize, imageSize)
+          p.pop()
+        }
+
+        for (let i = 0; i < LARGE_LINES.length; i += 1) {
+          const lineItem = LARGE_LINES[i]
+          for (const key in lineItem) {
+            if (!Object.prototype.hasOwnProperty.call(lineItem, key)) continue
+            const line = lineItem[key]
+            p.stroke(line.color)
+            p.strokeWeight(layoutStrokePx / scaleFactor)
+            p.line(
+              line.start.x,
+              line.start.y,
+              line.end.x,
+              line.end.y
+            )
+          }
+        }
+
+        
 
         for (let i = 0; i < SMALL_LINES_BOTTOM.length; i += 1) {
           const smallLineItem = SMALL_LINES_BOTTOM[i]
@@ -242,12 +288,15 @@ export default function ArtCanvas() {
   }, [])
 
   return (
-    <div ref={containerRef} className={styles.canvas}>
-      <img
-        className={styles.profileImage}
-        src={profileImageSrc}
-        alt=""
-      />
-    </div>
+    <div ref={containerRef} className={styles.canvas}/>
+    // <div className={styles.canvasContainer}>
+      
+    // <img
+    //     className={styles.profileImage}
+    //     src={profileImageSrc}
+    //     alt=""
+    //   />
+    // </div>
+    
   )
 }

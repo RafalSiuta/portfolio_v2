@@ -25,14 +25,24 @@
   flex: 2;
   align-self: flex-start;
   text-align: left;
+  padding-top: var(--base-gap);
+  /* transform: translateX(60%); */
 }
 
 .art_canvas {
-  flex: 3;
+  flex: 2;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   /* background-color: black; */
+}
+.socialList {
+  padding:var(--project-card-spacing) 0;
+  display: flex;
+  gap: calc(var(--base-gap)/3);
+  justify-content: flex-start;
+  align-items: center;
+  pointer-events: all;
 }
 
 @media screen and (max-width: 1194px) {

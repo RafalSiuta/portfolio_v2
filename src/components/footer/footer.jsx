@@ -8,7 +8,7 @@ const iconsList = [
   { link: '#', name: 'Play', label: 'Odtworz' },
   // { link: '#', name: 'Youtube', label: 'YouTube' },
   { link: 'https://github.com/RafalSiuta', name: 'Github', label: 'GitHub' },
-  { link: '#', name: 'Linkedin', label: 'LinkedIn' },
+  { link: 'https://linkedin.com/in/rafal-siuta-3023ba323', name: 'Linkedin', label: 'LinkedIn' },
 ]
 
 function Footer() {
