@@ -227,7 +227,7 @@ function Nav() {
         <div className={styles.menuList}>
           {isSmallHorizontal && (
             <img
-              src="/text_logo.svg"
+              src="/logo.svg"
               className={`${styles.logo} ${styles.mobileLogo}`}
               alt="Portfolio logo"
             />

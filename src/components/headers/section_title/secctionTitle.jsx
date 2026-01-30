@@ -1,7 +1,7 @@
 import { useNavContext } from '../../../utils/providers/navProvider'
 import styles from './sectionTitle.module.css'
 
-const titles = ['r85studio', 'my work', 'about', 'contact']
+const titles = ['r85studio', 'my work', 'about me', 'contact']
 
 export default function SectionTitle({ className = '' }) {
   const { pageCounter } = useNavContext()
@@ -9,7 +9,7 @@ export default function SectionTitle({ className = '' }) {
   const title = titles[pageCounter] ?? titles[0]
   const headingClassName = [
     styles.sectionTitle,
-    isFirstPage ? styles.hidden : '',
+    pageCounter === 0 || pageCounter === 2 ? styles.hidden : '',
     'strokeText',
     className
   ]

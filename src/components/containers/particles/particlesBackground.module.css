@@ -19,6 +19,6 @@
   height: 100%;
   min-height: inherit;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: var(--particles-align, center);
+  justify-content: var(--particles-justify, center);
 }

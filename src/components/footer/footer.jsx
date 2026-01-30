@@ -5,10 +5,12 @@ import styles from './footer.module.css'
 import { useNavContext } from '../../utils/providers/navProvider'
 
 const iconsList = [
-  { link: '#', name: 'Play', label: 'Odtworz' },
+  { link: 'https://linkedin.com/in/rafal-siuta-3023ba323', name: 'Linkedin', label: 'LinkedIn' },
+  
   // { link: '#', name: 'Youtube', label: 'YouTube' },
   { link: 'https://github.com/RafalSiuta', name: 'Github', label: 'GitHub' },
-  { link: 'https://linkedin.com/in/rafal-siuta-3023ba323', name: 'Linkedin', label: 'LinkedIn' },
+  { link: '#', name: 'Play', label: 'Odtworz' },
+  
 ]
 
 function Footer() {

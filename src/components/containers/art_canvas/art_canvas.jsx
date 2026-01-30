@@ -551,14 +551,6 @@ export default function ArtCanvas() {
       className={styles.canvas}
       onClick={handleCanvasClick}
     />
-    // <div className={styles.canvasContainer}>
-      
-    // <img
-    //     className={styles.profileImage}
-    //     src={profileImageSrc}
-    //     alt=""
-    //   />
-    // </div>
     
   )
 }

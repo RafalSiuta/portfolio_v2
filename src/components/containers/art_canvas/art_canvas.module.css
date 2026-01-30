@@ -20,7 +20,7 @@
   cursor: pointer;
 }
 
-.profileImage {
+/* .profileImage {
   position: absolute;
   top: 51%;
   left: 48%;
@@ -28,4 +28,11 @@
   width: auto;
   transform: translate(-50%, -50%);
   z-index: -5;
+} */
+
+@media screen and (max-width: 1024px) {
+  .canvas {
+    height: 60vh;
+    transform: none;
+  }
 }
