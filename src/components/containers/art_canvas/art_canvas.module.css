@@ -20,19 +20,18 @@
   cursor: pointer;
 }
 
-/* .profileImage {
-  position: absolute;
-  top: 51%;
-  left: 48%;
-  height: 450px;
-  width: auto;
-  transform: translate(-50%, -50%);
-  z-index: -5;
-} */
-
 @media screen and (max-width: 1024px) {
   .canvas {
-    height: 60vh;
+    height: 55vh;
     transform: none;
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .canvas {
+    height: 45vh;
+    transform: none;
+    margin: auto;
   }
 }

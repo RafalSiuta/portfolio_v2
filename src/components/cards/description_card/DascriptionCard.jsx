@@ -8,7 +8,7 @@ export default function DascriptionCard({ title = '', description = '', children
 
   return (
     <div className={styles.card}>
-      <h4 className={styles.title}>{title}</h4>
+      <h2 className={styles.title}>{title}</h2>
       <span className={styles.divider} />
       <div className={styles.body}>
         <p className={`description ${styles.description}`} {...descriptionProps} />

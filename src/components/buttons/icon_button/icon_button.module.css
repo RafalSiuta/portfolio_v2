@@ -1,6 +1,8 @@
 .iconButton {
   width: var(--icon-button-width);
   height: var(--icon-button-width);
+  min-width: var(--icon-button-width);
+  min-height: var(--icon-button-width);
   --icon-hover-shift: calc(var(--icon-button-width) * 0.18);
   --icon-hover-rotation: 0deg;
   --icon-hover-translate: 0rem;

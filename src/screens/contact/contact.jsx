@@ -7,7 +7,7 @@ export default function Contact() {
     <section id="contact" className={styles.section}>
       <SectionWrapper className={styles.wrapper}>
         <div className={styles.content}>
-           <h1 className='strokeText'>contact</h1>
+           <h1 className='strokeText'>let's talk...</h1>
         </div>
       </SectionWrapper>
     </section>

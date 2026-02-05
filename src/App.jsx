@@ -16,7 +16,7 @@ function App() {
       
       <Nav />
       <main className={styles.heroMain}>
-        <SectionTitle />
+        {/* <SectionTitle /> */}
         <Home />
         <Projects />
         <About />

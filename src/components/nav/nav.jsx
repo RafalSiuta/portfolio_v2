@@ -64,7 +64,7 @@ function Nav() {
 
       if (isSmallHorizontal) {
         const y = linkRect.top - menuRect.top
-        const height = linkRect.height
+        const height = linkRect.height 
         gsap.to(indicatorEl, { x: 0, y, height, width: 'var(--layout-stroke)', duration: 0.3, ease: 'power3.out' })
         return
       }
@@ -95,7 +95,7 @@ function Nav() {
 
       const dividerRect = dividerEl.getBoundingClientRect()
       const menuRect = menuEl.getBoundingClientRect()
-      const indicatorHeight = indicatorEl.getBoundingClientRect().height
+      const indicatorHeight = indicatorEl.getBoundingClientRect().height 
         || parseFloat(window.getComputedStyle(indicatorEl).height)
         || 0
       const dividerCenterY = dividerRect.top + (dividerRect.height / 2)

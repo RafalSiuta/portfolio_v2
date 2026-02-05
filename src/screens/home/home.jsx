@@ -99,11 +99,11 @@ function Home() {
           <h1 className='strokeText'>r85studio</h1>
           <h2>idea | design | code</h2>
           <p>
-            Hi I'm <strong>Rafal</strong>, UI designer and frontend developer.<br/> Technologies are just
-            a tools that help us<br /> bring our beautiful <strong>ideas</strong> to life.<br /> Check out my
-            projects and let me know how <strong>I can help</strong>.
+            Hi I'm <strong>Rafał</strong>, UI designer and frontend developer.<br/> Technologies are just
+            a tools that help us<br /> bring our beautiful <strong>ideas to life.</strong><br /> Check out my
+            projects and let me know how <strong>I can help...</strong>
           </p>
-          <p>my projects...</p>
+          {/* <p>my projects...</p> */}
           <div className={styles.heroDivider} ref={dividerRef} aria-hidden="true" />
           <div className={styles.heroUtilityRow} ref={utilityRowRef} onMouseLeave={resetDivider}>
             <div

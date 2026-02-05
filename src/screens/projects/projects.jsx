@@ -8,11 +8,14 @@ import IconButton from '../../components/buttons/icon_button/icon_button'
 import SmallCard from '../../components/cards/small_card/smallCard'
 import styles from './projects.module.css'
 
+
+
 const projectsList = projectsData
 const heroImages = import.meta.glob('../../assets/data/image_data/*', {
   eager: true,
   import: 'default'
 })
+
 
 export default function Projects() {
   const [currentIndex, setCurrentIndex] = useState(0)
