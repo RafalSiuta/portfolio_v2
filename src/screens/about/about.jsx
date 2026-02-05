@@ -61,8 +61,27 @@ export default function About() {
   const { pageCounter, setPageCounter, scrollProgress, setScrollProgress, setScrollDirection } = useNavContext()
 
   const handleNextSection = useCallback(() => {
-    const nextIndex = Math.min(pageCounter + 1, navLinks.length - 1)
-    if (nextIndex === pageCounter) return
+    const lastIndex = navLinks.length - 1
+    const nextIndex = Math.min(pageCounter + 1, lastIndex)
+    const contactIndex = lastIndex
+    const contactSectionId = navLinks[contactIndex].href.replace('#', '')
+    const contactSection = document.getElementById(contactSectionId)
+    const isContactTarget = nextIndex === contactIndex
+
+    const scrollContactToBottom = () => {
+      if (!contactSection) return
+      const sectionTop = contactSection.getBoundingClientRect().top + window.scrollY
+      const sectionBottom = sectionTop + contactSection.offsetHeight
+      const target = Math.max(sectionBottom - window.innerHeight, sectionTop)
+      window.scrollTo({ top: target, behavior: 'smooth' })
+    }
+
+    if (nextIndex === pageCounter) {
+      if (isContactTarget) {
+        scrollContactToBottom()
+      }
+      return
+    }
 
     const nextSectionId = navLinks[nextIndex].href.replace('#', '')
     const nextSection = document.getElementById(nextSectionId)
@@ -76,6 +95,10 @@ export default function About() {
       onUpdate: () => setScrollProgress(Math.round(proxy.value)),
       onComplete: () => {
         setPageCounter(nextIndex)
+        if (isContactTarget) {
+          scrollContactToBottom()
+          return
+        }
         if (nextSection) {
           nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
         }
