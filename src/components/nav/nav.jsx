@@ -170,36 +170,47 @@ function Nav() {
       lastScrollYRef.current = currentY
       setScrollDirection(direction)
 
-      const currentLink = navLinks[pageCounter]
-      if (!currentLink) {
+      const scrollY = window.scrollY
+      let progressIndex = 0
+      let progressSection = null
+      let progressSectionTop = 0
+      let progressSectionHeight = 1
+
+      for (let i = 0; i < navLinks.length; i += 1) {
+        const sectionId = navLinks[i].href.replace('#', '')
+        const section = document.getElementById(sectionId)
+        if (!section) continue
+        const top = section.getBoundingClientRect().top + scrollY
+        if (scrollY >= top) {
+          progressIndex = i
+          progressSection = section
+          progressSectionTop = top
+          progressSectionHeight = section.offsetHeight || 1
+        }
+      }
+
+      if (!progressSection) {
         setScrollProgress(0)
         return
       }
 
-      const sectionId = currentLink.href.replace('#', '')
-      const currentSection = document.getElementById(sectionId)
-      if (!currentSection) {
-        setScrollProgress(0)
-        return
-      }
-
-      const sectionRect = currentSection.getBoundingClientRect()
-      const sectionTop = sectionRect.top + window.scrollY
-      const sectionHeight = currentSection.offsetHeight || 1
-      const rawProgress = (window.scrollY - sectionTop) / sectionHeight
+      const rawProgress = (scrollY - progressSectionTop) / progressSectionHeight
       const clampedProgress = Math.min(Math.max(rawProgress, 0), 1)
       const percentProgress = Math.round(clampedProgress * 100)
       setScrollProgress(percentProgress)
 
-      if (direction === 'down' && percentProgress >= 100) {
-        const nextIndex = Math.min(pageCounter + 1, navLinks.length - 1)
+      const progressThreshold = 60
+      const prevThreshold = 100 - progressThreshold
+
+      if (direction === 'down' && percentProgress >= progressThreshold) {
+        const nextIndex = Math.min(progressIndex + 1, navLinks.length - 1)
         if (nextIndex !== pageCounter) {
           setPageCounter(nextIndex)
         }
       }
 
-      if (direction === 'up' && percentProgress <= 0) {
-        const prevIndex = Math.max(pageCounter - 1, 0)
+      if (direction === 'up' && percentProgress <= prevThreshold) {
+        const prevIndex = Math.max(progressIndex - 1, 0)
         if (prevIndex !== pageCounter) {
           setPageCounter(prevIndex)
         }

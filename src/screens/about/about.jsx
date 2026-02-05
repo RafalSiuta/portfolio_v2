@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
 import SectionTitle from '../../components/headers/section_title/secctionTitle'
 import styles from './about.module.css'
@@ -9,6 +10,8 @@ import DascriptionCard from '../../components/cards/description_card/Dascription
 import ChipButton from '../../components/buttons/chip_button/chipButton'
 import { toHtml } from '../../utils/convert/stringConvert'
 import IconButton from '../../components/buttons/icon_button/icon_button'
+import { useNavContext } from '../../utils/providers/navProvider'
+import navLinks from '../../utils/constants/navLinks'
 const iconsList = [
   { link: 'https://www.google.com/maps/place/Piotrkowska,+90-001+%C5%81%C3%B3d%C5%BA/@51.7605719,19.4582415,3a,75y,90t/data=!3m8!1e2!3m6!1sCIHM0ogKEICAgIC2w7bERQ!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-cs-s%2FAHVAwerFrfAfvQFomYqgLypUAAGS9acbDIpjl2tu226Sn2Rqnxyjgre9rFO1gsBBKqY41XRfuCbQERWqODRcjP44qV07Dhf85R6SEzbay7kJXg-1ciyuDg0TGVX1Q6KePnVzTSx2JW4g%3Dw203-h119-k-no!7i5559!8i3266!4m17!1m9!3m8!1s0x471a34d6b72fc851:0x96dbeb8c2cd474b0!2zUGlvdHJrb3dza2EsIDkwLTAwMSDFgcOzZMW6!3b1!8m2!3d51.7605694!4d19.458271!10e5!16s%2Fm%2F02rrybm!3m6!1s0x471a34d6b72fc851:0x96dbeb8c2cd474b0!8m2!3d51.7605694!4d19.458271!10e5!16s%2Fm%2F02rrybm?authuser=0&entry=ttu&g_ep=EgoyMDI2MDEyOC4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', name: 'LDZ', label: 'Łódź' },
   { link: 'https://linkedin.com/in/rafal-siuta-3023ba323', name: 'Linkedin', label: 'LinkedIn' },
@@ -55,6 +58,31 @@ const aboutDescriptionList = [
 ]
 
 export default function About() {
+  const { pageCounter, setPageCounter, scrollProgress, setScrollProgress, setScrollDirection } = useNavContext()
+
+  const handleNextSection = useCallback(() => {
+    const nextIndex = Math.min(pageCounter + 1, navLinks.length - 1)
+    if (nextIndex === pageCounter) return
+
+    const nextSectionId = navLinks[nextIndex].href.replace('#', '')
+    const nextSection = document.getElementById(nextSectionId)
+
+    setScrollDirection('down')
+    const proxy = { value: scrollProgress }
+    gsap.to(proxy, {
+      value: 100,
+      duration: 0.35,
+      ease: 'power2.out',
+      onUpdate: () => setScrollProgress(Math.round(proxy.value)),
+      onComplete: () => {
+        setPageCounter(nextIndex)
+        if (nextSection) {
+          nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      },
+    })
+  }, [pageCounter, scrollProgress, setPageCounter, setScrollProgress, setScrollDirection])
+
   return (
     <ParticlesBackground id="about" className={styles.particlesBackground}>
       <SectionWrapper className={styles.wrapper}>
@@ -103,14 +131,16 @@ export default function About() {
               ))
             }
         </div>
-        <IconButton
-              iconName="ArrowThinRight"
-              // onClick={()=>null}
-              ariaLabel="Show next content"
-              hover="45deg"
-              className={styles.nextPageIconButton}
-              iconClassName={styles.heroIcon}
-            />
+        <div className={styles.nextPageRow}>
+          <IconButton
+            iconName="ArrowThinRight"
+            onClick={handleNextSection}
+            ariaLabel="Show next content"
+            hover="45deg"
+            className={styles.nextPageIconButton}
+            iconClassName={styles.heroIcon}
+          />
+        </div>
       </SectionWrapper>
     </ParticlesBackground>
   )

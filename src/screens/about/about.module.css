@@ -66,6 +66,12 @@
   /* background-color:#ababab; */
 }
 
+.nextPageRow {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .nextPageIconButton:hover {
   transform: translateY(var(--icon-hover-translate, -0.125rem)) rotate(var(--icon-hover-rotation, 0deg));
 }

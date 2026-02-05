@@ -17,6 +17,7 @@ function SideIndicator() {
   const topFillRef = useRef(null)
   const bottomFillRef = useRef(null)
   const previousProgressRef = useRef(progressPercent)
+  const reachedFullRef = useRef(progressPercent >= 100)
   const containerRef = useRef(null)
   const [isTabletDown, setIsTabletDown] = useState(false)
 
@@ -57,7 +58,10 @@ function SideIndicator() {
 
   useEffect(() => {
     const prev = previousProgressRef.current
-    const isResetting = progressPercent < prev
+    if (progressPercent >= 100) {
+      reachedFullRef.current = true
+    }
+    const isResetting = reachedFullRef.current && progressPercent < prev
     const duration = isResetting ? 0.5 : 0.25
     const ease = isResetting ? 'power3.inOut' : 'power2.out'
 
@@ -76,6 +80,9 @@ function SideIndicator() {
     animateFill(topFillRef.current, false)
     animateFill(bottomFillRef.current, true)
     previousProgressRef.current = progressPercent
+    if (progressPercent <= 0) {
+      reachedFullRef.current = false
+    }
   }, [progressPercent])
 
   return (
