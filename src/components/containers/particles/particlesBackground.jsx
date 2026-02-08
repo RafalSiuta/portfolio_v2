@@ -7,7 +7,7 @@ const PATTERN_COLORS = {
   BASE: '#3F3F3F',
 }
 
-export default function ParticlesBackground({ children, className = '', ...rest }) {
+export default function ParticlesBackground({ children, className = '', contentClassName = '', ...rest }) {
   const canvasContainer = useRef(null)
   const resizeObserverRef = useRef(null)
   const sideWidth = 12.0;
@@ -245,16 +245,22 @@ export default function ParticlesBackground({ children, className = '', ...rest 
 
   const classes = [styles.root, className].filter(Boolean).join(' ')
 
+  const contentClasses = [styles.content, contentClassName].filter(Boolean).join(' ')
+
   return (
-    <div className={classes} {...rest}>
-      <div
-        ref={canvasContainer}
-        className={styles.canvasHost}
-        aria-hidden="true"
-      />
-      <div className={styles.content}>
-        {children}
+    <>
+      <div className={classes} {...rest}>
+        <div
+          ref={canvasContainer}
+          className={styles.canvasHost}
+          aria-hidden="true"
+        />
       </div>
-    </div>
+      {children ? (
+        <div className={contentClasses}>
+          {children}
+        </div>
+      ) : null}
+    </>
   )
 }

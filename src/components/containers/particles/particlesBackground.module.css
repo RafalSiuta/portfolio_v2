@@ -1,8 +1,12 @@
 .root {
-  position: relative;
+  position: fixed;
+  inset: 0;
   width: 100%;
+  height: 100%;
   min-height: 100vh;
   overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .canvasHost {
@@ -16,9 +20,9 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  height: 100%;
-  min-height: inherit;
+  min-height: 100vh;
   display: flex;
   align-items: var(--particles-align, center);
   justify-content: var(--particles-justify, center);
+  pointer-events: auto;
 }

@@ -6,14 +6,18 @@ import { useNavContext } from '../../utils/providers/navProvider'
 import navLinks from '../../utils/constants/navLinks'
 import MenuBtn from '../buttons/nav_button/navButton'
 
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
 function Nav() {
   const menuRef = useRef(null)
   const buttonRef = useRef(null)
   const indicatorRef = useRef(null)
   const navDividerRef = useRef(null)
+  const navRootRef = useRef(null)
   const linkRefs = useRef({})
+  const activeIndexRef = useRef(0)
+  const lastDirectionRef = useRef(1)
   const [activeHash, setActiveHash] = useState(navLinks[0].href)
-  const lastScrollYRef = useRef(0)
   const {
     pageCounter,
     setPageCounter,
@@ -23,6 +27,7 @@ function Nav() {
     isMenuOpen,
     setIsMenuOpen,
     toggleMenu,
+    smoother,
   } = useNavContext()
   const [isSmallHorizontal, setIsSmallHorizontal] = useState(false)
   const toggleMenuAndBlur = () => {
@@ -150,8 +155,17 @@ function Nav() {
         setPageCounter(index)
         setActiveHash(link.href)
       }
+      // if (targetSection) {
+      //   // targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+
+
+      // }
       if (targetSection) {
-        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          if (smoother) {
+            smoother.scrollTo(targetSection, true, 'top top')
+          } else {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }
       }
       if (isSamePage) {
         animateProgressToZero()
@@ -164,73 +178,151 @@ function Nav() {
   }, [animateProgressToFull, animateProgressToZero, pageCounter, setActiveHash, setPageCounter, isSmallHorizontal, setIsMenuOpen])
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentY = window.scrollY
-      const direction = currentY >= lastScrollYRef.current ? 'down' : 'up'
-      lastScrollYRef.current = currentY
-      setScrollDirection(direction)
+    if (!smoother) return
 
-      const scrollY = window.scrollY
-      let progressIndex = 0
-      let progressSection = null
-      let progressSectionTop = 0
-      let progressSectionHeight = 1
+    const THRESHOLD = 0.6
+    const BACK_THRESHOLD = 1 - THRESHOLD
 
-      for (let i = 0; i < navLinks.length; i += 1) {
-        const sectionId = navLinks[i].href.replace('#', '')
-        const section = document.getElementById(sectionId)
-        if (!section) continue
-        const top = section.getBoundingClientRect().top + scrollY
-        if (scrollY >= top) {
-          progressIndex = i
-          progressSection = section
-          progressSectionTop = top
-          progressSectionHeight = section.offsetHeight || 1
-        }
-      }
-
-      if (!progressSection) {
-        setScrollProgress(0)
-        return
-      }
-
-      const rawProgress = (scrollY - progressSectionTop) / progressSectionHeight
-      const clampedProgress = Math.min(Math.max(rawProgress, 0), 1)
-      const percentProgress = Math.round(clampedProgress * 100)
-      setScrollProgress(percentProgress)
-
-      const progressThreshold = 60
-      const prevThreshold = 100 - progressThreshold
-
-      if (direction === 'down' && percentProgress >= progressThreshold) {
-        const nextIndex = Math.min(progressIndex + 1, navLinks.length - 1)
-        if (nextIndex !== pageCounter) {
-          setPageCounter(nextIndex)
-        }
-      }
-
-      if (direction === 'up' && percentProgress <= prevThreshold) {
-        const prevIndex = Math.max(progressIndex - 1, 0)
-        if (prevIndex !== pageCounter) {
-          setPageCounter(prevIndex)
-        }
-      }
+    const getNavOffset = () => {
+      const navEl = navRootRef.current
+      if (!navEl) return 0
+      return navEl.getBoundingClientRect().height + 4
     }
 
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
+    const ids = navLinks.map((link) => link.href.replace('#', ''))
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter(Boolean)
+
+    const navOffset = getNavOffset()
+    const initialIndex = sections.findIndex((section) => {
+      const rect = section.getBoundingClientRect()
+      return rect.top - navOffset <= 0 && rect.bottom - navOffset > 0
+    })
+    if (initialIndex >= 0) {
+      activeIndexRef.current = initialIndex
+      setPageCounter(initialIndex)
+      setActiveHash(navLinks[initialIndex].href)
+    }
+
+    const sectionTriggers = ids
+      .map((id, index) => {
+        const el = document.getElementById(id)
+        if (!el) return null
+
+        return ScrollTrigger.create({
+          trigger: el,
+          start: () => `top top+=${getNavOffset()}`,
+          end: () => `+=${el.offsetHeight || 1}`,
+          onUpdate: (self) => {
+            const dir = self.direction
+            lastDirectionRef.current = dir
+
+            if (self.isActive) {
+              setScrollProgress(Math.round(self.progress * 100))
+            }
+
+            if (dir === 1 && self.progress >= THRESHOLD && activeIndexRef.current !== index) {
+              activeIndexRef.current = index
+              setPageCounter(index)
+              setActiveHash(navLinks[index].href)
+            }
+
+            if (dir === -1 && self.progress <= BACK_THRESHOLD && activeIndexRef.current !== index) {
+              activeIndexRef.current = index
+              setPageCounter(index)
+              setActiveHash(navLinks[index].href)
+            }
+          },
+        })
+      })
+      .filter(Boolean)
+
+    const globalST = ScrollTrigger.create({
+      start: 0,
+      end: () => ScrollTrigger.maxScroll(window),
+      onUpdate: (self) => {
+        lastDirectionRef.current = self.direction
+        setScrollDirection(self.direction === 1 ? 'down' : 'up')
+      },
+    })
+
+    ScrollTrigger.refresh()
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
+      sectionTriggers.forEach((t) => t.kill())
+      globalST.kill()
     }
-  }, [pageCounter, setScrollProgress, setPageCounter])
+  }, [smoother, setPageCounter, setScrollProgress, setScrollDirection, setActiveHash])
+
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const currentY = window.scrollY
+  //     const direction = currentY >= lastScrollYRef.current ? 'down' : 'up'
+  //     lastScrollYRef.current = currentY
+  //     setScrollDirection(direction)
+
+  //     const scrollY = window.scrollY
+  //     let progressIndex = 0
+  //     let progressSection = null
+  //     let progressSectionTop = 0
+  //     let progressSectionHeight = 1
+
+  //     for (let i = 0; i < navLinks.length; i += 1) {
+  //       const sectionId = navLinks[i].href.replace('#', '')
+  //       const section = document.getElementById(sectionId)
+  //       if (!section) continue
+  //       const top = section.getBoundingClientRect().top + scrollY
+  //       if (scrollY >= top) {
+  //         progressIndex = i
+  //         progressSection = section
+  //         progressSectionTop = top
+  //         progressSectionHeight = section.offsetHeight || 1
+  //       }
+  //     }
+
+  //     if (!progressSection) {
+  //       setScrollProgress(0)
+  //       return
+  //     }
+
+  //     const rawProgress = (scrollY - progressSectionTop) / progressSectionHeight
+  //     const clampedProgress = Math.min(Math.max(rawProgress, 0), 1)
+  //     const percentProgress = Math.round(clampedProgress * 100)
+  //     setScrollProgress(percentProgress)
+
+  //     const progressThreshold = 60
+  //     const prevThreshold = 100 - progressThreshold
+
+  //     if (direction === 'down' && percentProgress >= progressThreshold) {
+  //       const nextIndex = Math.min(progressIndex + 1, navLinks.length - 1)
+  //       if (nextIndex !== pageCounter) {
+  //         setPageCounter(nextIndex)
+  //       }
+  //     }
+
+  //     if (direction === 'up' && percentProgress <= prevThreshold) {
+  //       const prevIndex = Math.max(progressIndex - 1, 0)
+  //       if (prevIndex !== pageCounter) {
+  //         setPageCounter(prevIndex)
+  //       }
+  //     }
+  //   }
+
+  //   handleScroll()
+  //   window.addEventListener('scroll', handleScroll, { passive: true })
+
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll)
+  //   }
+  // }, [pageCounter, setScrollProgress, setPageCounter])
 
   const containerClassName = isSmallHorizontal
     ? `${styles.container} ${isMenuOpen ? styles.menuOpen : styles.menuClosed}`
     : styles.container
 
   return (
-    <header className={containerClassName}>
+    <header className={containerClassName} ref={navRootRef}>
       <nav className={styles.navigation} aria-label="Primary">
         {!isSmallHorizontal && (
           <img src="/logo.svg" className={styles.logo} alt="Portfolio logo" />

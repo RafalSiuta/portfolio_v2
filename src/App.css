@@ -2,3 +2,7 @@
  
   min-height: 100vh;
 }
+
+.particles-overlay {
+  z-index: 0;
+}

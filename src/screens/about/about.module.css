@@ -111,14 +111,14 @@
     /* flex: auto; */
   }
 }
-@media screen and (max-width: 1728px) and (min-width: 1194px) {
+/* @media screen and (max-width: 1728px) and (min-width: 1194px) {
   .wrapper {
-    margin:0 var(--vertical-large-padding);
+    /* margin:0 var(--vertical-large-padding); 
   }
   .content{
-    /* padding: 0 var(--vertical-large-padding); */
+    /* padding: 0 var(--vertical-large-padding); 
   }
-}
+} */
 
 @media screen and (max-width: 500px) {
   .wrapper {

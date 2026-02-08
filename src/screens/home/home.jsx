@@ -9,7 +9,7 @@ import navLinks from '../../utils/constants/navLinks'
 import SectionTitle from '../../components/headers/section_title/secctionTitle'
 
 function Home() {
-  const { pageCounter, setPageCounter, scrollProgress, setScrollProgress, setScrollDirection } = useNavContext()
+  const { pageCounter, setPageCounter, scrollProgress, setScrollProgress, setScrollDirection, smoother } = useNavContext()
   const dividerRef = useRef(null)
   const utilityRowRef = useRef(null)
   const cardRefs = useRef([])
@@ -34,11 +34,15 @@ function Home() {
       onComplete: () => {
         setPageCounter(nextIndex)
         if (nextSection) {
-          nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          if (smoother) {
+            smoother.scrollTo(nextSection, true, 'top top')
+          } else {
+            nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }
         }
       },
     })
-  }, [pageCounter, scrollProgress, setPageCounter, setScrollProgress, setScrollDirection])
+  }, [pageCounter, scrollProgress, setPageCounter, setScrollProgress, setScrollDirection, smoother])
 
   const measureDivider = useCallback(() => {
     const rowEl = utilityRowRef.current

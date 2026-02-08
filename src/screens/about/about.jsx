@@ -57,7 +57,7 @@ const aboutDescriptionList = [
 ]
 
 export default function About() {
-  const { pageCounter, setPageCounter, scrollProgress, setScrollProgress, setScrollDirection } = useNavContext()
+  const { pageCounter, setPageCounter, scrollProgress, setScrollProgress, setScrollDirection, smoother } = useNavContext()
 
   const handleNextSection = useCallback(() => {
     const lastIndex = navLinks.length - 1
@@ -69,6 +69,10 @@ export default function About() {
 
     const scrollContactToBottom = () => {
       if (!contactSection) return
+      if (smoother) {
+        smoother.scrollTo(contactSection, true, 'bottom bottom')
+        return
+      }
       const sectionTop = contactSection.getBoundingClientRect().top + window.scrollY
       const sectionBottom = sectionTop + contactSection.offsetHeight
       const target = Math.max(sectionBottom - window.innerHeight, sectionTop)
@@ -99,11 +103,15 @@ export default function About() {
           return
         }
         if (nextSection) {
-          nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          if (smoother) {
+            smoother.scrollTo(nextSection, true, 'top top')
+          } else {
+            nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }
         }
       },
     })
-  }, [pageCounter, scrollProgress, setPageCounter, setScrollProgress, setScrollDirection])
+  }, [pageCounter, scrollProgress, setPageCounter, setScrollProgress, setScrollDirection, smoother])
 
   return (
     <section id="about" className={styles.particlesBackground}>
