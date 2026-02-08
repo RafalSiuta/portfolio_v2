@@ -8,6 +8,8 @@ export function NavProvider({ children }) {
   const [scrollDirection, setScrollDirection] = useState('down')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
+  //todo fix scroll to contact section and pagecounter que order
+
   // ✅ nowość: referencja do ScrollSmoother
   const [smoother, setSmoother] = useState(null)
 
