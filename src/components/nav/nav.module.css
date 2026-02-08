@@ -19,7 +19,7 @@
   bottom: 0;
   width: 100%;
   height: var(--layout-stroke, 0.125rem);
-  /* background: var(--stroke-color, #d4d4d4); */
+  background: var(--stroke-color, #d4d4d4);
   pointer-events: none;
 }
 
@@ -195,4 +195,5 @@
   .mobileLogo {
     left: var(--menu-button-margin-right);
   }
+  
 }

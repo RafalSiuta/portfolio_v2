@@ -2,7 +2,6 @@ import { useCallback } from 'react'
 import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
 import SectionTitle from '../../components/headers/section_title/secctionTitle'
 import styles from './about.module.css'
-import ParticlesBackground from '../../components/containers/particles/particlesBackground'
 import ArtCanvas from '../../components/containers/art_canvas/art_canvas'
 import { gsap } from 'gsap'
 import IconLink from '../../components/buttons/icon_link/icon_link'
@@ -107,7 +106,7 @@ export default function About() {
   }, [pageCounter, scrollProgress, setPageCounter, setScrollProgress, setScrollDirection])
 
   return (
-    <ParticlesBackground id="about" className={styles.particlesBackground}>
+    <section id="about" className={styles.particlesBackground}>
       <SectionWrapper className={styles.wrapper}>
         <div className={styles.content}>
           <article className={styles.welcome_text}>
@@ -165,6 +164,6 @@ export default function About() {
           />
         </div>
       </SectionWrapper>
-    </ParticlesBackground>
+    </section>
   )
 }

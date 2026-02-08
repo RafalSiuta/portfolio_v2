@@ -1,6 +1,5 @@
 ﻿import { useEffect, useMemo, useRef, useState } from 'react'
 import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
-import ParticlesBackground from '../../components/containers/particles/particlesBackground'
 import projectsData from '../../assets/data/projects_data.json'
 import ChipButton from '../../components/buttons/chip_button/chipButton'
 import TextLinkButton from '../../components/buttons/textlink_button/textLinkButton'
@@ -115,7 +114,7 @@ export default function Projects() {
   }, [isMobileViewport])
 
   return (
-    <ParticlesBackground id="projects" className={styles.section}>
+    <section id="projects" className={styles.section}>
       <SectionWrapper className={styles.wrapper}>
         <h1 className='strokeText'>my work</h1>
         <div className={styles.content} ref={swipeAreaRef}>
@@ -176,6 +175,6 @@ export default function Projects() {
           </div>
         </div>
       </SectionWrapper>
-    </ParticlesBackground>
+    </section>
   )
 }

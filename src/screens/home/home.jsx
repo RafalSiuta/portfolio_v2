@@ -92,7 +92,7 @@ function Home() {
   }, [animateDividerTo])
 
   return (
-    <section className={styles.heroContent} id="home">
+    <section id="home" className={styles.heroContent} >
       <SectionWrapper className={styles.wrapper}>
         <article className={styles.herotext}>
           {/* <SectionTitle /> */}

@@ -76,7 +76,7 @@
   stroke: var(--accent-dark, #ffa84a);
 }
 
-@media screen and (max-width: 1280px) {
+@media screen and (max-width: 1194px) {
   .icon {
     width: calc(var(--small-card-max-width) / 1.2);
     height: calc(var(--small-card-max-width) / 1.2);

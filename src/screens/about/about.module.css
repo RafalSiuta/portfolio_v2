@@ -80,6 +80,8 @@
   transform: translateX(var(--icon-hover-shift, calc(var(--icon-button-width) * 0.18)));
 }
 
+
+
 @media screen and (max-width: 1024px) {
   .wrapper{
     padding:calc(var(--vertical-large-padding)*2);
@@ -109,10 +111,13 @@
     /* flex: auto; */
   }
 }
-@media screen and (max-width: 1194px) {
-  /* .wrapper h1 {
-    display: none;
-  } */
+@media screen and (max-width: 1728px) and (min-width: 1194px) {
+  .wrapper {
+    margin:0 var(--vertical-large-padding);
+  }
+  .content{
+    /* padding: 0 var(--vertical-large-padding); */
+  }
 }
 
 @media screen and (max-width: 500px) {
