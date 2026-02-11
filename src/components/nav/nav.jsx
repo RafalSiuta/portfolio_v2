@@ -17,6 +17,8 @@ function Nav() {
   const linkRefs = useRef({})
   const activeIndexRef = useRef(0)
   const lastDirectionRef = useRef(1)
+  const isProgrammaticScrollRef = useRef(false)
+  const scrollEndHandlerRef = useRef(null)
   const [activeHash, setActiveHash] = useState(navLinks[0].href)
   const {
     pageCounter,
@@ -151,16 +153,28 @@ function Nav() {
     const isSamePage = index === pageCounter
 
     animateProgressToFull(() => {
-      if (!isSamePage) {
-        setPageCounter(index)
-        setActiveHash(link.href)
-      }
+      activeIndexRef.current = index
+      setPageCounter(index)
+      setActiveHash(link.href)
+
       // if (targetSection) {
       //   // targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
 
       // }
       if (targetSection) {
+          isProgrammaticScrollRef.current = true
+          if (scrollEndHandlerRef.current) {
+            ScrollTrigger.removeEventListener('scrollEnd', scrollEndHandlerRef.current)
+            scrollEndHandlerRef.current = null
+          }
+          const onScrollEnd = () => {
+            isProgrammaticScrollRef.current = false
+            ScrollTrigger.removeEventListener('scrollEnd', onScrollEnd)
+            scrollEndHandlerRef.current = null
+          }
+          scrollEndHandlerRef.current = onScrollEnd
+          ScrollTrigger.addEventListener('scrollEnd', onScrollEnd)
           if (smoother) {
             smoother.scrollTo(targetSection, true, 'top top')
           } else {
@@ -181,7 +195,7 @@ function Nav() {
     if (!smoother) return
 
     const THRESHOLD = 0.6
-    const BACK_THRESHOLD = 1 - THRESHOLD
+    const BACK_THRESHOLD = 0.4
 
     const getNavOffset = () => {
       const navEl = navRootRef.current
@@ -218,20 +232,28 @@ function Nav() {
             const dir = self.direction
             lastDirectionRef.current = dir
 
-            if (self.isActive) {
+            if (self.isActive && activeIndexRef.current === index) {
               setScrollProgress(Math.round(self.progress * 100))
             }
 
-            if (dir === 1 && self.progress >= THRESHOLD && activeIndexRef.current !== index) {
-              activeIndexRef.current = index
-              setPageCounter(index)
-              setActiveHash(navLinks[index].href)
+            if (isProgrammaticScrollRef.current) return
+
+            if (dir === 1 && self.progress >= THRESHOLD && activeIndexRef.current === index) {
+              const nextIndex = Math.min(index + 1, navLinks.length - 1)
+              if (nextIndex !== activeIndexRef.current) {
+                activeIndexRef.current = nextIndex
+                setPageCounter(nextIndex)
+                setActiveHash(navLinks[nextIndex].href)
+              }
             }
 
-            if (dir === -1 && self.progress <= BACK_THRESHOLD && activeIndexRef.current !== index) {
-              activeIndexRef.current = index
-              setPageCounter(index)
-              setActiveHash(navLinks[index].href)
+            if (dir === -1 && self.progress <= BACK_THRESHOLD && activeIndexRef.current === index) {
+              const prevIndex = Math.max(index - 1, 0)
+              if (prevIndex !== activeIndexRef.current) {
+                activeIndexRef.current = prevIndex
+                setPageCounter(prevIndex)
+                setActiveHash(navLinks[prevIndex].href)
+              }
             }
           },
         })
@@ -252,6 +274,10 @@ function Nav() {
     return () => {
       sectionTriggers.forEach((t) => t.kill())
       globalST.kill()
+      if (scrollEndHandlerRef.current) {
+        ScrollTrigger.removeEventListener('scrollEnd', scrollEndHandlerRef.current)
+        scrollEndHandlerRef.current = null
+      }
     }
   }, [smoother, setPageCounter, setScrollProgress, setScrollDirection, setActiveHash])
 
