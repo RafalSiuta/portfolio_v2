@@ -14,7 +14,7 @@ export const ARC_LIST = [
       "arc_stroke": 8,
       "arc_start": 4.85,
       "arc_end": 6.28,
-      "color":"#ffa84a"
+      "color":"#D1A054"
     },
     "arc3":{
       "arc_center": { x: 407, y: 407 },
@@ -22,7 +22,7 @@ export const ARC_LIST = [
       "arc_stroke": 15,
       "arc_start": 1.65,
       "arc_end": 3.2,
-      "color":"#ffa84a"
+      "color":"#D1A054"
     },
     "arc4":{
       "arc_center": { x: 407, y: 407 },
@@ -38,7 +38,7 @@ export const ARC_LIST = [
       "arc_stroke": 8,
       "arc_start": 0.15,
       "arc_end": 1.7,
-      "color":"#ffa84a"
+      "color":"#D1A054"
     },
   }
 ]
@@ -63,7 +63,7 @@ export const LARGE_LINES = [
     "line3": { //dolna żółta
       "start": { x: 24, y: 766.068 },
       "end": { x: 317.197, y: 489.007 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "line4": { //linia środkowa
       "start": { x: 394, y: 800 },//794
@@ -73,7 +73,7 @@ export const LARGE_LINES = [
     "line5": { //mała równoległa, żółta
       "start": { x: 647.012, y: 131.874 },
       "end": { x: 662.824, y: 146.775 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     // "line4": { //górna żółta
     //   "start": { x: 404, y: 360.898 },
@@ -99,7 +99,7 @@ export const LARGE_LINES_2 = [
     "line2": { //górna żółta
       "start": { x: 404, y: 360.898 },
       "end": { x: 647.012, y: 131.874 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     
     "line4": { //górna szara
@@ -114,19 +114,19 @@ export const SQUARES_LIST = [
   {
     "square1": {
       "center": { x: 672.0369, y: 120.579 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "square2": {
       "center": { x: 697.1629, y: 97.9153 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "square3": {
       "center": { x: 721.7579, y: 74.7363 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "square4": {
       "center": { x: 746.8829, y: 52.0723 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     }
   }
 ]
@@ -136,62 +136,62 @@ export const SMALL_LINES_BOTTOM = [
     "smallLine1": {
       "start": { x: 24, y: 729.366 },
       "end": { x: 24, y: 752.78 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "smallLine2": {
       "start": { x: 30.6252, y: 722.341 },
       "end": { x: 30.6252, y: 745.756 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "smallLine3": {
       "start": { x: 38.079, y: 716.098 },
       "end": { x: 38.079, y: 739.512 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "smallLine4": {
       "start": { x: 44.7041, y: 709.073 },
       "end": { x: 44.7041, y: 732.488 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "smallLine5": {
       "start": { x: 52.1575, y: 702.829 },
       "end": { x: 52.1575, y: 726.244 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "smallLine6": {
       "start": { x: 58.7828, y: 695.805 },
       "end": { x: 58.7828, y: 719.22 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "smallLine7": {
       "start": { x: 66.236, y: 689.561 },
       "end": { x: 66.236, y: 712.976 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "smallLine8": {
       "start": { x: 72.8612, y: 682.536 },
       "end": { x: 72.8612, y: 705.951 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "smallLine9": {
       "start": { x: 80.3147, y: 676.293 },
       "end": { x: 80.3147, y: 699.707 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "smallLine10": {
       "start": { x: 86.9401, y: 669.268 },
       "end": { x: 86.9401, y: 692.683 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "smallLine11": {
       "start": { x: 94.3934, y: 663.024 },
       "end": { x: 94.3934, y: 686.439 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "smallLine12": {
       "start": { x: 101.019, y: 656 },
       "end": { x: 101.019, y: 679.415 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     }
   }
 ]
@@ -292,7 +292,7 @@ export const DOTS_LIST_TOP = [
     },
     "dot4": {
       "center": { x: 754.501, y: 430.3053 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     }
   }
 ]
@@ -301,7 +301,7 @@ export const DOTS_LIST_BOTTOM = [
   {
     "dot1": {
       "center": { x: 407, y: 772 },
-      "color": "#FFA84A",
+      "color": "#D1A054",
       "isStroke": true,
       "thickness": 0.3
     },
@@ -311,7 +311,7 @@ export const DOTS_LIST_BOTTOM = [
     },
     "dot3": {
       "center": { x: 407, y: 708 },
-      "color": "#FFA84A"
+      "color": "#D1A054"
     },
     "dot4": {
       "center": { x: 407, y: 675 },

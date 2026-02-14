@@ -1,0 +1,13 @@
+.logo {
+  height: var(--logo-height);
+  width: auto;
+  display: inline-block;
+  transform-origin: center;
+  transition: transform 150ms ease;
+  will-change: transform;
+}
+
+.logo:hover,
+.logo:focus-visible {
+  transform: scale(1.04);
+}

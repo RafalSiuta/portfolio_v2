@@ -5,6 +5,7 @@ import TextButton from '../buttons/textbutton/textbutton'
 import { useNavContext } from '../../utils/providers/navProvider'
 import navLinks from '../../utils/constants/navLinks'
 import MenuBtn from '../buttons/nav_button/navButton'
+import Logo from '../buttons/logo/logo'
 
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -281,67 +282,6 @@ function Nav() {
     }
   }, [smoother, setPageCounter, setScrollProgress, setScrollDirection, setActiveHash])
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const currentY = window.scrollY
-  //     const direction = currentY >= lastScrollYRef.current ? 'down' : 'up'
-  //     lastScrollYRef.current = currentY
-  //     setScrollDirection(direction)
-
-  //     const scrollY = window.scrollY
-  //     let progressIndex = 0
-  //     let progressSection = null
-  //     let progressSectionTop = 0
-  //     let progressSectionHeight = 1
-
-  //     for (let i = 0; i < navLinks.length; i += 1) {
-  //       const sectionId = navLinks[i].href.replace('#', '')
-  //       const section = document.getElementById(sectionId)
-  //       if (!section) continue
-  //       const top = section.getBoundingClientRect().top + scrollY
-  //       if (scrollY >= top) {
-  //         progressIndex = i
-  //         progressSection = section
-  //         progressSectionTop = top
-  //         progressSectionHeight = section.offsetHeight || 1
-  //       }
-  //     }
-
-  //     if (!progressSection) {
-  //       setScrollProgress(0)
-  //       return
-  //     }
-
-  //     const rawProgress = (scrollY - progressSectionTop) / progressSectionHeight
-  //     const clampedProgress = Math.min(Math.max(rawProgress, 0), 1)
-  //     const percentProgress = Math.round(clampedProgress * 100)
-  //     setScrollProgress(percentProgress)
-
-  //     const progressThreshold = 60
-  //     const prevThreshold = 100 - progressThreshold
-
-  //     if (direction === 'down' && percentProgress >= progressThreshold) {
-  //       const nextIndex = Math.min(progressIndex + 1, navLinks.length - 1)
-  //       if (nextIndex !== pageCounter) {
-  //         setPageCounter(nextIndex)
-  //       }
-  //     }
-
-  //     if (direction === 'up' && percentProgress <= prevThreshold) {
-  //       const prevIndex = Math.max(progressIndex - 1, 0)
-  //       if (prevIndex !== pageCounter) {
-  //         setPageCounter(prevIndex)
-  //       }
-  //     }
-  //   }
-
-  //   handleScroll()
-  //   window.addEventListener('scroll', handleScroll, { passive: true })
-
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll)
-  //   }
-  // }, [pageCounter, setScrollProgress, setPageCounter])
 
   const containerClassName = isSmallHorizontal
     ? `${styles.container} ${isMenuOpen ? styles.menuOpen : styles.menuClosed}`
@@ -351,15 +291,11 @@ function Nav() {
     <header className={containerClassName} ref={navRootRef}>
       <nav className={styles.navigation} aria-label="Primary">
         {!isSmallHorizontal && (
-          <img src="/logo.svg" className={styles.logo} alt="Portfolio logo" />
+          <Logo />
         )}
         <div className={styles.menuList}>
           {isSmallHorizontal && (
-            <img
-              src="/logo.svg"
-              className={`${styles.logo} ${styles.mobileLogo}`}
-              alt="Portfolio logo"
-            />
+            <Logo className={styles.mobileLogo} />
           )}
           <ul className={styles.menu} ref={menuRef}>
             {navLinks.map((link, index) => (
