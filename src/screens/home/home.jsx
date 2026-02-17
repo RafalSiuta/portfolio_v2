@@ -1,12 +1,15 @@
 ﻿import { useCallback, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import styles from './home.module.css'
+import AnimatedSvgBackground from '../../components/background/AnimatedSvgBackground'
+import heroDesktop from '../../assets/images/hero.jpg'
+import heroTablet from '../../assets/images/hero_M.jpg'
+import heroMobile from '../../assets/images/hero_S.jpg'
 import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
 import SmallCard from '../../components/cards/small_card/smallCard'
 import IconButton from '../../components/buttons/icon_button/icon_button'
 import { useNavContext } from '../../utils/providers/navProvider'
 import navLinks from '../../utils/constants/navLinks'
-import SectionTitle from '../../components/headers/section_title/secctionTitle'
 
 function Home() {
   const { pageCounter, setPageCounter, scrollProgress, setScrollProgress, setScrollDirection, smoother } = useNavContext()
@@ -97,11 +100,24 @@ function Home() {
 
   return (
     <section id="home" className={styles.heroContent} >
+      <AnimatedSvgBackground
+  images={{ desktop: heroDesktop, tablet: heroTablet, mobile: heroMobile }}
+  objectPosition={{
+    desktop: '50% 50%',
+    tablet: '50% 45%',
+    mobile: '50% 40%',
+  }}
+  idleAmp={10}
+  maxLift={16}
+  speed={1}
+  overlay={0.22}
+/>
+
       <SectionWrapper className={styles.wrapper}>
         <article className={styles.herotext}>
           {/* <SectionTitle /> */}
           <h1 className='strokeText'>r85studio</h1>
-          <h2>ui design & frontend dev</h2>
+          <h2>design & code</h2>
           <p>
             Hi I'm <strong>Rafał</strong>, UI designer and frontend developer.<br/> Technologies are just
             a tools that help us<br /> bring our beautiful <strong>ideas to life.</strong><br /> Check out my
