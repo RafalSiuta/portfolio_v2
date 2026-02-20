@@ -1,0 +1,22 @@
+.formContainer {
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: var(--project-card-spacing, 1.5rem);
+  /* background-color: black; */
+}
+
+@media (max-width: 1024px) {
+  .formContainer {
+    width: 90%;
+  }
+}
+
+@media (max-width: 500px) {
+  .formContainer {
+    width: 100%;
+  }
+}

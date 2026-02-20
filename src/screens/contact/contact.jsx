@@ -4,6 +4,7 @@ import styles from './contact.module.css'
 import contactDesktop from '../../assets/images/contact.jpg'
 import contactTablet from '../../assets/images/contact_M.jpg'
 import contactMobile from '../../assets/images/contact_S.jpg'
+import FormContainer from '../../components/forms/form_container/formContainer'
 
 export default function Contact() {
   return (
@@ -15,7 +16,8 @@ export default function Contact() {
     >
       <SectionWrapper className={styles.wrapper}>
         <div className={styles.content}>
-           <h1 className='strokeText'>let's talk...</h1>
+           <h1 className='strokeText'>let's talk</h1>
+           <FormContainer />
         </div>
       </SectionWrapper>
     </HeroWrapper>

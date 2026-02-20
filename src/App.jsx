@@ -66,7 +66,6 @@ function App() {
               <About />
               <Contact />
             </main>
-            
           </div>
         </div>
         <Footer />
