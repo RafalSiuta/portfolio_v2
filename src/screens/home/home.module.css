@@ -32,19 +32,6 @@
   gap: calc(var(--vertical-text-gap));
 }
 
-.heroContent {
-  width: 100%;
-  min-width: 100%;
-  min-height: 100vh;  
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-}
-
-
 .wrapper{
   display: flex;
   flex-direction: column;
@@ -55,11 +42,6 @@
   z-index: 2;
 }
 
-
-.heroContent p {
-  margin: 0;
-  /* text-transform: lowercase; */
-}
 
 .heroUtilityRow {
   display: flex;
@@ -75,7 +57,7 @@
   width: calc(var(--small-card-max-width) + var(--base-gap));
   height: var(--layout-stroke, 0.5px);
   background: var(--stroke-color, #ababab);
-  margin: var(--vertical-text-gap) 0;
+  margin: var(--project-card-spacing) 0;
 }
 
 .cardSlot {
@@ -113,12 +95,6 @@
   .wrapper{
     min-height: 90vh;
   }
-  .heroContent {
-    min-width: 100%;
-    justify-content: flex-start;
-    align-items: center;
-    padding: var(--nav-min-height, 5rem) var(--menu-button-margin-right) 0;
-}
 }
 
 

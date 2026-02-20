@@ -1,7 +1,7 @@
 ﻿import { useCallback, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import styles from './home.module.css'
-import AnimatedSvgBackground from '../../components/background/AnimatedSvgBackground'
+import HeroWrapper from '../../components/containers/herowrapper/heroWrapper'
 import heroDesktop from '../../assets/images/hero.jpg'
 import heroTablet from '../../assets/images/hero_M.jpg'
 import heroMobile from '../../assets/images/hero_S.jpg'
@@ -99,20 +99,11 @@ function Home() {
   }, [animateDividerTo])
 
   return (
-    <section id="home" className={styles.heroContent} >
-      <AnimatedSvgBackground
-  images={{ desktop: heroDesktop, tablet: heroTablet, mobile: heroMobile }}
-  objectPosition={{
-    desktop: '50% 50%',
-    tablet: '50% 45%',
-    mobile: '50% 40%',
-  }}
-  idleAmp={10}
-  maxLift={16}
-  speed={1}
-  overlay={0.22}
-/>
-
+    <HeroWrapper
+      id="home"
+      images={{ desktop: heroDesktop, tablet: heroTablet, mobile: heroMobile }}
+      isLastSection={false}
+    >
       <SectionWrapper className={styles.wrapper}>
         <article className={styles.herotext}>
           {/* <SectionTitle /> */}
@@ -158,7 +149,7 @@ function Home() {
           </div>
         </article>
       </SectionWrapper>
-    </section>
+    </HeroWrapper>
   )
 }
 
