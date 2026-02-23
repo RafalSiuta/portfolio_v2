@@ -17,9 +17,9 @@
 }
 
 @media (max-width: 1024px) {
-  .formContainer {
+  /* .formContainer {
     width: 90%;
-  }
+  } */
 }
 
 @media (max-width: 500px) {

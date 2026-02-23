@@ -85,7 +85,8 @@
 
 @media screen and (max-width: 1024px) {
   .wrapper{
-    padding:calc(var(--vertical-large-padding)*2);
+    /* padding:var(--vertical-large-padding); */
+     /* padding: 0 calc(var(--container-large-horizontal-padding)*2) 0 var(--vertical-large-padding); */
     /* padding: 0 var(--menu-button-margin-right); */
   }
   .content {
@@ -101,7 +102,7 @@
   }
   .welcome_text{
     width: 100%;
-    padding: var(--base-gap) 0 0 0;
+    padding: var(--base-gap) var(--vertical-large-padding);
     /* flex:auto; */
   }
   .art_canvas{
@@ -110,6 +111,9 @@
     /* background-color: black; */
     width: 100%;
     /* flex: auto; */
+  }
+  .detailsContainer{
+    padding: 0 var(--vertical-large-padding);
   }
 }
 /* @media screen and (max-width: 1728px) and (min-width: 1194px) {
@@ -122,7 +126,5 @@
 } */
 
 @media screen and (max-width: 500px) {
-  .wrapper {
-      padding: calc(var(--vertical-large-padding));
-    }
+
 }

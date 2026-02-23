@@ -30,7 +30,7 @@ export default function FormContainer() {
         autoComplete="off"
       />
       <div className={styles.submitRow}>
-        <SubmitButton name="sent" iconName="ArrowRight" onClick={handleSubmitClick} />
+        <SubmitButton name="sent" iconName="ArrowThinRight" onClick={handleSubmitClick} />
       </div>
     </form>
   )

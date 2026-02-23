@@ -140,7 +140,7 @@ export default function Projects() {
               <TextLinkButton
                 name="case study"
                 to="/projects"
-                iconName="ArrowRight"
+                iconName="ArrowThinRight"
                 className="description"
               />
             </div>

@@ -93,7 +93,7 @@
   --small-card-title-font-size:0.75rem;
 
   /* ####### font weight ####### */
-  --font-weight-light: 300;
+  --font-weight-light: 200;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
@@ -318,17 +318,17 @@ p strong{
   color: var(--accent-dark);
 }
 button{
-  font-family: var(--font-family-clash-display, 'ClashDisplay');
+  font-family: var(--font-family-supreme, 'Poppins');
   font-size: var(--font-size-button);
   font-style: normal;
-  font-weight: var(--font-weight-light, 300);
+  font-weight: var(--font-weight-light, 200);
   line-height: normal;
   letter-spacing: 0.15rem;
   text-transform: uppercase;
 }
 
 .text-link {
-  font-family: var(--font-family-clash-display, 'ClashDisplay');
+  font-family: var(--font-family-supreme, 'Poppins');
   font-size: var(--small-card-title-font-size, 0.75rem);
   font-weight: var(--font-weight-light, 300);
   letter-spacing: 0.15rem;
