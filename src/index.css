@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap');
 
 @font-face {
   font-family: 'Supreme';
@@ -76,9 +77,10 @@
   --unselected-dark: #6e6e6e;
   --stroke-color:#ababab80;
   --pattern-color:#3F3F3F;
+  --alert-color:#ce2d2d;
   --font-family-clash-display: 'ClashDisplay', system-ui, sans-serif;
   --font-family-zen-dots: var(--font-family-clash-display);
-  --font-family-supreme: 'Supreme', system-ui, sans-serif;
+  --font-family-supreme: 'Poppins', system-ui, sans-serif;
 
   /* ####### font sizes ####### */
   --font-size-menu: 1.125rem;
@@ -162,7 +164,7 @@ body {
   min-height: 100vh;
   background-color: var(--background-dark, #1f1f1f);
   color: var(--text-dark, #d4d4d4);
-  font-family: var(--font-family-supreme, 'Supreme');
+  font-family: var(--font-family-supreme, 'Poppins');
   overflow-y: auto;
   overflow-x: hidden;
   scroll-behavior: smooth;
@@ -295,7 +297,7 @@ nav li {
 }
 
 p {
-  font-family: var(--font-family-supreme, 'Supreme');
+  font-family: var(--font-family-supreme, 'Poppins');
   font-size: var(--font-size-body, 1.5rem);
   font-style: normal;
   font-weight: var(--font-weight-light, 300);
@@ -304,7 +306,7 @@ p {
 }
 
 .description{
-  font-family: var(--font-family-supreme, 'Supreme');
+  font-family: var(--font-family-supreme, 'Poppins');
   font-size: var(--font-size-body-small);
   font-style: normal;
   font-weight: var(--font-weight-light, 300);
@@ -334,7 +336,7 @@ button{
 }
 
 .description.text-link {
-  font-family: var(--font-family-supreme, 'Supreme');
+  font-family: var(--font-family-supreme, 'Poppins');
   font-size: var(--font-size-body-small, 1rem);
   font-style: normal;
   font-weight: var(--font-weight-light, 300);

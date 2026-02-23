@@ -112,7 +112,7 @@ function Home() {
           <p>
             Hi I'm <strong>Rafał</strong>, UI designer and frontend developer.<br/> Technologies are just
             a tools that help us<br /> bring our beautiful <strong>ideas to life.</strong><br /> Check out my
-            projects and let me know how <strong>I can help→</strong>
+            projects and let me know<br />how <strong>I can help→</strong>
           </p>
           {/* <p>my projects...</p> */}
           <div className={styles.heroDivider} ref={dividerRef} aria-hidden="true" />

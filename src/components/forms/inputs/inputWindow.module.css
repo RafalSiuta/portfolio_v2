@@ -9,26 +9,45 @@
   padding-right: calc(var(--menu-padding-vertical, 1rem) * 3);
   background: var(--tint-dark, rgba(23, 23, 23, 0.5));
   backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
+  -webkit-backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
   border: var(--layout-stroke, 0.5px) solid var(--stroke-color, #d4d4d4);
   border-radius: none;
   color: var(--text-dark, #d4d4d4);
-  font-family: var(--font-family-supreme, 'Supreme');
+  font-family: var(--font-family-supreme, 'Poppins');
   font-size: var(--font-size-body-small);
   font-style: normal;
   font-weight: var(--font-weight-light, 300);
   line-height: 1.5;
   letter-spacing: 0.15rem;
   outline: none;
+
 }
 
 .suffixIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--text-dark, #d4d4d4);
+  cursor: pointer;
+}
+
+.suffixButton {
   position: absolute;
   top: 0.5rem;
   right: 0.75rem;
   width: 1.5rem;
   height: 1.5rem;
-  color: var(--text-dark, #d4d4d4);
-  pointer-events: none;
+  padding: 0;
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.suffixButton:focus-visible {
+  outline: 1px solid var(--accent-dark);
+  outline-offset: 2px;
 }
 
 .inputWindow::placeholder {
@@ -36,6 +55,39 @@
   opacity: 1;
 }
 
+.inputWindow:-webkit-autofill,
+.inputWindow:-webkit-autofill:hover,
+.inputWindow:-webkit-autofill:focus,
+.inputWindow:-webkit-autofill:active,
+.inputWindow:-internal-autofill-selected {
+  backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
+  -webkit-backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
+  border: var(--layout-stroke, 0.5px) solid var(--stroke-color, #d4d4d4);
+  color: var(--text-dark, #d4d4d4);
+  font-family: var(--font-family-supreme, 'Poppins');
+  font-size: var(--font-size-body-small);
+  font-style: normal;
+  font-weight: var(--font-weight-light, 300);
+  line-height: 1.5;
+  letter-spacing: 0.15rem;
+  background: rgba(23, 23, 23, 0.5) !important;
+    -webkit-box-shadow: 0 0 0 30px rgba(23, 23, 23, 0.5) inset !important;
+    -webkit-text-fill-color: var(--text-dark, #d4d4d4) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+.inputWindow:valid{
+  background: var(--tint-dark, rgba(23, 23, 23, 0.5));
+  backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
+  border: var(--layout-stroke, 0.5px) solid var(--stroke-color, #d4d4d4);
+  color: var(--text-dark, #d4d4d4);
+  font-family: var(--font-family-supreme, 'Poppins');
+  font-size: var(--font-size-body-small);
+  font-style: normal;
+  font-weight: var(--font-weight-light, 300);
+  line-height: 1.5;
+  letter-spacing: 0.15rem;
+}
 .inputWindow:focus-visible {
   border-color: var(--accent-dark);
+  caret-color: var(--accent-dark);
 }

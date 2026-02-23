@@ -1,0 +1,94 @@
+.textWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.textWindow {
+  width: 100%;
+  height: 30vh;
+  min-height: 30vh;
+  max-height: 35vh;
+  padding: calc(var(--menu-padding-vertical, 1rem) * 0.75) var(--menu-padding-vertical);
+  padding-bottom: calc(var(--menu-padding-vertical, 1rem) * 1.5);
+  padding-right: calc(var(--menu-padding-vertical, 1rem) * 3);
+  background: var(--tint-dark, rgba(23, 23, 23, 0.5));
+  backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
+  border: var(--layout-stroke, 0.5px) solid var(--stroke-color, #d4d4d4);
+  border-radius: none;
+  color: var(--text-dark, #d4d4d4);
+  font-family: var(--font-family-supreme, 'Poppins');
+  font-size: var(--font-size-body-small);
+  font-style: normal;
+  font-weight: var(--font-weight-light, 300);
+  line-height: 1.5;
+  letter-spacing: 0.15rem;
+  outline: none;
+  resize: none;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--background-dark) transparent;
+}
+
+.textWindow::placeholder {
+  color: var(--unselected-dark, #6e6e6e);
+  opacity: 1;
+}
+
+.textWindow:-webkit-autofill,
+.textWindow:-webkit-autofill:hover,
+.textWindow:-webkit-autofill:focus,
+.textWindow:-webkit-autofill:active {
+  background: var(--tint-dark, rgba(23, 23, 23, 0.5));
+  backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
+  border: var(--layout-stroke, 0.5px) solid var(--stroke-color, #d4d4d4);
+  color: var(--text-dark, #d4d4d4);
+  font-family: var(--font-family-supreme, 'Poppins');
+  font-size: var(--font-size-body-small);
+  font-style: normal;
+  font-weight: var(--font-weight-light, 300);
+  line-height: 1.5;
+  letter-spacing: 0.15rem;
+  -webkit-text-fill-color: var(--text-dark, #d4d4d4);
+  -webkit-box-shadow: 0 0 0 1000px var(--tint-dark, rgba(23, 23, 23, 0.5)) inset;
+}
+
+.textWindow:focus-visible {
+  border-color: var(--accent-dark);
+  caret-color: var(--accent-dark);
+}
+
+.textWindow::-webkit-scrollbar {
+  width: 1px;
+}
+
+.textWindow::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.textWindow::-webkit-scrollbar-thumb {
+  background-color: var(--background-dark);
+  cursor: pointer;
+}
+
+.textWindow::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.counter {
+  position: absolute;
+  right: var(--menu-padding-vertical);
+  bottom: var(--menu-padding-vertical);
+  color: var(--unselected-dark, #6e6e6e);
+  font-family: var(--font-family-supreme, 'Poppins');
+  font-size: var(--small-card-title-font-size);
+  font-style: normal;
+  font-weight: var(--font-weight-light, 300);
+  letter-spacing: 0.15rem;
+  pointer-events: none;
+}
+
+.counterAlert {
+  color: var(--alert-color);
+}

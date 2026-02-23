@@ -24,11 +24,13 @@
 
 .content {
   display: flex;
+  height: 70vh;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   text-align: center;
   gap: 1rem;
+  /* background-color: blue; */
 }
 
 

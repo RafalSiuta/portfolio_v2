@@ -1,7 +1,14 @@
 import InputWindow from '../inputs/inputWindow'
+import TextWindow from '../text_area/textWindow'
+import SubmitButton from '../../buttons/submit_button/submitButton'
 import styles from './formContainer.module.css'
 
 export default function FormContainer() {
+  const handleSubmitClick = (event) => {
+    event.preventDefault()
+    console.log('submit was clicked')
+  }
+
   return (
     <form className={styles.formContainer}>
       <InputWindow
@@ -15,8 +22,16 @@ export default function FormContainer() {
         type="text"
         isDropdown={true}
         placeholder="topic"
-        autoComplete="topic"
+        autoComplete="off"
       />
+      <TextWindow
+        name="message"
+        placeholder="message"
+        autoComplete="off"
+      />
+      <div className={styles.submitRow}>
+        <SubmitButton name="sent" iconName="ArrowRight" onClick={handleSubmitClick} />
+      </div>
     </form>
   )
 }
