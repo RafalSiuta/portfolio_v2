@@ -163,3 +163,20 @@
   border-color: var(--accent-dark);
   caret-color: var(--accent-dark);
 }
+
+.inputWindow.inputError {
+  border-color: var(--alert-color);
+}
+
+.inputWindow.inputError::placeholder {
+  color: var(--alert-color);
+}
+
+.inputWindow.inputError:focus-visible {
+  border-color: var(--alert-color);
+  caret-color: var(--alert-color);
+}
+
+.inputWindow.inputError:valid {
+  border-color: var(--alert-color);
+}

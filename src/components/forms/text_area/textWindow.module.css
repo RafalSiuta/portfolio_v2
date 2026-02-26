@@ -57,6 +57,14 @@
   caret-color: var(--accent-dark);
 }
 
+.textError {
+  border-color: var(--alert-color);
+}
+
+.textError::placeholder {
+  color: var(--alert-color);
+}
+
 .textWindow::-webkit-scrollbar {
   width: 1px;
 }

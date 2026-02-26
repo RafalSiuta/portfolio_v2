@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
+import Tooltip from '../tooltip/tooltip'
 import styles from './textWindow.module.css'
 
 export default function TextWindow({
   className,
   placeholder = 'message',
   maxLength = 500,
+  isError = false,
+  errorMessage = '',
   value,
   onChange,
   ...props
@@ -78,7 +81,11 @@ export default function TextWindow({
     }
   }, [isAtMax, limitExceeded])
 
-  const combinedClassName = [styles.textWindow, className].filter(Boolean).join(' ')
+  const combinedClassName = [
+    styles.textWindow,
+    isError ? styles.textError : null,
+    className
+  ].filter(Boolean).join(' ')
   const counterClassName = [
     styles.counter,
     isAtMax ? styles.counterAlert : null
@@ -97,6 +104,11 @@ export default function TextWindow({
         onPaste={handlePaste}
         onKeyDown={handleKeyDown}
         {...props}
+      />
+      <Tooltip
+        message={errorMessage}
+        isError={isError}
+        isOpen={isError}
       />
       <span className={counterClassName}>
         {usedCount}/{maxLength}

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import SystemIcon from '../../../utils/icons/system_icon'
+import Tooltip from '../tooltip/tooltip'
 import styles from './inputWindow.module.css'
 
 const DEFAULT_DROPDOWN_ITEMS = ['ui design', 'brand design', 'web dev', 'mobile dev', 'full service']
@@ -8,6 +9,8 @@ export default function InputWindow({
   className,
   placeholder,
   isDropdown = false,
+  isError = false,
+  errorMessage = '',
   dropdownItems = DEFAULT_DROPDOWN_ITEMS,
   ...props
 }) {
@@ -17,7 +20,11 @@ export default function InputWindow({
   const isControlled = props.value !== undefined
   const inputValue = isControlled ? props.value : internalValue
 
-  const combinedClassName = [styles.inputWindow, className].filter(Boolean).join(' ')
+  const combinedClassName = [
+    styles.inputWindow,
+    isError ? styles.inputError : null,
+    className
+  ].filter(Boolean).join(' ')
 
   const handleDropdownClick = () => {
     setIsOpen((prev) => !prev)
@@ -64,6 +71,11 @@ export default function InputWindow({
         value={inputValue}
         onChange={handleInputChange}
         {...props}
+      />
+      <Tooltip
+        message={errorMessage}
+        isError={isError}
+        isOpen={isError}
       />
       {
         isDropdown ? (
