@@ -11,13 +11,17 @@ export default function Contact() {
     <HeroWrapper
       id="contact"
       className={styles.section}
-      images={{ desktop: contactDesktop, tablet: contactTablet, mobile: contactMobile }}
+      images={{
+        desktop: contactDesktop,
+        tablet: contactTablet,
+        mobile: contactMobile,
+      }}
       isLastSection={true}
     >
       <SectionWrapper className={styles.wrapper}>
         <div className={styles.content}>
-           <h1 className='strokeText'>let's talk</h1>
-           <FormContainer />
+          <h1 className="strokeText">let's talk</h1>
+          <FormContainer />
         </div>
       </SectionWrapper>
     </HeroWrapper>

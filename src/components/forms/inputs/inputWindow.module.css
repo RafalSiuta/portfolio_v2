@@ -60,6 +60,7 @@
   animation: dropdown-reveal 220ms ease-out both;
 }
 
+
 .dropdownItem {
   width: 100%;
   padding: calc(var(--menu-padding-vertical, 1rem) * 0.75) var(--menu-padding-vertical);
@@ -82,6 +83,11 @@
   transform: translateY(-6px);
   animation: dropdown-item-reveal 180ms ease-out both;
   transition: all 0.2s ease-in;
+}
+
+.dropdownItemClosing {
+  transform: translateY(6px);
+  animation: dropdown-item-reveal 180ms ease-in reverse both;
 }
 .dropdownItem:hover{
   color: var(--text-dark);

@@ -1,0 +1,92 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tint-dark);
+  /* backdrop-filter: blur(var(--frosted-blur)); */
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.modalCard {
+  width: 100%;
+   
+  max-width: var(--modal-max-width);
+  background: var(--background-dark);
+  padding: var(--project-card-spacing);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.35);
+  border: var(--layout-stroke) solid var(--stroke-color);
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: var(--font-size-body-small);
+}
+
+.divider {
+  height: var(--layout-stroke);
+  background: var(--stroke-color);
+  margin: var(--project-card-spacing) 0;
+}
+
+.message {
+  text-align: left;
+  color: var(--text-dark);
+  font-size: var(--font-size-body-small);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.buttonRow {
+  margin-top: var(--project-card-spacing);
+  display: flex;
+  justify-content: center;
+}
+
+.buttonRow :global(button),
+.buttonRow :global(button) * {
+  font-size: var(--font-size-body-small);
+}
+
+.overlayVisible {
+  opacity: 1;
+}
+
+.cardVisible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.spinnerVisible {
+  opacity: 1;
+}
+
+.error {
+  border-color: var(--alert-color);
+}
+
+.error .divider {
+  background: var(--alert-color);
+}
+
+.error h2,
+.error .subtitle,
+.error .message {
+  color: var(--alert-color);
+}

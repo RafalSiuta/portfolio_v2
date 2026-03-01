@@ -15,8 +15,10 @@ export default function InputWindow({
   ...props
 }) {
   const [isOpen, setIsOpen] = useState(false)
+  const [shouldRender, setShouldRender] = useState(false)
   const [internalValue, setInternalValue] = useState('')
   const wrapperRef = useRef(null)
+  const closeTimerRef = useRef(null)
   const isControlled = props.value !== undefined
   const inputValue = isControlled ? props.value : internalValue
 
@@ -101,8 +103,15 @@ export default function InputWindow({
               <button
                 type="button"
                 key={item}
-                className={styles.dropdownItem}
-                style={{ animationDelay: `${index * 60}ms` }}
+                className={[
+                  styles.dropdownItem,
+                  !isOpen ? styles.dropdownItemClosing : '',
+                ].filter(Boolean).join(' ')}
+                style={{
+                  animationDelay: `${!isOpen
+                    ? (dropdownItems.length - 1 - index) * 60
+                    : index * 60}ms`,
+                }}
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => handleSelect(item)}
                 role="option"

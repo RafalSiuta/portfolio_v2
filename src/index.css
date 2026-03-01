@@ -116,6 +116,7 @@
   --image-frame-radius-mobile: var(--image-frame-radius, 1.2rem);
   --mobile-frame-height-offset: 14rem;
   --logo-height:2.5rem;
+  --modal-max-width: 43.75rem;
 
   /* ####### spacing, paddings, margin ####### */
   --menu-button-margin-right:1.25rem;
@@ -135,6 +136,7 @@
   --layout-stroke: 0.5px;
   --tint-dark: rgba(23, 23, 23, 0.2);
   --frosted-blur: 0.15625rem;
+  --modal-frosted-blur: 3.0rem;
 
   /* ####### layout dimentions ####### */
   --max-box-width: 700px;
@@ -417,6 +419,7 @@ button{
     --base-gap: 2rem;
 
     --font-size-button:0.75rem;
+    --modal-max-width: 31.25rem;
   }
 }
 
@@ -457,6 +460,7 @@ button{
     --project-text-block-height-mobile: 6.5rem;
     --project-mobile-top-offset: calc(var(--font-size-large-title) * 1.5);
     --project-nav-height-mobile: 4.5rem;
+    --modal-max-width: 90%;
   }
 
   br{

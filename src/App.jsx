@@ -8,12 +8,14 @@ import styles from './screens/home/home.module.css'
 import Footer from './components/footer/footer'
 import SideIndicator from './components/side_indicator/sideIndicator'
 import ParticlesBackground from './components/containers/particles/particlesBackground'
+import ContactModal from './components/modals/contact_modal/ContactModal'
 import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { useGSAP } from "@gsap/react";
 import { useNavContext } from "./utils/providers/navProvider";
+import { ContactProvider } from "./utils/providers/contactProvider";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -46,53 +48,36 @@ function App() {
   );
 
   return (
-    <>
-      <ParticlesBackground
-        className="particles-overlay"
-        style={{
-          '--particles-align': 'stretch',
-          '--particles-justify': 'flex-start',
-        }}
-      />
-      <div ref={appRef} className={styles.heroPage}>
-        <Nav />
-        <SideIndicator />
+    <ContactProvider>
+      <>
+        <ParticlesBackground
+          className="particles-overlay"
+          style={{
+            '--particles-align': 'stretch',
+            '--particles-justify': 'flex-start',
+          }}
+        />
+        <div ref={appRef} className={styles.heroPage}>
+          <Nav />
+          <SideIndicator />
 
-        <div id="smooth-wrapper">
-          <div id="smooth-content">
-            <main className={styles.heroMain}>
-              <Home />
-              <Projects />
-              <About />
-              <Contact />
-            </main>
+          <div id="smooth-wrapper">
+            <div id="smooth-content">
+              <main className={styles.heroMain}>
+                <Home />
+                <Projects />
+                <About />
+                <Contact />
+              </main>
+            </div>
           </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </>
+        <ContactModal />
+      </>
+    </ContactProvider>
   );
 
-  // return (
-  //   <ParticlesBackground
-  //     style={{
-  //       '--particles-align': 'stretch',
-  //       '--particles-justify': 'flex-start',
-  //     }}
-  //   >
-  //     <div className={styles.heroPage}>
-  //       <Nav />
-  //       <main className={styles.heroMain}>
-  //         <Home />
-  //         <Projects />
-  //         <About />
-  //         <Contact />
-  //       </main>
-  //       <SideIndicator />
-  //       <Footer />
-  //     </div>
-  //   </ParticlesBackground>
-  // )
 }
 
 export default App

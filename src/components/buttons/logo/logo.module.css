@@ -11,3 +11,8 @@
 .logo:focus-visible {
   transform: scale(1.04);
 }
+
+.logoPath {
+  transition: fill-opacity 220ms ease, stroke-opacity 220ms ease;
+  will-change: fill-opacity, stroke-opacity;
+}

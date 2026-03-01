@@ -195,9 +195,6 @@ function Nav() {
   useEffect(() => {
     if (!smoother) return
 
-    const THRESHOLD = 0.6
-    const BACK_THRESHOLD = 0.4
-
     const getNavOffset = () => {
       const navEl = navRootRef.current
       if (!navEl) return 0
@@ -220,6 +217,13 @@ function Nav() {
       setActiveHash(navLinks[initialIndex].href)
     }
 
+    const setActiveIndex = (nextIndex) => {
+      if (nextIndex === activeIndexRef.current) return
+      activeIndexRef.current = nextIndex
+      setPageCounter(nextIndex)
+      setActiveHash(navLinks[nextIndex].href)
+    }
+
     const sectionTriggers = ids
       .map((id, index) => {
         const el = document.getElementById(id)
@@ -228,33 +232,19 @@ function Nav() {
         return ScrollTrigger.create({
           trigger: el,
           start: () => `top top+=${getNavOffset()}`,
-          end: () => `+=${el.offsetHeight || 1}`,
+          end: () => `bottom top+=${getNavOffset()}`,
+          onEnter: () => {
+            if (isProgrammaticScrollRef.current) return
+            setActiveIndex(index)
+          },
+          onEnterBack: () => {
+            if (isProgrammaticScrollRef.current) return
+            setActiveIndex(index)
+          },
           onUpdate: (self) => {
-            const dir = self.direction
-            lastDirectionRef.current = dir
-
+            lastDirectionRef.current = self.direction
             if (self.isActive && activeIndexRef.current === index) {
               setScrollProgress(Math.round(self.progress * 100))
-            }
-
-            if (isProgrammaticScrollRef.current) return
-
-            if (dir === 1 && self.progress >= THRESHOLD && activeIndexRef.current === index) {
-              const nextIndex = Math.min(index + 1, navLinks.length - 1)
-              if (nextIndex !== activeIndexRef.current) {
-                activeIndexRef.current = nextIndex
-                setPageCounter(nextIndex)
-                setActiveHash(navLinks[nextIndex].href)
-              }
-            }
-
-            if (dir === -1 && self.progress <= BACK_THRESHOLD && activeIndexRef.current === index) {
-              const prevIndex = Math.max(index - 1, 0)
-              if (prevIndex !== activeIndexRef.current) {
-                activeIndexRef.current = prevIndex
-                setPageCounter(prevIndex)
-                setActiveHash(navLinks[prevIndex].href)
-              }
             }
           },
         })
