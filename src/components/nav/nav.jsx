@@ -6,6 +6,7 @@ import { useNavContext } from '../../utils/providers/navProvider'
 import navLinks from '../../utils/constants/navLinks'
 import MenuBtn from '../buttons/nav_button/navButton'
 import Logo from '../buttons/logo/logo'
+import { useI18n } from '../../utils/providers/lang/langProvider'
 
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -32,6 +33,7 @@ function Nav() {
     toggleMenu,
     smoother,
   } = useNavContext()
+  const { nextLocale, toggleLocale } = useI18n()
   const [isSmallHorizontal, setIsSmallHorizontal] = useState(false)
   const toggleMenuAndBlur = () => {
     buttonRef.current?.blur()
@@ -309,7 +311,9 @@ function Nav() {
             ))}
             <span className={styles.indicator} ref={indicatorRef} aria-hidden="true" />
           </ul>
-          <TextButton className={styles.langButton}>pl</TextButton>
+          <TextButton className={styles.langButton} onClick={toggleLocale}>
+            {nextLocale}
+          </TextButton>
         </div>
       </nav>
       <div className={styles.divider} ref={navDividerRef} aria-hidden="true" />

@@ -10,9 +10,14 @@ import SmallCard from '../../components/cards/small_card/smallCard'
 import IconButton from '../../components/buttons/icon_button/icon_button'
 import { useNavContext } from '../../utils/providers/navProvider'
 import navLinks from '../../utils/constants/navLinks'
+import { useI18n } from '../../utils/providers/lang/langProvider'
+import { getHomeText } from '../../utils/providers/lang/services'
+import { toHtml } from '../../utils/convert/stringConvert'
 
 function Home() {
   const { pageCounter, setPageCounter, scrollProgress, setScrollProgress, setScrollDirection, smoother } = useNavContext()
+  const { t } = useI18n()
+  const homeText = getHomeText(t)
   const dividerRef = useRef(null)
   const utilityRowRef = useRef(null)
   const cardRefs = useRef([])
@@ -108,12 +113,8 @@ function Home() {
         <article className={styles.herotext}>
           {/* <SectionTitle /> */}
           <h1 className='strokeText'>r85studio</h1>
-          <h2>design & code</h2>
-          <p>
-            Hi I'm <strong>Rafał</strong>, UI designer and frontend developer.<br/> Technologies are just
-            a tools that help us<br /> bring our beautiful <strong>ideas to life.</strong><br /> Check out my
-            projects and let me know<br />how <strong>I can help→</strong>
-          </p>
+          <h2>{homeText.subtitle}</h2>
+          <p dangerouslySetInnerHTML={toHtml(homeText.description)} />
           {/* <p>my projects...</p> */}
           <div className={styles.heroDivider} ref={dividerRef} aria-hidden="true" />
           <div className={styles.heroUtilityRow} ref={utilityRowRef} onMouseLeave={resetDivider}>
