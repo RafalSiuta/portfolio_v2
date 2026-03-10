@@ -1,0 +1,39 @@
+{
+  "contact": {
+    "title": "let's talk",
+    "form":[
+        {
+            "email_placeholder":"your email",
+            "email_error_message":"Email is required"
+        },
+        {
+            "topic_placeholder":"topic",
+            "topic_error_message":"Topic is required"
+        },
+        {
+            "message_placeholder":"your email",
+            "message_error_message":"Message is required"
+        }
+    ],
+    "topic_options":[
+        "ui design", 
+        "brand design", 
+        "web dev", 
+        "mobile dev", 
+        "full service"
+    ],
+    "submit_button":"just send it",
+    "modal_success":{
+        "title": "thank you",
+        "subtitle": "email was send successfully",
+        "message":"Thank you for visiting and your time, I am very pleased, I will reply to your message as soon as possible :)",
+        "buttonText": "ok cool"
+    },
+    "modal_error":{
+        "title": "opsss",
+        "subtitle": "some think went wrong",
+        "message":"possibly there is some error. check your form data and try again.",
+        "buttonText": "lets try again"
+    }
+  }
+}

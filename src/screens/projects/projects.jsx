@@ -1,22 +1,14 @@
 ﻿import { useEffect, useMemo, useRef, useState } from 'react'
 import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
-import projectsData from '../../assets/data/projects_data.json'
 import ChipButton from '../../components/buttons/chip_button/chipButton'
 import TextLinkButton from '../../components/buttons/textlink_button/textLinkButton'
 import IconButton from '../../components/buttons/icon_button/icon_button'
 import SmallCard from '../../components/cards/small_card/smallCard'
+import { useProjectsContext } from '../../utils/providers/projectsProvider'
 import styles from './projects.module.css'
 
-
-
-const projectsList = projectsData
-const heroImages = import.meta.glob('../../assets/data/image_data/*', {
-  eager: true,
-  import: 'default'
-})
-
-
 export default function Projects() {
+  const { projectsList, heroImages } = useProjectsContext()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobileViewport, setIsMobileViewport] = useState(false)
   const currentProject = projectsList[currentIndex] ?? {}

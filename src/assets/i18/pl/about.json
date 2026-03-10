@@ -1,0 +1,55 @@
+{
+  "about": {
+    "title": "o mnie",
+    "description": "<strong>UI designer</strong> i frontend developer<br/> z podłożem graficznym <strong><br/>w Łodzi</strong> -centralna Polska."
+  },
+  "service": {
+    "title": "Jak mogę pomóc ?",
+    "services": [
+      {
+        "id": "1",
+        "title": "serwis",
+        "description": "Od koncepcji do gotowego produktu. Projektuję czytelne interfejsy i wdrażam je jako <strong>działające strony i aplikacje.</strong><br/>Łączę UX, estetykę i kod, by szybko zamienić pomysł w produkt, który działa i wygląda świetnie.",
+        "skillsList": []
+      },
+      {
+        "id": "2",
+        "title": "projekt",
+        "description": "Zaczynając od zera, <strong>moge zaprojektować Twoją marką,</strong> określić analizę celu, ścieżki użytkownika, architekturę informacji i użyteczność. Mogę zaprojektować spójny styl wszystkich grafik i tworzyć przyjazne, responsywne interfejsy.",
+        "skillsList": [
+          "projekt marki",
+          "projektowanie UI/UX",
+          "systemy projektowe",
+          "?cie?ki u?ytkownika",
+          "responsywny design"
+        ]
+      },
+      {
+        "id": "3",
+        "title": "kod",
+        "description": "Jako front-end developer, <strong>mam do?wiadczenie w budowaniu stron internetowych oraz aplikacji webowych, mobilnych i desktopowych.</strong><br/> W zależności od potrzeb tworzę cyfrowy, skalowalny produkt, który płynnie współgra z identyfikacją marki.",
+        "skillsList": [
+          "strony landingowe",
+          "aplikacje mobilne",
+          "aplikacje webowe",
+          "desktop"
+        ]
+      }
+    ],
+    "edu": {
+      "title": "Hej mów mi Rafi !",
+      "educations": [
+        {
+          "id": "1",
+          "title": "bio",
+          "description": "<strong>Projektowanie graficzne i programowanie</strong> od lat są moimi pasjami. Chciałem czegoś więcej niż estetyka, więc po ukończeniu grafiki zdecydowałem się <strong>połączyć obie pasje</strong>, tworzac interaktywne interfejsy. To połączenie daje mi możliwość <strong>ożywienia całego projektu,</strong> zapewniając użytkownikom doświadczenia cyfrowe, które są nie tylko piękne, ale też intuicyjne, funkcjonalne i skoncentrowane na użytkowniku."
+        },
+        {
+          "id": "2",
+          "title": "edukacja",
+          "description": "<strong>2024 - licencjat</strong> z grafiki komputerowej w Akademii Humanistyczno-Ekonomicznej w Łodzi"
+        }
+      ]
+    }
+  }
+}

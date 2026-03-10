@@ -13,11 +13,13 @@ import navLinks from '../../utils/constants/navLinks'
 import { useI18n } from '../../utils/providers/lang/langProvider'
 import { getHomeText } from '../../utils/providers/lang/services'
 import { toHtml } from '../../utils/convert/stringConvert'
+import { useProjectsContext } from '../../utils/providers/projectsProvider'
 
 function Home() {
   const { pageCounter, setPageCounter, scrollProgress, setScrollProgress, setScrollDirection, smoother } = useNavContext()
   const { t } = useI18n()
   const homeText = getHomeText(t)
+  const { projectsList } = useProjectsContext()
   const dividerRef = useRef(null)
   const utilityRowRef = useRef(null)
   const cardRefs = useRef([])
@@ -118,27 +120,16 @@ function Home() {
           {/* <p>my projects...</p> */}
           <div className={styles.heroDivider} ref={dividerRef} aria-hidden="true" />
           <div className={styles.heroUtilityRow} ref={utilityRowRef} onMouseLeave={resetDivider}>
-            <div
-              className={styles.cardSlot}
-              ref={(el) => { cardRefs.current[0] = el }}
-              onMouseEnter={() => handleCardHover(0)}
-            >
-              <SmallCard label="name" />
-            </div>
-            <div
-              className={styles.cardSlot}
-              ref={(el) => { cardRefs.current[1] = el }}
-              onMouseEnter={() => handleCardHover(1)}
-            >
-              <SmallCard label="name" />
-            </div>
-            <div
-              className={styles.cardSlot}
-              ref={(el) => { cardRefs.current[2] = el }}
-              onMouseEnter={() => handleCardHover(2)}
-            >
-              <SmallCard label="name" />
-            </div>
+            {projectsList.slice(0, 3).map(({ title, id }, index) => (
+              <div
+                key={id ?? index}
+                className={styles.cardSlot}
+                ref={(el) => { cardRefs.current[index] = el }}
+                onMouseEnter={() => handleCardHover(index)}
+              >
+                <SmallCard label={title} />
+              </div>
+            ))}
             <IconButton
               iconName="ArrowThinRight"
               onClick={handleNextSection}

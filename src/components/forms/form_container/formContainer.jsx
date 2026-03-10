@@ -3,6 +3,8 @@ import InputWindow from '../inputs/inputWindow'
 import TextWindow from '../text_area/textWindow'
 import SubmitButton from '../../buttons/submit_button/submitButton'
 import { useContactContext } from '../../../utils/providers/contactProvider'
+import { useI18n } from '../../../utils/providers/lang/langProvider'
+import { getContactText } from '../../../utils/providers/lang/services'
 import styles from './formContainer.module.css'
 
 export default function FormContainer() {
@@ -23,6 +25,8 @@ export default function FormContainer() {
     clearErrors,
     submitForm,
   } = useContactContext()
+  const { t } = useI18n()
+  const contactText = getContactText(t)
 
   const formRef = useRef(null)
 
@@ -51,7 +55,7 @@ export default function FormContainer() {
         <InputWindow
           name="email"
           type="email"
-          placeholder="your email"
+          placeholder={contactText.form.email.placeholder}
           autoComplete="email"
           value={emailValue}
           onChange={(event) => {
@@ -62,15 +66,16 @@ export default function FormContainer() {
             }
           }}
           isError={emailError}
-          errorMessage="Email is required"
+          errorMessage={contactText.form.email.errorMessage}
         />
         <InputWindow
           name="topic"
           type="text"
           isDropdown={true}
-          placeholder="topic"
+          placeholder={contactText.form.topic.placeholder}
           autoComplete="off"
           value={topicValue}
+          dropdownItems={contactText.topicOptions}
           onChange={(event) => {
             const nextValue = event.target.value
             setTopicValue(nextValue)
@@ -79,11 +84,11 @@ export default function FormContainer() {
             }
           }}
           isError={topicError}
-          errorMessage="Topic is required"
+          errorMessage={contactText.form.topic.errorMessage}
         />
         <TextWindow
           name="message"
-          placeholder="message"
+          placeholder={contactText.form.message.placeholder}
           autoComplete="off"
           value={messageValue}
           onChange={(event) => {
@@ -94,10 +99,10 @@ export default function FormContainer() {
             }
           }}
           isError={messageError}
-          errorMessage="Message is required"
+          errorMessage={contactText.form.message.errorMessage}
         />
         <div className={styles.submitRow}>
-          <SubmitButton name="just send it" iconName="ArrowThinRight" />
+          <SubmitButton name={contactText.submitButton} iconName="ArrowThinRight" />
         </div>
       </form>
     </>

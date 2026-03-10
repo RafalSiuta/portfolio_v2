@@ -1,14 +1,20 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import plHome from '../../../assets/i18/pl/home.json'
 import enHome from '../../../assets/i18/en/home.json'
+import plAbout from '../../../assets/i18/pl/about.json'
+import enAbout from '../../../assets/i18/en/about.json'
+import plContact from '../../../assets/i18/pl/contact.json'
+import enContact from '../../../assets/i18/en/contact.json'
+import plNav from '../../../assets/i18/pl/nav.json'
+import enNav from '../../../assets/i18/en/nav.json'
 
 const LanguageContext = createContext(null)
 
 const STORAGE_KEY = 'r85_lang'
 
 const dictionaries = {
-  pl: plHome,
-  en: enHome,
+  pl: { ...plHome, ...plAbout, ...plContact, ...plNav },
+  en: { ...enHome, ...enAbout, ...enContact, ...enNav },
 }
 
 const getValueByPath = (dict, path, fallback) => {

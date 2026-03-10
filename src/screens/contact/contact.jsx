@@ -5,8 +5,13 @@ import contactDesktop from '../../assets/images/contact.jpg'
 import contactTablet from '../../assets/images/contact_M.jpg'
 import contactMobile from '../../assets/images/contact_S.jpg'
 import FormContainer from '../../components/forms/form_container/formContainer'
+import { useI18n } from '../../utils/providers/lang/langProvider'
+import { getContactText } from '../../utils/providers/lang/services'
 
 export default function Contact() {
+  const { t } = useI18n()
+  const contactText = getContactText(t)
+
   return (
     <HeroWrapper
       id="contact"
@@ -20,7 +25,7 @@ export default function Contact() {
     >
       <SectionWrapper className={styles.wrapper}>
         <div className={styles.content}>
-          <h1 className="strokeText">let's talk</h1>
+          <h1 className="strokeText">{contactText.title}</h1>
           <FormContainer />
         </div>
       </SectionWrapper>

@@ -7,6 +7,8 @@ import navLinks from '../../utils/constants/navLinks'
 import MenuBtn from '../buttons/nav_button/navButton'
 import Logo from '../buttons/logo/logo'
 import { useI18n } from '../../utils/providers/lang/langProvider'
+import { getNavText } from '../../utils/providers/lang/services'
+import { useNavigate } from 'react-router-dom'
 
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -33,8 +35,20 @@ function Nav() {
     toggleMenu,
     smoother,
   } = useNavContext()
-  const { nextLocale, toggleLocale } = useI18n()
+  const { nextLocale, toggleLocale, t } = useI18n()
+  const navText = getNavText(t)
+  const navigate = useNavigate()
   const [isSmallHorizontal, setIsSmallHorizontal] = useState(false)
+  const handleLogoClick = useCallback(() => {
+    navigate('/r85')
+  }, [navigate])
+
+  const handleLogoKeyDown = useCallback((event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      handleLogoClick()
+    }
+  }, [handleLogoClick])
   const toggleMenuAndBlur = () => {
     buttonRef.current?.blur()
     toggleMenu()
@@ -283,15 +297,30 @@ function Nav() {
     <header className={containerClassName} ref={navRootRef}>
       <nav className={styles.navigation} aria-label="Primary">
         {!isSmallHorizontal && (
-          <Logo />
+          <Logo
+            onClick={handleLogoClick}
+            onKeyDown={handleLogoKeyDown}
+            role="button"
+            tabIndex={0}
+            ariaLabel="Open r85 project"
+          />
         )}
         <div className={styles.menuList}>
           {isSmallHorizontal && (
-            <Logo className={styles.mobileLogo} />
+            <Logo
+              className={styles.mobileLogo}
+              onClick={handleLogoClick}
+              onKeyDown={handleLogoKeyDown}
+              role="button"
+              tabIndex={0}
+              ariaLabel="Open r85 project"
+            />
           )}
           <ul className={styles.menu} ref={menuRef}>
-            {navLinks.map((link, index) => (
-              <li key={link.href}>
+            {navLinks.map((link, index) => {
+              const label = navText.menuOptions?.[index] ?? link.label
+              return (
+                <li key={link.href}>
                 <a
                   className={styles.link}
                   href={link.href}
@@ -305,10 +334,11 @@ function Nav() {
                     }
                   }}
                 >
-                  {link.label}
+                  {label}
                 </a>
               </li>
-            ))}
+              )
+            })}
             <span className={styles.indicator} ref={indicatorRef} aria-hidden="true" />
           </ul>
           <TextButton className={styles.langButton} onClick={toggleLocale}>

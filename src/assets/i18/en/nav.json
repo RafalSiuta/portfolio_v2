@@ -1,0 +1,10 @@
+﻿{
+  "nav": {
+    "menu_options": [
+      "home",
+      "projects",
+      "about",
+      "contact"
+    ]
+  }
+}

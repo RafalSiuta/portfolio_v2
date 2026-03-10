@@ -1,4 +1,4 @@
-import './App.css'
+﻿import './App.css'
 import Nav from './components/nav/nav'
 import Home from './screens/home/home'
 import Projects from './screens/projects/projects'
@@ -9,6 +9,7 @@ import Footer from './components/footer/footer'
 import SideIndicator from './components/side_indicator/sideIndicator'
 import ParticlesBackground from './components/containers/particles/particlesBackground'
 import ContactModal from './components/modals/contact_modal/ContactModal'
+import R85 from './screens/r85/r85'
 import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -16,10 +17,11 @@ import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { useGSAP } from "@gsap/react";
 import { useNavContext } from "./utils/providers/navProvider";
 import { ContactProvider } from "./utils/providers/contactProvider";
+import { Route, Routes } from 'react-router-dom'
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-function App() {
+function MainLanding() {
 
   const appRef = useRef(null);
   const { setSmoother } = useNavContext();
@@ -36,7 +38,7 @@ function App() {
 
       setSmoother(smoother);
 
-      // ważne gdy layout/obrazy się doładują:
+      // waĹĽne gdy layout/obrazy siÄ™ doĹ‚adujÄ…:
       ScrollTrigger.refresh();
 
       return () => {
@@ -48,33 +50,43 @@ function App() {
   );
 
   return (
-    <ContactProvider>
-      <>
-        <ParticlesBackground
-          className="particles-overlay"
-          style={{
-            '--particles-align': 'stretch',
-            '--particles-justify': 'flex-start',
-          }}
-        />
-        <div ref={appRef} className={styles.heroPage}>
-          <Nav />
-          <SideIndicator />
+    <>
+      <ParticlesBackground
+        className="particles-overlay"
+        style={{
+          '--particles-align': 'stretch',
+          '--particles-justify': 'flex-start',
+        }}
+      />
+      <div ref={appRef} className={styles.heroPage}>
+        <Nav />
+        <SideIndicator />
 
-          <div id="smooth-wrapper">
-            <div id="smooth-content">
-              <main className={styles.heroMain}>
-                <Home />
-                <Projects />
-                <About />
-                <Contact />
-              </main>
-            </div>
+        <div id="smooth-wrapper">
+          <div id="smooth-content">
+            <main className={styles.heroMain}>
+              <Home />
+              <Projects />
+              <About />
+              <Contact />
+            </main>
           </div>
-          <Footer />
         </div>
-        <ContactModal />
-      </>
+        <Footer />
+      </div>
+      <ContactModal />
+    </>
+  );
+
+}
+
+function App() {
+  return (
+    <ContactProvider>
+      <Routes>
+        <Route path="/" element={<MainLanding />} />
+        <Route path="/r85" element={<R85 />} />
+      </Routes>
     </ContactProvider>
   );
 

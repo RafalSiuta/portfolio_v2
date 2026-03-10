@@ -5,6 +5,7 @@
   transform-origin: center;
   transition: transform 150ms ease;
   will-change: transform;
+  cursor: pointer;
 }
 
 .logo:hover,

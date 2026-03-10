@@ -1,0 +1,55 @@
+{
+  "about": {
+    "title": "about me",
+    "description": "<strong>UI designer</strong> and frontend developer<br/> with graphic design background<br/> <strong>based in Łódź</strong> - central Poland."
+  },
+  "service": {
+    "title": "How can I help?",
+    "services": [
+      {
+        "id": "1",
+        "title": "skills",
+        "description": "From concept to finished product. I design clear interfaces and implement them into <strong>working websites and applications.</strong><br/>I combine UX, aesthetics, and code to quickly transform an idea into a product that works and looks great.",
+        "skillsList": []
+      },
+      { 
+        "id": "2",
+        "title": "design",
+        "description": "Starting from scratch, <strong>I can design your brand,</strong> define your goal analysis, user flow, information architecture, and usability. I can design a consistent style for all graphics, and create user-friendly, responsive interfaces.",
+        "skillsList": [
+          "brand design",
+          "UI/UX design",
+          "system design",
+          "user flows",
+          "responsive design"
+        ]
+      },
+      {
+        "id": "3",
+        "title": "code",
+        "description": "As a front-end developer, <strong>I have experience building websites, web, mobile, and desktop applications.</strong><br/> Depending on the needs, I create a digital, scalable product that fit seamlessly with brand design.",
+        "skillsList": [
+          "landing pages",
+          "mobile apps",
+          "web apps",
+          "desktop"
+        ]
+      }
+    ],
+    "edu": {
+      "title": "just call me rafi",
+      "educations": [
+        {
+          "id": "1",
+          "title": "bio",
+          "description": "<strong>Graphic design and programming</strong> have been my passions for years. I wanted more than just aesthetics, so after graduating in graphic design, I decided to <strong>combine both passions</strong> by creating interactive interfaces. This combination gives me the ability to <strong>bring the entire project to life,</strong> providing users with digital experiences that are not only beautiful but also intuitive, functional, and user-centric."
+        },
+        {
+          "id": "2",
+          "title": "education",
+          "description": "<strong>2024 - Bachelor's degree</strong> in computer graphics at the Academy of Humanities and Economics in ??d?"
+        }
+      ]
+    }
+  }
+}

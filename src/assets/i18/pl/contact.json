@@ -1,0 +1,39 @@
+{
+  "contact": {
+    "title": "pomówmy",
+    "form": [
+      {
+        "email_placeholder": "twój e-mail",
+        "email_error_message": "Adres e-mail jest wymagany"
+      },
+      {
+        "topic_placeholder": "temat",
+        "topic_error_message": "Temat jest wymagany"
+      },
+      {
+        "message_placeholder": "twoja wiadomość",
+        "message_error_message": "Wiadomość jest wymagana"
+      }
+    ],
+    "topic_options": [
+      "projektowanie UI",
+      "projektowanie marki",
+      "tworzenie stron www",
+      "tworzenie aplikacji mobilnych",
+      "pełna obsługa"
+    ],
+    "submit_button": "po prostu wyślij",
+    "modal_success": {
+      "title": "dziękuję",
+      "subtitle": "e-mail został wysłany pomyślnie",
+      "message": "Dziękuję za odwiedziny i poświęcony czas, bardzo mi miło. Odpowiem na Twoją wiadomość tak szybko, jak to będzie możliwe :)",
+      "buttonText": "ok, super"
+    },
+    "modal_error": {
+      "title": "upsss",
+      "subtitle": "coś poszło nie tak",
+      "message": "Prawdopodobnie wystąpił jakiś błąd. Sprawdź dane w formularzu i spróbuj ponownie.",
+      "buttonText": "spróbujmy ponownie"
+    }
+  }
+}
