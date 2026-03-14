@@ -1,6 +1,33 @@
 #root {
- 
   min-height: 100vh;
+}
+
+.appShell {
+  position: relative;
+  min-height: 100vh;
+}
+
+.landingShell {
+  position: relative;
+  min-height: 100vh;
+  z-index: 1;
+}
+
+.landingShellOverlay {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.detailLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .particles-overlay {

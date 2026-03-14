@@ -1,0 +1,33 @@
+.curtain {
+  --curtain-edge-width: clamp(6rem, 12vw, 30rem);
+  position: fixed;
+  top: 0;
+  right: calc(var(--curtain-edge-width) * -1);
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 20;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.panel {
+  position: absolute;
+  inset: 0;
+  right: calc(var(--curtain-edge-width));
+  background:var(--background-dark);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+}
+
+.edge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--curtain-edge-width);
+  height: 100%;
+}
+
+.edgePath {
+  fill: var(--background-dark);
+}
+ 

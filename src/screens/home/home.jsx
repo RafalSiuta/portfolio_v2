@@ -14,12 +14,21 @@ import { useI18n } from '../../utils/providers/lang/langProvider'
 import { getHomeText } from '../../utils/providers/lang/services'
 import { toHtml } from '../../utils/convert/stringConvert'
 import { useProjectsContext } from '../../utils/providers/projectsProvider'
+import { usePageTransitionContext } from '../../utils/providers/pageTransitionProvider'
 
 function Home() {
-  const { pageCounter, setPageCounter, scrollProgress, setScrollProgress, setScrollDirection, smoother } = useNavContext()
+  const {
+    pageCounter,
+    setPageCounter,
+    scrollProgress,
+    setScrollProgress,
+    setScrollDirection,
+    smoother,
+  } = useNavContext()
   const { t } = useI18n()
   const homeText = getHomeText(t)
   const { projectsList } = useProjectsContext()
+  const { navigateToDetail } = usePageTransitionContext()
   const dividerRef = useRef(null)
   const utilityRowRef = useRef(null)
   const cardRefs = useRef([])
@@ -105,6 +114,11 @@ function Home() {
     animateDividerTo(baseWidth + additionalWidth)
   }, [animateDividerTo])
 
+  const handleProjectClick = useCallback((projectId) => {
+    if (!projectId) return
+    navigateToDetail(`/projects/${projectId}`, { fromSectionId: 'home' })
+  }, [navigateToDetail])
+
   return (
     <HeroWrapper
       id="home"
@@ -126,6 +140,7 @@ function Home() {
                 className={styles.cardSlot}
                 ref={(el) => { cardRefs.current[index] = el }}
                 onMouseEnter={() => handleCardHover(index)}
+                onClick={() => handleProjectClick(id)}
               >
                 <SmallCard label={title} />
               </div>

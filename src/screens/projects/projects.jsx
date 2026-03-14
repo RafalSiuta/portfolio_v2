@@ -5,10 +5,14 @@ import TextLinkButton from '../../components/buttons/textlink_button/textLinkBut
 import IconButton from '../../components/buttons/icon_button/icon_button'
 import SmallCard from '../../components/cards/small_card/smallCard'
 import { useProjectsContext } from '../../utils/providers/projectsProvider'
+import { useNavContext } from '../../utils/providers/navProvider'
+import { usePageTransitionContext } from '../../utils/providers/pageTransitionProvider'
 import styles from './projects.module.css'
 
 export default function Projects() {
   const { projectsList, heroImages } = useProjectsContext()
+  const { rememberLastSection } = useNavContext()
+  const { navigateToDetail } = usePageTransitionContext()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobileViewport, setIsMobileViewport] = useState(false)
   const currentProject = projectsList[currentIndex] ?? {}
@@ -69,6 +73,13 @@ export default function Projects() {
     setCurrentIndex(index)
   }
 
+  const handleCaseStudyClick = (event) => {
+    event.preventDefault()
+    if (!currentProject?.id) return
+    rememberLastSection('projects')
+    navigateToDetail(`/projects/${currentProject.id}`, { fromSectionId: 'projects' })
+  }
+
   useEffect(() => {
     if (!isMobileViewport || !swipeAreaRef.current) return
     const touchThreshold = 50
@@ -103,7 +114,7 @@ export default function Projects() {
       node.removeEventListener('touchstart', handleTouchStart)
       node.removeEventListener('touchend', handleTouchEnd)
     }
-  }, [isMobileViewport])
+  }, [isMobileViewport, projectsList.length])
 
   return (
     <section id="projects" className={styles.section}>
@@ -131,9 +142,10 @@ export default function Projects() {
             <div className={styles.linkRow}>
               <TextLinkButton
                 name="case study"
-                to="/projects"
+                to={currentProject?.id ? `/projects/${currentProject.id}` : '/'}
                 iconName="ArrowThinRight"
                 className="description"
+                onClick={handleCaseStudyClick}
               />
             </div>
           </div>

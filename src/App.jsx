@@ -9,22 +9,27 @@ import Footer from './components/footer/footer'
 import SideIndicator from './components/side_indicator/sideIndicator'
 import ParticlesBackground from './components/containers/particles/particlesBackground'
 import ContactModal from './components/modals/contact_modal/ContactModal'
+import Curtain from './components/curtain/curtain'
 import R85 from './screens/r85/r85'
-import { useRef } from "react";
+import ProjectDetails from './screens/project_details/projectDetails'
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { useGSAP } from "@gsap/react";
 import { useNavContext } from "./utils/providers/navProvider";
 import { ContactProvider } from "./utils/providers/contactProvider";
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
+import { usePageTransitionContext } from './utils/providers/pageTransitionProvider'
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 function MainLanding() {
 
   const appRef = useRef(null);
-  const { setSmoother } = useNavContext();
+  const { setSmoother, smoother, scrollToSectionId } = useNavContext();
+  const { isDetailRoute } = usePageTransitionContext();
+  const location = useLocation();
 
   useGSAP(
     () => {
@@ -48,6 +53,18 @@ function MainLanding() {
     },
     { scope: appRef }
   );
+
+  useEffect(() => {
+    if (location.pathname !== '/') return
+    const hashId = location.hash?.replace('#', '')
+    if (!hashId) return
+    scrollToSectionId(hashId, { immediate: true, updatePageCounter: true })
+  }, [location.pathname, location.hash, scrollToSectionId])
+
+  useEffect(() => {
+    if (!smoother || typeof smoother.paused !== 'function') return
+    smoother.paused(isDetailRoute)
+  }, [isDetailRoute, smoother])
 
   return (
     <>
@@ -80,13 +97,48 @@ function MainLanding() {
 
 }
 
+function DetailRoutes() {
+  return (
+    <Routes>
+      <Route path="/projects/:projectId" element={<ProjectDetails />} />
+      <Route path="/r85" element={<R85 />} />
+    </Routes>
+  )
+}
+
+function AppShell() {
+  const {
+    isCurtainClosed,
+    isDetailRoute,
+    handleCurtainClosed,
+    handleCurtainOpened,
+  } = usePageTransitionContext()
+
+  const landingClassName = isDetailRoute ? 'landingShell landingShellOverlay' : 'landingShell'
+
+  return (
+    <div className="appShell">
+      <div className={landingClassName} inert={isDetailRoute}>
+        <MainLanding />
+        <Curtain
+          isClosed={isCurtainClosed}
+          onClosed={handleCurtainClosed}
+          onOpened={handleCurtainOpened}
+        />
+      </div>
+      {isDetailRoute ? (
+        <div className="detailLayer">
+          <DetailRoutes />
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
 function App() {
   return (
     <ContactProvider>
-      <Routes>
-        <Route path="/" element={<MainLanding />} />
-        <Route path="/r85" element={<R85 />} />
-      </Routes>
+      <AppShell />
     </ContactProvider>
   );
 

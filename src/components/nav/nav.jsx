@@ -8,7 +8,8 @@ import MenuBtn from '../buttons/nav_button/navButton'
 import Logo from '../buttons/logo/logo'
 import { useI18n } from '../../utils/providers/lang/langProvider'
 import { getNavText } from '../../utils/providers/lang/services'
-import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import { usePageTransitionContext } from '../../utils/providers/pageTransitionProvider'
 
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -36,12 +37,14 @@ function Nav() {
     smoother,
   } = useNavContext()
   const { nextLocale, toggleLocale, t } = useI18n()
+  const { navigateToDetail } = usePageTransitionContext()
   const navText = getNavText(t)
-  const navigate = useNavigate()
+  const location = useLocation()
   const [isSmallHorizontal, setIsSmallHorizontal] = useState(false)
   const handleLogoClick = useCallback(() => {
-    navigate('/r85')
-  }, [navigate])
+    const currentSectionId = navLinks[pageCounter]?.href.replace('#', '') || 'home'
+    navigateToDetail('/r85', { fromSectionId: currentSectionId })
+  }, [navigateToDetail, pageCounter])
 
   const handleLogoKeyDown = useCallback((event) => {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -209,6 +212,7 @@ function Nav() {
   }, [animateProgressToFull, animateProgressToZero, pageCounter, setActiveHash, setPageCounter, isSmallHorizontal, setIsMenuOpen])
 
   useEffect(() => {
+    if (location.pathname !== '/') return
     if (!smoother) return
 
     const getNavOffset = () => {
@@ -286,7 +290,7 @@ function Nav() {
         scrollEndHandlerRef.current = null
       }
     }
-  }, [smoother, setPageCounter, setScrollProgress, setScrollDirection, setActiveHash])
+  }, [location.pathname, smoother, setPageCounter, setScrollProgress, setScrollDirection, setActiveHash])
 
 
   const containerClassName = isSmallHorizontal

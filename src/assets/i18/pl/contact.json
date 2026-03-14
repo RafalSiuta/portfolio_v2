@@ -3,8 +3,8 @@
     "title": "pomówmy",
     "form": [
       {
-        "email_placeholder": "twój e-mail",
-        "email_error_message": "Adres e-mail jest wymagany"
+        "email_placeholder": "twój email",
+        "email_error_message": "Adres email jest wymagany"
       },
       {
         "topic_placeholder": "temat",
