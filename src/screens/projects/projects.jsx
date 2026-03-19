@@ -7,6 +7,7 @@ import SmallCard from '../../components/cards/small_card/smallCard'
 import { useProjectsContext } from '../../utils/providers/projectsProvider'
 import { useNavContext } from '../../utils/providers/navProvider'
 import { usePageTransitionContext } from '../../utils/providers/pageTransitionProvider'
+import { getProjectLeadScreen, resolveProjectImage } from '../../utils/projects/projectImages'
 import styles from './projects.module.css'
 
 export default function Projects() {
@@ -20,17 +21,12 @@ export default function Projects() {
   const touchStartRef = useRef({ x: 0, y: 0 })
 
   const heroImage = useMemo(() => {
-    if (!currentProject.hero_img) return ''
-    const heroKey =
-      typeof currentProject.hero_img === 'string'
-        ? currentProject.hero_img
-        : isMobileViewport
-          ? currentProject.hero_img.mobile ?? currentProject.hero_img.desktop
-          : currentProject.hero_img.desktop ?? currentProject.hero_img.mobile
-    if (!heroKey) return ''
-    const key = `../../${heroKey}`
-    return heroImages[key] ?? ''
-  }, [currentProject.hero_img, isMobileViewport])
+    return resolveProjectImage(
+      getProjectLeadScreen(currentProject),
+      heroImages,
+      isMobileViewport
+    )
+  }, [currentProject, heroImages, isMobileViewport])
 
   useEffect(() => {
     const updateViewport = () => setIsMobileViewport(window.innerWidth < 500)
@@ -41,11 +37,11 @@ export default function Projects() {
 
   useEffect(() => {
     const logProjects = () => {
-      projectsList.map(({ title, subtitle, description, hero_img, tools }) => {
+      projectsList.map(({ title, subtitle, description, screens_list, tools }) => {
         // console.log('title:', title)
         // console.log('subtitle:', subtitle)
         // console.log('description:', description)
-        // console.log('hero_img:', hero_img)
+        // console.log('screens_list:', screens_list)
         // console.log('tools:', tools)
         return null
       })

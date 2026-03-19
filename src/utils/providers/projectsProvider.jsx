@@ -4,7 +4,7 @@ import projectsData from '../../assets/data/projects_data.json'
 const ProjectsContext = createContext(null)
 
 const projectsList = projectsData
-const heroImages = import.meta.glob('../../assets/data/image_data/*', {
+const heroImages = import.meta.glob('../../assets/data/image_data/**/*', {
   eager: true,
   import: 'default',
 })
