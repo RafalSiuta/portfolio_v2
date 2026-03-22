@@ -1,0 +1,78 @@
+.projectCardsContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--project-card-spacing);
+}
+
+.navButtonsContainer {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--project-card-spacing);
+}
+
+.cardsContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--project-card-spacing);
+  height: auto;
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  padding: 4px 0;
+  padding-left: calc((var(--icon-button-width) * 2) + var(--project-card-spacing) + var(--project-card-spacing));
+  /* background-color: black; */
+}
+
+.cardsContainer > * {
+  flex: 0 0 auto;
+}
+
+.cardsContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.navButtonLeft:hover .navIconLeft {
+  transform: translateX(calc(var(--icon-hover-shift, calc(var(--icon-button-width) * 0.18)) * -1));
+}
+
+.navButtonRight:hover .navIconRight {
+  transform: translateX(var(--icon-hover-shift, calc(var(--icon-button-width) * 0.18)));
+}
+
+@media screen and (max-width: 768px) {
+  .projectCardsContainer {
+    align-items: end;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .cardsContainer {
+    display: none;
+  }
+
+  .projectCardsContainer {
+    align-items: center;
+    margin-top: auto;
+  }
+
+  .navButtonsContainer {
+    position: static;
+    transform: none;
+    margin-bottom: var(--project-card-spacing);
+  }
+}

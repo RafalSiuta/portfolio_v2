@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import styles from './sideIndicator.module.css'
-import { useNavContext } from '../../utils/providers/navProvider'
+import { useNavContext } from '../../../utils/providers/navProvider'
 
 function clampPercent(value) {
   if (Number.isNaN(value)) return 0

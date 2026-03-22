@@ -9,8 +9,10 @@
   --icon-focus-translate: -0.0625rem;
   border-radius: 999px;
   border: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab);
-  background: transparent;
+  /* background: transparent; */
   /* backdrop-filter: blur(var(--frosted-blur, 0.15625rem)); */
+  background: var(--tint-dark, rgba(23, 23, 23, 0.5));
+  backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
   display: inline-flex;
   align-items: center;
   justify-content: center;

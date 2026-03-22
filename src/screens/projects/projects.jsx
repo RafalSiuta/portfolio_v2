@@ -2,7 +2,7 @@
 import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
 import ChipButton from '../../components/buttons/chip_button/chipButton'
 import TextLinkButton from '../../components/buttons/textlink_button/textLinkButton'
-import IconButton from '../../components/buttons/icon_button/icon_button'
+import SliderNav from '../../components/navigation/slider_nav/sliderNav'
 import SmallCard from '../../components/cards/small_card/smallCard'
 import { useProjectsContext } from '../../utils/providers/projectsProvider'
 import { useNavContext } from '../../utils/providers/navProvider'
@@ -10,12 +10,18 @@ import { usePageTransitionContext } from '../../utils/providers/pageTransitionPr
 import { getProjectLeadScreen, resolveProjectImage } from '../../utils/projects/projectImages'
 import styles from './projects.module.css'
 
+const AUTO_PROGRESS_STEP = 1
+const AUTO_PROGRESS_INTERVAL_MS = 200
+const INDICATOR_PROGRESS_STEP = 10
+const MAX_PROGRESS = 100
+
 export default function Projects() {
   const { projectsList, heroImages } = useProjectsContext()
   const { rememberLastSection } = useNavContext()
   const { navigateToDetail } = usePageTransitionContext()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobileViewport, setIsMobileViewport] = useState(false)
+  const [loadPercent, setLoadPercent] = useState(0)
   const currentProject = projectsList[currentIndex] ?? {}
   const swipeAreaRef = useRef(null)
   const touchStartRef = useRef({ x: 0, y: 0 })
@@ -50,6 +56,10 @@ export default function Projects() {
     logProjects()
   }, [])
 
+  const resetSliderProgress = () => {
+    setLoadPercent(0)
+  }
+
   const prevProject = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === projectsList.length - 1 ? 0 : prevIndex + 1
@@ -62,10 +72,21 @@ export default function Projects() {
     )
   }
 
+  const handlePrevProjectClick = () => {
+    resetSliderProgress()
+    prevProject()
+  }
+
+  const handleNextProjectClick = () => {
+    resetSliderProgress()
+    nextProject()
+  }
+
   const isProjectActive = (projectId) =>
     !!projectId && projectId === currentProject?.id
 
   const handleCardClick = (index) => {
+    resetSliderProgress()
     setCurrentIndex(index)
   }
 
@@ -75,6 +96,31 @@ export default function Projects() {
     rememberLastSection('projects')
     navigateToDetail(`/projects/${currentProject.id}`, { fromSectionId: 'projects' })
   }
+
+  useEffect(() => {
+    if (projectsList.length <= 1) return undefined
+
+    const intervalId = window.setInterval(() => {
+      setLoadPercent((previousPercent) =>
+        previousPercent >= MAX_PROGRESS
+          ? MAX_PROGRESS
+          : previousPercent + AUTO_PROGRESS_STEP
+      )
+    }, AUTO_PROGRESS_INTERVAL_MS)
+
+    return () => window.clearInterval(intervalId)
+  }, [projectsList.length, currentIndex])
+
+  useEffect(() => {
+    if (projectsList.length <= 1 || loadPercent < MAX_PROGRESS) return undefined
+
+    const timeoutId = window.setTimeout(() => {
+      nextProject()
+      resetSliderProgress()
+    }, 0)
+
+    return () => window.clearTimeout(timeoutId)
+  }, [loadPercent, projectsList.length])
 
   useEffect(() => {
     if (!isMobileViewport || !swipeAreaRef.current) return
@@ -94,12 +140,14 @@ export default function Projects() {
 
       if (Math.abs(deltaX) < touchThreshold || Math.abs(deltaX) < Math.abs(deltaY)) return
 
-      setCurrentIndex((prevIndex) => {
-        if (deltaX < 0) {
-          return prevIndex === projectsList.length - 1 ? 0 : prevIndex + 1
-        }
-        return prevIndex === 0 ? projectsList.length - 1 : prevIndex - 1
-      })
+      resetSliderProgress()
+
+      if (deltaX < 0) {
+        prevProject()
+        return
+      }
+
+      nextProject()
     }
 
     const node = swipeAreaRef.current
@@ -111,6 +159,11 @@ export default function Projects() {
       node.removeEventListener('touchend', handleTouchEnd)
     }
   }, [isMobileViewport, projectsList.length])
+
+  const activeIndicatorCount = Math.min(
+    10,
+    Math.floor(loadPercent / INDICATOR_PROGRESS_STEP)
+  )
 
   return (
     <section id="projects" className={styles.section}>
@@ -146,34 +199,24 @@ export default function Projects() {
             </div>
           </div>
         </div>
-        <div className={styles.projectCardsContainer}>
-          <div className={styles.navButtonsContainer}>
-            <IconButton
-              iconName="ArrowThinLeft"
-              onClick={nextProject}
-              className={styles.navButtonLeft}
-              iconClassName={styles.navIconLeft}
-              style={{ '--icon-hover-shift': 'calc(var(--icon-button-width) * 0.18)' }}
+        <SliderNav
+          counterLabel="project"
+          nextProject={handleNextProjectClick}
+          prevProject={handlePrevProjectClick}
+          loadPercent={loadPercent}
+          activeIndicatorCount={activeIndicatorCount}
+          currentSlideNumber={currentIndex + 1}
+          totalSlides={projectsList.length}
+        >
+          {projectsList.map(({ title, id }, index) => (
+            <SmallCard
+              key={id ?? index}
+              label={title}
+              isActive={isProjectActive(id)}
+              onClick={() => handleCardClick(index)}
             />
-            <IconButton
-              iconName="ArrowThinRight"
-              onClick={prevProject}
-              className={styles.navButtonRight}
-              iconClassName={styles.navIconRight}
-              style={{ '--icon-hover-shift': 'calc(var(--icon-button-width) * 0.18)' }}
-            />
-          </div>
-          <div className={styles.cardsContainer}>
-            {projectsList.map(({ title, id }, index) => (
-              <SmallCard
-                key={id ?? index}
-                label={title}
-                isActive={isProjectActive(id)}
-                onClick={() => handleCardClick(index)}
-              />
-            ))}
-          </div>
-        </div>
+          ))}
+        </SliderNav>
       </SectionWrapper>
     </section>
   )

@@ -1,0 +1,40 @@
+.container {
+  display: block;
+  width: auto;
+  height: var(--small-card-max-height);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.imageFrame {
+  height: 100%;
+  aspect-ratio: 1728 / 1117;
+  border-radius: var(--miniature-frame-radius);
+  border: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab80);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background-dark, #1f1f1f);
+  transition: border-color 200ms ease, opacity 200ms ease, transform 200ms ease;
+  opacity: 0.72;
+}
+
+.imageFrame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.active .imageFrame {
+  border-color: var(--accent-dark);
+  opacity: 1;
+}
+
+.container:hover .imageFrame {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
