@@ -23,21 +23,42 @@
   transform: translateX(calc(var(--icon-hover-shift, calc(var(--icon-button-width) * 0.18)) * -1));
 }
 
+.header{
+  padding: var(--vertical-text-gap) 0 var(--project-card-spacing) 0;
+}
+
+.weblinks_container{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  align-items: center;
+  gap: var(--project-card-spacing);
+  padding: var(--project-card-spacing) 0;
+  
+}
+
 .text_content {
   /* position: relative; */
   z-index: 2;
   width: 100%;
-  padding: var(--base-gap) 0;
+  padding: var(--base-gap) 0 0 0;
   text-align: left;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  border-top: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab80);
 }
 
 .text_content h1,
 .text_content h2,
 .text_content p {
   margin: 0;
+}
+
+.text_content_bottom {
+  border-top: none;
+  border-bottom: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab80);
+  padding: var(--base-gap) 0;
 }
 
 .text_content h1 {
@@ -53,6 +74,109 @@
 .text_content p {
   font-size: clamp(1rem, 2.1vw, 1.25rem);
   line-height: 1.6;
+  opacity: 0.85;
+}
+
+.contact_container{
+  width: 100%;
+  padding: var(--base-gap) 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--base-gap);
+}
+
+.roleList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.roleListItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.roleListBullet {
+  width: 0.1875rem;
+  height: 0.1875rem;
+  margin-top: 0.7em;
+  border-radius: 50%;
+  background: var(--text-dark);
+  flex: 0 0 auto;
+}
+
+.roleListText {
+  font-size: clamp(1rem, 2.1vw, 1.25rem);
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+.graphics_container {
+  z-index: 2;
+  width: 100%;
+  padding: var(--base-gap) 0 0 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
+}
+
+.project_tools_container {
+  z-index: 2;
+  width: 100%;
+  padding: var(--base-gap) 0 0 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project_tools_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--project-card-spacing);
+}
+
+.related_projects_container {
+  z-index: 2;
+  width: 100%;
+  padding: var(--base-gap) 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.related_projects_container h2 {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.6vw, 2rem);
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+}
+
+.related_projects_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--project-card-spacing);
+}
+
+.graphic_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.graphic_header h2 {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.6vw, 2rem);
+  letter-spacing: 0.02em;
   opacity: 0.85;
 }
 

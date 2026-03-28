@@ -1,0 +1,169 @@
+.graphics_grid_shell {
+  position: relative;
+  width: 100%;
+  border-top: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab80);
+  background: var(--tint-dark, rgba(23, 23, 23, 0.5));
+  backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
+}
+
+.graphics_grid_list_view {
+  display: grid;
+  grid-template-rows: repeat(2, max-content);
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: var(--project-card-spacing);
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: var(--base-gap) 0 calc(var(--base-gap) + 0.75rem);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.graphics_grid_list_view::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.graphic_card {
+  display: flex;
+}
+
+.graphic_frame {
+  height: calc(var(--small-card-max-height) * 1.6);
+  aspect-ratio: 1728 / 1117;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background-dark, #1f1f1f);
+}
+
+.graphic_frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scrollbar_container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--project-card-spacing);
+  padding-bottom: calc(var(--layout-stroke, 0.5px) * -1);
+}
+
+.scrollbar_arrow {
+  border: 0;
+  background: transparent;
+  color: var(--text-dark, #d4d4d4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.scrollbar_arrow:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.scrollbar_icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.scrollbar_rail {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  height: 0;
+  border-top: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab80);
+}
+
+.indicator {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  min-width: 2.25rem;
+  height: calc(var(--layout-stroke, 0.5px) * 6);
+  background: var(--accent-dark);
+  transform: translateY(-50%);
+  cursor: pointer;
+  border-radius: 999px;
+  touch-action: none;
+  user-select: none;
+}
+
+@media screen and (max-width: 1024px) {
+  .graphics_grid_list_view {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 85vh;
+    padding: var(--base-gap) calc(var(--project-card-spacing) + 0.75rem) var(--base-gap) 0;
+  }
+
+  .graphic_card,
+  .graphic_frame {
+    width: 100%;
+  }
+
+  .graphic_frame {
+    height: auto;
+  }
+
+  .scrollbar_container {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: auto;
+    flex-direction: column;
+    padding-bottom: 0;
+    padding-right: calc(var(--layout-stroke, 0.5px) * -1);
+  }
+
+  .scrollbar_icon {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+
+  .scrollbar_arrow:first-child .scrollbar_icon {
+    transform: rotate(-90deg);
+  }
+
+  .scrollbar_arrow:last-child .scrollbar_icon {
+    transform: rotate(90deg);
+  }
+
+  .scrollbar_rail {
+    width: 0;
+    height: 100%;
+    border-top: 0;
+    border-left: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab80);
+  }
+
+  .indicator {
+    top: 0;
+    left: 50%;
+    min-width: 0;
+    width: calc(var(--layout-stroke, 0.5px) * 6);
+    min-height: 2.25rem;
+    transform: translateX(-50%);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .graphics_grid_list_view {
+    grid-template-columns: 1fr;
+  }
+}

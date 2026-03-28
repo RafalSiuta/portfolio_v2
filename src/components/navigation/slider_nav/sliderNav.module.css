@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: var(--project-card-spacing);
+  margin: var(--project-card-spacing) 0;
 }
 
 .navButtonsContainer {

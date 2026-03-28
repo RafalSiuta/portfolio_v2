@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import ParticlesBackground from '../../components/containers/particles/particlesBackground'
+import PhotoGrid from '../../components/containers/photo_grid/photoGrid'
 import HeroWrapper from '../../components/containers/herowrapper/heroWrapper'
 import IconButton from '../../components/buttons/icon_button/icon_button'
+import ChipButton from '../../components/buttons/chip_button/chipButton'
+import TextLinkButton from '../../components/buttons/textlink_button/textLinkButton'
 import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
 import SliderNav from '../../components/navigation/slider_nav/sliderNav'
 import ShotMiniature from '../../components/cards/shot_miniature/shotMiniature'
+import SmallCard from '../../components/cards/small_card/smallCard'
 import { useProjectsContext } from '../../utils/providers/projectsProvider'
 import { useNavContext } from '../../utils/providers/navProvider'
 import { usePageTransitionContext } from '../../utils/providers/pageTransitionProvider'
@@ -19,6 +23,7 @@ const MAX_PROGRESS = 100
 
 export default function ProjectDetails() {
   const { projectId } = useParams()
+  const navigate = useNavigate()
   const { projectsList, heroImages } = useProjectsContext()
   const { lastSectionId } = useNavContext()
   const { returnToSection } = usePageTransitionContext()
@@ -32,7 +37,13 @@ export default function ProjectDetails() {
   )
 
   const screensList = project?.screens_list ?? []
+  const webLinks = project?.web_links ?? []
+  const graphicsList = project?.graphics ?? []
   const currentScreen = screensList[currentScreenIndex] ?? null
+  const relatedProjects = useMemo(
+    () => projectsList.filter(({ id }) => id && id !== projectId),
+    [projectsList, projectId]
+  )
 
   const heroImage = useMemo(() => {
     return resolveProjectImage(currentScreen, heroImages, isMobileViewport)
@@ -88,6 +99,11 @@ export default function ProjectDetails() {
     setCurrentScreenIndex(index)
   }
 
+  const handleProjectCardClick = useCallback((nextProjectId) => {
+    if (!nextProjectId || nextProjectId === projectId) return
+    navigate(`/projects/${nextProjectId}`)
+  }, [navigate, projectId])
+
   useEffect(() => {
     if (screensList.length <= 1) return undefined
 
@@ -129,7 +145,11 @@ export default function ProjectDetails() {
       />
       <HeroWrapper className={styles.heroWrapper}>
         <SectionWrapper className={styles.wrapper}>
-          <h1 className="strokeText">{project?.title ?? 'Project not found'}</h1>
+          <header className={styles.header}>
+            <h1 className="strokeText">{project?.title ?? 'Project not found'}</h1>
+            <h2>{project?.subtitle}</h2>
+          </header>
+
           <div className={styles.content}>
             <div className={styles.imageContainer}>
               <div className={styles.imageFrame} aria-hidden="true">
@@ -138,6 +158,7 @@ export default function ProjectDetails() {
             </div>
           </div>
           <SliderNav
+            key={projectId ?? 'project-details-slider'}
             counterLabel="screen"
             nextProject={handlePrevScreenClick}
             prevProject={handleNextScreenClick}
@@ -148,7 +169,7 @@ export default function ProjectDetails() {
           >
             {screensList.map((screen, index) => (
               <ShotMiniature
-                key={screen.desktop ?? screen.mobile ?? index}
+                key={`${projectId ?? 'project'}-${screen.desktop ?? screen.mobile ?? 'screen'}-${index}`}
                 src={resolveProjectImage(screen, heroImages, isMobileViewport)}
                 alt={`${project?.title ?? 'project'} screen ${index + 1}`}
                 isActive={index === currentScreenIndex}
@@ -156,9 +177,83 @@ export default function ProjectDetails() {
               />
             ))}
           </SliderNav>
+          
           <div className={styles.text_content}>
-            {project?.subtitle ? <h2>{project.subtitle}</h2> : null}
+            <h2>about project</h2>
             {project?.description ? <p>{project.description}</p> : null}
+            <div className={styles.weblinks_container}>
+            {webLinks.map(({ link_title, icon_name, link }, index) => (
+              <TextLinkButton
+                key={`${link_title}-${link}-${index}`}
+                name={link_title}
+                to={link}
+                iconName={icon_name}
+                isLink={true}
+                isActive={index === webLinks.length - 1}
+              />
+            ))}
+          </div>
+          </div>
+          <div className={styles.text_content}>
+            <h2>my role</h2>
+            {project?.role?.length ? (
+              <ul className={styles.roleList}>
+                {project.role.map((roleItem, index) => (
+                  <li key={`${roleItem}-${index}`} className={styles.roleListItem}>
+                    <span className={styles.roleListBullet} aria-hidden="true" />
+                    <span className={styles.roleListText}>{roleItem}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+          <div className={styles.graphics_container}>
+            <div className={styles.graphic_header}>
+              <h2>screens & graphics</h2>
+              <h2>{graphicsList.length}</h2>
+            </div>
+            <PhotoGrid
+              graphicsList={graphicsList}
+              heroImages={heroImages}
+              isMobileViewport={isMobileViewport}
+            />
+          </div>
+
+          <div className={styles.project_tools_container}>
+            <h2>project tools</h2>
+            <div className={styles.project_tools_wrapper}>
+              {project?.tools?.map(({ tool_name }) => (
+                <ChipButton key={tool_name} text={tool_name} onClick={() => {}} />
+              ))}
+            </div>
+          </div>
+          <div className={`${styles.text_content} ${styles.text_content_bottom}`}>
+            <h2>challenges</h2>
+            {project?.challanges ? <p>{project.challanges}</p> : null}
+          </div>
+          {relatedProjects.length ? (
+            <div className={styles.related_projects_container}>
+              <h2>other projects</h2>
+              <div className={styles.related_projects_wrapper}>
+                {relatedProjects.map(({ id, title }) => (
+                  <SmallCard
+                    key={id}
+                    label={title}
+                    onClick={() => handleProjectCardClick(id)}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : null}
+          <div className={styles.contact_container}>
+             <IconButton
+          iconName="ArrowThinRight"
+          // onClick={prevProject}
+          // className={styles.navButtonRight}
+          // iconClassName={styles.navIconRight}
+          style={{ '--icon-hover-shift': 'calc(var(--icon-button-width) * 0.18)' }}
+        />
+             <h1 className="strokeText">let's talk</h1>
           </div>
         </SectionWrapper>
 

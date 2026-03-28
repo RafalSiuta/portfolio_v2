@@ -26,6 +26,59 @@
         "mobile":"assets/data/image_data/vip_mobile.png"
       }
     ],
+    "web_links":[
+      
+      {
+        "link_title":"github project",
+        "icon_name":"ArrowThinRight",
+        "link":"https://github.com/RafalSiuta/vip_security"
+      },
+      {
+        "link_title":"live website",
+        "icon_name":"ArrowThinRight",
+        "link":"https://grupavip.netlify.app/#home"
+      }
+    ],
+    "role":[
+      "brand design, brand identity",
+      "graphic design - assets, images, custom icons",
+      "UI design, create design system, responsive layouts",
+      "web development code, test, seo setup and publish"
+    ],
+    "graphics":[
+      {
+        "title":"hero page",
+        "url":"assets/data/image_data/vip_security/hero.png"
+      },
+      {
+        "title":"service page",
+        "url":"assets/data/image_data/vip_security/service.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"contact page",
+        "url":"assets/data/image_data/vip_security/contact.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      }
+    ],
     "tools": [
       {
         "tool_name": "figma"
@@ -42,7 +95,8 @@
       {
         "tool_name": "framer motion"
       }
-    ]
+    ],
+    "challanges":"creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients."
   },
   {
     "id": "002",
@@ -71,6 +125,64 @@
         "mobile": "assets/data/image_data/noti_mobile.png"
       }
     ],
+    "web_links":[
+      
+      {
+        "link_title":"github project",
+        "icon_name":"ArrowThinRight",
+        "link":"https://github.com/RafalSiuta/noti"
+      },
+      {
+        "link_title":"playstore",
+        "icon_name":"ArrowThinRight",
+        "link":"https://play.google.com/store/apps/details?id=org.r85.calendar_todo"
+      },
+      {
+        "link_title":"live website",
+        "icon_name":"ArrowThinRight",
+        "link":"https://notiapp.org/#home"
+      }
+    ],
+    "role":[
+      "brand design, brand identity",
+      "graphic design - assets, images, custom icons",
+      "UI design, create design system, responsive layouts",
+      "web development code, test, seo setup and publish"
+    ],
+    "graphics":[
+      {
+        "title":"hero page",
+        "url":"assets/data/image_data/vip_security/hero.png"
+      },
+      {
+        "title":"service page",
+        "url":"assets/data/image_data/vip_security/service.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"contact page",
+        "url":"assets/data/image_data/vip_security/contact.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      }
+    ],
     "tools": [
       {
         "tool_name": "figma"
@@ -87,7 +199,8 @@
       {
         "tool_name": "gsap"
       }
-    ]
+    ],
+    "challanges":"creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients."
   },
   {
     "id": "003",
@@ -116,6 +229,58 @@
         "mobile": "assets/data/image_data/organic_nutrition_mobile.png"
       }
     ],
+    "web_links":[
+      {
+        "link_title":"live website",
+        "icon_name":"ArrowThinRight",
+        "link":"https://grupavip.netlify.app/#home"
+      },
+      {
+        "link_title":"github project",
+        "icon_name":"ArrowThinRight",
+        "link":"https://github.com/RafalSiuta/vip_security"
+      }
+    ],
+    "role":[
+      "brand design, brand identity",
+      "graphic design - assets, images, custom icons",
+      "UI design, create design system, responsive layouts",
+      "web development code, test, seo setup and publish"
+    ],
+    "graphics":[
+      {
+        "title":"hero page",
+        "url":"assets/data/image_data/vip_security/hero.png"
+      },
+      {
+        "title":"service page",
+        "url":"assets/data/image_data/vip_security/service.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"contact page",
+        "url":"assets/data/image_data/vip_security/contact.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      }
+    ],
     "tools": [
       {
         "tool_name": "figma"
@@ -135,7 +300,8 @@
       {
         "tool_name": "gsap"
       }
-    ]
+    ],
+    "challanges":"creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients."
   },
   {
     "id": "004",
@@ -164,6 +330,59 @@
         "mobile":"assets/data/image_data/vip_mobile.png"
       }
     ],
+    "web_links":[
+      
+      {
+        "link_title":"github project",
+        "icon_name":"ArrowThinRight",
+        "link":"https://github.com/RafalSiuta/vip_security"
+      },
+      {
+        "link_title":"live website",
+        "icon_name":"ArrowThinRight",
+        "link":"https://grupavip.netlify.app/#home"
+      }
+    ],
+    "role":[
+      "brand design, brand identity",
+      "graphic design - assets, images, custom icons",
+      "UI design, create design system, responsive layouts",
+      "web development code, test, seo setup and publish"
+    ],
+    "graphics":[
+      {
+        "title":"hero page",
+        "url":"assets/data/image_data/vip_security/hero.png"
+      },
+      {
+        "title":"service page",
+        "url":"assets/data/image_data/vip_security/service.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"contact page",
+        "url":"assets/data/image_data/vip_security/contact.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      },
+      {
+        "title":"about page",
+        "url":"assets/data/image_data/vip_security/about.png"
+      }
+    ],
     "tools": [
       {
         "tool_name": "figma"
@@ -180,7 +399,8 @@
       {
         "tool_name": "framer motion"
       }
-    ]
+    ],
+     "challanges":"creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients."
   }
 
 ]
