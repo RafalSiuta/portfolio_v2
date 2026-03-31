@@ -23,6 +23,32 @@
   justify-content: flex-end;
   padding-right: var(--rail-align-offset, 0px);
 }
+
+.footerInline {
+  position: static;
+  bottom: auto;
+  padding: 0;
+  margin-top: var(--project-card-spacing, 1.5rem);
+  pointer-events: all;
+  justify-content: center;
+}
+
+.footerContainerInline {
+  width: 100%;
+  justify-content: center;
+  padding-right: 0;
+  padding-bottom: var(--base-gap, 3rem);
+}
+
+.footerDetail {
+  z-index: 32;
+}
+
+.footerContainerDetail {
+  justify-content: flex-end;
+  padding-right: var(--rail-align-offset, 0px);
+}
+
 @media screen and (max-width: 1280px) {
  .footer{
   padding: 0 calc(var(--vertical-large-padding)) var(--menu-button-margin-right);
@@ -32,5 +58,9 @@
 @media screen and (max-width: 1024px) {
   .footer {
     display: none;
+  }
+
+  .footerInline {
+    display: flex;
   }
 }

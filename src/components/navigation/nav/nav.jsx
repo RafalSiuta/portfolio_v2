@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+import { matchPath, useLocation } from 'react-router-dom'
 import styles from './nav.module.css'
 import TextButton from '../../buttons/textbutton/textbutton'
 import { useNavContext } from '../../../utils/providers/navProvider'
@@ -8,7 +9,6 @@ import MenuBtn from '../../buttons/nav_button/navButton'
 import Logo from '../../buttons/logo/logo'
 import { useI18n } from '../../../utils/providers/lang/langProvider'
 import { getNavText } from '../../../utils/providers/lang/services'
-import { useLocation } from 'react-router-dom'
 import { usePageTransitionContext } from '../../../utils/providers/pageTransitionProvider'
 
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -24,7 +24,7 @@ function Nav() {
   const lastDirectionRef = useRef(1)
   const isProgrammaticScrollRef = useRef(false)
   const scrollEndHandlerRef = useRef(null)
-  const [activeHash, setActiveHash] = useState(navLinks[0].href)
+  const [activeKey, setActiveKey] = useState(navLinks[0].href)
   const {
     pageCounter,
     setPageCounter,
@@ -35,12 +35,30 @@ function Nav() {
     setIsMenuOpen,
     toggleMenu,
     smoother,
+    lastSectionId,
   } = useNavContext()
   const { nextLocale, toggleLocale, t } = useI18n()
-  const { navigateToDetail } = usePageTransitionContext()
+  const { isDetailRoute, navigateToDetail, returnToSection } = usePageTransitionContext()
   const navText = getNavText(t)
   const location = useLocation()
   const [isSmallHorizontal, setIsSmallHorizontal] = useState(false)
+  const currentMode = isDetailRoute ? 'detail' : 'landing'
+  const isProjectDetailRoute = !!matchPath('/projects/:projectId', location.pathname)
+  const detailLabel = isProjectDetailRoute ? navText.detailCurrent : navText.r85Current
+  const detailItems = [
+    {
+      key: 'detail-back',
+      label: navText.detailBack,
+      type: 'button',
+    },
+    {
+      key: 'detail-current',
+      label: detailLabel,
+      type: 'label',
+      isActive: true,
+    },
+  ]
+
   const handleLogoClick = useCallback(() => {
     const currentSectionId = navLinks[pageCounter]?.href.replace('#', '') || 'home'
     navigateToDetail('/r85', { fromSectionId: currentSectionId })
@@ -56,6 +74,12 @@ function Nav() {
     buttonRef.current?.blur()
     toggleMenu()
   }
+
+  const closeMenuOverlay = useCallback(() => {
+    if (!isSmallHorizontal) return
+    setIsMenuOpen(false)
+    document.body.style.overflow = ''
+  }, [isSmallHorizontal, setIsMenuOpen])
 
   useEffect(() => {
     const updateBreakpoint = () => {
@@ -81,7 +105,7 @@ function Nav() {
   useEffect(() => {
     const menuEl = menuRef.current
     const indicatorEl = indicatorRef.current
-    const activeEl = linkRefs.current[activeHash]
+    const activeEl = linkRefs.current[activeKey]
     if (!menuEl || !indicatorEl || !activeEl) return
 
     const moveIndicator = () => {
@@ -106,7 +130,7 @@ function Nav() {
     return () => {
       window.removeEventListener('resize', moveIndicator)
     }
-  }, [activeHash, isSmallHorizontal])
+  }, [activeKey, isSmallHorizontal])
 
   useEffect(() => {
     const indicatorEl = indicatorRef.current
@@ -136,13 +160,19 @@ function Nav() {
     return () => {
       window.removeEventListener('resize', alignIndicatorToDivider)
     }
-  }, [activeHash, isSmallHorizontal])
+  }, [activeKey, isSmallHorizontal])
 
   useEffect(() => {
+    if (currentMode !== 'landing') return
     const nextLink = navLinks[pageCounter]
     if (!nextLink) return
-    setActiveHash((prev) => (prev === nextLink.href ? prev : nextLink.href))
-  }, [pageCounter])
+    setActiveKey((prev) => (prev === nextLink.href ? prev : nextLink.href))
+  }, [currentMode, pageCounter])
+
+  useEffect(() => {
+    if (currentMode !== 'detail') return
+    setActiveKey('detail-current')
+  }, [currentMode, detailLabel])
 
   const animateProgressToFull = useCallback((onComplete) => {
     setScrollDirection('down')
@@ -175,13 +205,8 @@ function Nav() {
     animateProgressToFull(() => {
       activeIndexRef.current = index
       setPageCounter(index)
-      setActiveHash(link.href)
+      setActiveKey(link.href)
 
-      // if (targetSection) {
-      //   // targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
-
-
-      // }
       if (targetSection) {
           isProgrammaticScrollRef.current = true
           if (scrollEndHandlerRef.current) {
@@ -204,14 +229,17 @@ function Nav() {
       if (isSamePage) {
         animateProgressToZero()
       }
-      if (isSmallHorizontal) {
-        setIsMenuOpen(false)
-        document.body.style.overflow = ''
-      }
+      closeMenuOverlay()
     })
-  }, [animateProgressToFull, animateProgressToZero, pageCounter, setActiveHash, setPageCounter, isSmallHorizontal, setIsMenuOpen])
+  }, [animateProgressToFull, animateProgressToZero, closeMenuOverlay, pageCounter, setPageCounter, smoother])
+
+  const handleReturnClick = useCallback(() => {
+    closeMenuOverlay()
+    returnToSection(lastSectionId)
+  }, [closeMenuOverlay, lastSectionId, returnToSection])
 
   useEffect(() => {
+    if (currentMode !== 'landing') return
     if (location.pathname !== '/') return
     if (!smoother) return
 
@@ -234,14 +262,14 @@ function Nav() {
     if (initialIndex >= 0) {
       activeIndexRef.current = initialIndex
       setPageCounter(initialIndex)
-      setActiveHash(navLinks[initialIndex].href)
+      setActiveKey(navLinks[initialIndex].href)
     }
 
     const setActiveIndex = (nextIndex) => {
       if (nextIndex === activeIndexRef.current) return
       activeIndexRef.current = nextIndex
       setPageCounter(nextIndex)
-      setActiveHash(navLinks[nextIndex].href)
+      setActiveKey(navLinks[nextIndex].href)
     }
 
     const sectionTriggers = ids
@@ -290,7 +318,7 @@ function Nav() {
         scrollEndHandlerRef.current = null
       }
     }
-  }, [location.pathname, smoother, setPageCounter, setScrollProgress, setScrollDirection, setActiveHash])
+  }, [currentMode, location.pathname, smoother, setPageCounter, setScrollProgress, setScrollDirection])
 
 
   const containerClassName = isSmallHorizontal
@@ -321,28 +349,67 @@ function Nav() {
             />
           )}
           <ul className={styles.menu} ref={menuRef}>
-            {navLinks.map((link, index) => {
-              const label = navText.menuOptions?.[index] ?? link.label
-              return (
-                <li key={link.href}>
-                <a
-                  className={styles.link}
-                  href={link.href}
-                  aria-current={activeHash === link.href ? 'page' : undefined}
-                  onClick={(event) => handleNavClick(event, link, index)}
-                  ref={(el) => {
-                    if (el) {
-                      linkRefs.current[link.href] = el
-                    } else {
-                      delete linkRefs.current[link.href]
-                    }
-                  }}
-                >
-                  {label}
-                </a>
-              </li>
-              )
-            })}
+            {currentMode === 'landing' ? (
+              navLinks.map((link, index) => {
+                const label = navText.menuOptions?.[index] ?? link.label
+                return (
+                  <li key={link.href}>
+                    <a
+                      className={styles.link}
+                      href={link.href}
+                      aria-current={activeKey === link.href ? 'page' : undefined}
+                      onClick={(event) => handleNavClick(event, link, index)}
+                      ref={(el) => {
+                        if (el) {
+                          linkRefs.current[link.href] = el
+                        } else {
+                          delete linkRefs.current[link.href]
+                        }
+                      }}
+                    >
+                      {label}
+                    </a>
+                  </li>
+                )
+              })
+            ) : (
+              detailItems.map((item) => (
+                <li key={item.key}>
+                  {item.type === 'button' ? (
+                    <TextButton
+                      className={styles.link}
+                      onClick={handleReturnClick}
+                    >
+                      <span
+                        ref={(el) => {
+                          if (el) {
+                            linkRefs.current[item.key] = el
+                          } else {
+                            delete linkRefs.current[item.key]
+                          }
+                        }}
+                      >
+                        {item.label}
+                      </span>
+                    </TextButton>
+                  ) : (
+                    <span
+                      className={`${styles.link} ${styles.activeLabel}`}
+                      aria-current={item.isActive ? 'page' : undefined}
+                      ref={(el) => {
+                        if (el) {
+                          linkRefs.current[item.key] = el
+                        } else {
+                          delete linkRefs.current[item.key]
+                        }
+                      }}
+                    >
+                      {item.label}
+                    </span>
+                  )}
+                </li>
+              ))
+            )}
             <span className={styles.indicator} ref={indicatorRef} aria-hidden="true" />
           </ul>
           <TextButton className={styles.langButton} onClick={toggleLocale}>

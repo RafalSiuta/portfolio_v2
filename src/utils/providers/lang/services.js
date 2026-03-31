@@ -77,5 +77,8 @@ export function getContactText(t) {
 export function getNavText(t) {
   return {
     menuOptions: t('nav.menu_options', ['home', 'projects', 'about', 'contact']),
+    detailBack: t('nav.detail_back', 'go back'),
+    detailCurrent: t('nav.detail_current', 'details'),
+    r85Current: t('nav.r85_current', 'r85'),
   }
 }

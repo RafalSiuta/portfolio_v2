@@ -5,36 +5,18 @@
 .appShell {
   position: relative;
   min-height: 100vh;
-}
-
-.landingShell {
-  position: relative;
-  min-height: 100vh;
-  z-index: 1;
-}
-
-.landingShellOverlay {
-  position: fixed;
-  inset: 0;
+  width: 100%;
   overflow: hidden;
-  pointer-events: none;
 }
 
-.detailLayer {
-  position: fixed;
-  inset: 0;
-  z-index: 30;
+#smooth-wrapper {
   width: 100%;
   min-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
-.detailLayer::-webkit-scrollbar {
-  width: 0;
-  height: 0;
+#smooth-content {
+  width: 100%;
+  min-height: 100vh;
 }
 
 .particles-overlay {

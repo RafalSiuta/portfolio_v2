@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { gsap } from 'gsap'
 import { useNavigate, useParams } from 'react-router-dom'
 import ParticlesBackground from '../../components/containers/particles/particlesBackground'
 import PhotoGrid from '../../components/containers/photo_grid/photoGrid'
@@ -25,8 +26,9 @@ export default function ProjectDetails() {
   const { projectId } = useParams()
   const navigate = useNavigate()
   const { projectsList, heroImages } = useProjectsContext()
-  const { lastSectionId } = useNavContext()
+  const { smoother } = useNavContext()
   const { returnToSection } = usePageTransitionContext()
+  const projectChangeTweenRef = useRef(null)
   const [isMobileViewport, setIsMobileViewport] = useState(false)
   const [currentScreenIndex, setCurrentScreenIndex] = useState(0)
   const [loadPercent, setLoadPercent] = useState(0)
@@ -62,9 +64,36 @@ export default function ProjectDetails() {
     setLoadPercent(0)
   }, [projectId])
 
-  const handleReturn = useCallback(() => {
-    returnToSection(lastSectionId)
-  }, [lastSectionId, returnToSection])
+  useEffect(() => {
+    projectChangeTweenRef.current?.kill()
+
+    if (smoother) {
+      smoother.scrollTo(0, true)
+      return undefined
+    }
+
+    const scrollProxy = { y: window.scrollY }
+    projectChangeTweenRef.current = gsap.to(scrollProxy, {
+      y: 0,
+      duration: 0.6,
+      ease: 'power2.out',
+      onUpdate: () => {
+        window.scrollTo(0, scrollProxy.y)
+      },
+      onComplete: () => {
+        projectChangeTweenRef.current = null
+      },
+    })
+
+    return () => {
+      projectChangeTweenRef.current?.kill()
+      projectChangeTweenRef.current = null
+    }
+  }, [projectId, smoother])
+
+  const handleContactReturn = useCallback(() => {
+    returnToSection('contact')
+  }, [returnToSection])
 
   const resetSliderProgress = () => {
     setLoadPercent(0)
@@ -227,9 +256,26 @@ export default function ProjectDetails() {
               ))}
             </div>
           </div>
-          <div className={`${styles.text_content} ${styles.text_content_bottom}`}>
+          <div className={styles.solutions_container}>
             <h2>challenges</h2>
-            {project?.challanges ? <p>{project.challanges}</p> : null}
+              {project?.challanges ? <p>{project.challanges}</p> : null}
+            {/* <div className={styles.small_content}>
+              
+            </div> */}
+            {/* <div className={styles.small_content}>
+              <h2>solutions</h2>
+              {project?.role?.length ? (
+                <ul className={styles.roleList}>
+                  {project.solutions.map((item, index) => (
+                    <li key={`${item}-${index}`} className={styles.roleListItem}>
+                      <span className={styles.roleListBullet} aria-hidden="true" />
+                      <span className={styles.roleListText}>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div> */}
+            
           </div>
           {relatedProjects.length ? (
             <div className={styles.related_projects_container}>
@@ -243,29 +289,21 @@ export default function ProjectDetails() {
                   />
                 ))}
               </div>
+              <div className={styles.contact_container}>
+                <IconButton
+                  iconName="ArrowThinRight"
+                  onClick={handleContactReturn}
+                  ariaLabel="Back to contact section"
+                  className={styles.contactButton}
+                  iconClassName={styles.contactIcon}
+                  style={{ '--icon-hover-shift': 'calc(var(--icon-button-width) * 0.18)' }}
+                />
+                <h1 className="strokeText">let's talk</h1>
+              </div>
             </div>
           ) : null}
-          <div className={styles.contact_container}>
-             <IconButton
-          iconName="ArrowThinRight"
-          // onClick={prevProject}
-          // className={styles.navButtonRight}
-          // iconClassName={styles.navIconRight}
-          style={{ '--icon-hover-shift': 'calc(var(--icon-button-width) * 0.18)' }}
-        />
-             <h1 className="strokeText">let's talk</h1>
-          </div>
+          
         </SectionWrapper>
-
-        <IconButton
-          iconName="ArrowThinLeft"
-          onClick={handleReturn}
-          ariaLabel="Back to main page"
-          hover="0deg"
-          className={styles.backButton}
-          iconClassName={styles.backIcon}
-          style={{ '--icon-hover-shift': 'calc(var(--icon-button-width) * 0.18)' }}
-        />
       </HeroWrapper>
     </div>
   )

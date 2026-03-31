@@ -30,12 +30,12 @@
       
       {
         "link_title":"github project",
-        "icon_name":"ArrowThinRight",
+        "icon_name":"GithubFill",
         "link":"https://github.com/RafalSiuta/vip_security"
       },
       {
         "link_title":"live website",
-        "icon_name":"ArrowThinRight",
+        "icon_name":"Planet",
         "link":"https://grupavip.netlify.app/#home"
       }
     ],
@@ -96,7 +96,12 @@
         "tool_name": "framer motion"
       }
     ],
-    "challanges":"creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients."
+    "challanges":"creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients.",
+    "solutions":[
+      "creating a brand and visual identity",
+      "creating a brand and visual identity",
+      "creating a brand and visual identity"
+    ]
   },
   {
     "id": "002",
@@ -129,17 +134,17 @@
       
       {
         "link_title":"github project",
-        "icon_name":"ArrowThinRight",
+        "icon_name":"GithubFill",
         "link":"https://github.com/RafalSiuta/noti"
       },
       {
         "link_title":"playstore",
-        "icon_name":"ArrowThinRight",
+        "icon_name":"Playstore",
         "link":"https://play.google.com/store/apps/details?id=org.r85.calendar_todo"
       },
       {
         "link_title":"live website",
-        "icon_name":"ArrowThinRight",
+        "icon_name":"Planet",
         "link":"https://notiapp.org/#home"
       }
     ],
@@ -200,7 +205,12 @@
         "tool_name": "gsap"
       }
     ],
-    "challanges":"creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients."
+    "challanges":"creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients.",
+    "solutions":[
+      "creating a brand and visual identity",
+      "creating a brand and visual identity",
+      "creating a brand and visual identity"
+    ]
   },
   {
     "id": "003",
@@ -231,15 +241,16 @@
     ],
     "web_links":[
       {
-        "link_title":"live website",
-        "icon_name":"ArrowThinRight",
-        "link":"https://grupavip.netlify.app/#home"
+        "link_title":"github project",
+        "icon_name":"GithubFill",
+        "link":"https://github.com/RafalSiuta/vip_security"
       },
       {
-        "link_title":"github project",
-        "icon_name":"ArrowThinRight",
-        "link":"https://github.com/RafalSiuta/vip_security"
+        "link_title":"live website",
+        "icon_name":"Planet",
+        "link":"https://grupavip.netlify.app/#home"
       }
+      
     ],
     "role":[
       "brand design, brand identity",
@@ -301,7 +312,12 @@
         "tool_name": "gsap"
       }
     ],
-    "challanges":"creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients."
+    "challanges":"creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients.",
+    "solutions":[
+      "creating a brand and visual identity",
+      "creating a brand and visual identity",
+      "creating a brand and visual identity"
+    ]
   },
   {
     "id": "004",
@@ -334,12 +350,12 @@
       
       {
         "link_title":"github project",
-        "icon_name":"ArrowThinRight",
+        "icon_name":"GithubFill",
         "link":"https://github.com/RafalSiuta/vip_security"
       },
       {
         "link_title":"live website",
-        "icon_name":"ArrowThinRight",
+        "icon_name":"Planet",
         "link":"https://grupavip.netlify.app/#home"
       }
     ],
@@ -400,7 +416,12 @@
         "tool_name": "framer motion"
       }
     ],
-     "challanges":"creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients."
+     "challanges":"creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients.",
+     "solutions":[
+      "creating a brand and visual identity",
+      "creating a brand and visual identity",
+      "creating a brand and visual identity"
+    ]
   }
 
 ]

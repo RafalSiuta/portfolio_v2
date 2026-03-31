@@ -14,27 +14,37 @@ const iconsList = [
   { link: 'https://linkedin.com/in/rafal-siuta-3023ba323', name: 'Linkedin', label: 'LinkedIn' },
 ]
 
-function Footer() {
+function Footer({ variant = 'floating' }) {
   const { isMenuOpen, pageCounter } = useNavContext()
   const containerRef = useRef(null)
   const socialListRef = useRef(null)
   const [isTabletDown, setIsTabletDown] = useState(false)
   const lastIndex = useMemo(() => Math.max(navLinks.length - 1, 0), [])
+  const isInline = variant === 'inline'
+  const isDetail = variant === 'detail'
+  const isAlwaysVisible = isInline || isDetail
   const shouldShowSocial = isTabletDown
-    ? isMenuOpen
-    : pageCounter === 0 || pageCounter === lastIndex
+    ? isAlwaysVisible || isMenuOpen
+    : isAlwaysVisible || pageCounter === 0 || pageCounter === lastIndex
 
   useEffect(() => {
+    if (isAlwaysVisible) return undefined
+
     const media = window.matchMedia('(max-width: 1024px)')
     const handleChange = (event) => setIsTabletDown(event.matches)
     setIsTabletDown(media.matches)
     media.addEventListener('change', handleChange)
     return () => media.removeEventListener('change', handleChange)
-  }, [])
+  }, [isAlwaysVisible])
 
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
+
+    if (isAlwaysVisible) {
+      gsap.set(el, { clearProps: 'all' })
+      return
+    }
 
     if (!isTabletDown) {
       gsap.set(el, { clearProps: 'all' })
@@ -57,7 +67,7 @@ function Footer() {
         onComplete: () => gsap.set(el, { display: 'none' }),
       })
     }
-  }, [isMenuOpen, isTabletDown])
+  }, [isAlwaysVisible, isMenuOpen, isTabletDown])
 
   useEffect(() => {
     const listEl = socialListRef.current
@@ -93,8 +103,21 @@ function Footer() {
   }, [shouldShowSocial])
 
   return (
-    <footer className={styles.footer} ref={containerRef}>
-      <div className={styles.footerContainer}>
+    <footer
+      className={[
+        styles.footer,
+        isInline ? styles.footerInline : '',
+        isDetail ? styles.footerDetail : '',
+      ].filter(Boolean).join(' ')}
+      ref={containerRef}
+    >
+      <div
+        className={[
+          styles.footerContainer,
+          isInline ? styles.footerContainerInline : '',
+          isDetail ? styles.footerContainerDetail : '',
+        ].filter(Boolean).join(' ')}
+      >
         <div className={styles.socialList} ref={socialListRef}>
           {iconsList.map(({ link, name, label }) => (
             <IconLink key={name} link={link} iconName={name} label={label} />

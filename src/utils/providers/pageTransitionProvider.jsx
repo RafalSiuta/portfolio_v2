@@ -73,31 +73,57 @@ export function PageTransitionProvider({ children }) {
     navigate(path)
   }, [closeCurtain, isTransitioning, lastSectionId, navigate, rememberLastSection])
 
-  const returnToSection = useCallback((sectionId) => {
+  const returnToSection = useCallback(async (sectionId) => {
     if (isTransitioning) return
+
+    const activeElement = document.activeElement
+    if (activeElement && typeof activeElement.blur === 'function') {
+      activeElement.blur()
+    }
 
     const targetSectionId = sectionId || lastSectionId || 'home'
     rememberLastSection(targetSectionId)
     pendingLandingSectionIdRef.current = targetSectionId
     transitionDirectionRef.current = 'to-landing'
     setIsTransitioning(true)
+    await closeCurtain()
     navigate(`/#${targetSectionId}`)
-  }, [isTransitioning, lastSectionId, navigate, rememberLastSection])
+  }, [closeCurtain, isTransitioning, lastSectionId, navigate, rememberLastSection])
 
   useEffect(() => {
     const previousPathname = previousPathnameRef.current
     previousPathnameRef.current = location.pathname
 
     if (isDetailRoute) {
-      if (curtainStateRef.current !== 'closed' && !pendingCurtainActionRef.current) {
-        curtainStateRef.current = 'closed'
-        setIsCurtainClosed(true)
+      const shouldRevealDetail = transitionDirectionRef.current === 'to-detail'
+        || previousPathname !== location.pathname
+
+      if (!shouldRevealDetail) {
+        return
       }
 
-      if (transitionDirectionRef.current === 'to-detail') {
+      let isCancelled = false
+
+      const revealDetail = async () => {
+        if (curtainStateRef.current !== 'closed' && !pendingCurtainActionRef.current) {
+          curtainStateRef.current = 'closed'
+          setIsCurtainClosed(true)
+        }
+
+        await waitForNextFrame()
+        if (isCancelled) return
+
+        await openCurtain()
+        if (isCancelled) return
+
         finishTransition()
       }
-      return
+
+      revealDetail()
+
+      return () => {
+        isCancelled = true
+      }
     }
 
     const shouldRevealLanding = transitionDirectionRef.current === 'to-landing'

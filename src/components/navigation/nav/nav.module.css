@@ -80,6 +80,11 @@
   color: var(--text-dark, #d4d4d4);
 }
 
+.activeLabel {
+  display: block;
+  color: var(--text-dark, #d4d4d4);
+}
+
 .langButton{
   padding: 0;
   margin: 0;
