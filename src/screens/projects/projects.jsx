@@ -22,6 +22,7 @@ export default function Projects() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobileViewport, setIsMobileViewport] = useState(false)
   const [loadPercent, setLoadPercent] = useState(0)
+  const [isAutoplayPaused, setIsAutoplayPaused] = useState(false)
   const currentProject = projectsList[currentIndex] ?? {}
   const swipeAreaRef = useRef(null)
   const touchStartRef = useRef({ x: 0, y: 0 })
@@ -58,6 +59,10 @@ export default function Projects() {
 
   const resetSliderProgress = () => {
     setLoadPercent(0)
+  }
+
+  const toggleSliderPause = () => {
+    setIsAutoplayPaused((previousState) => !previousState)
   }
 
   const prevProject = () => {
@@ -98,7 +103,7 @@ export default function Projects() {
   }
 
   useEffect(() => {
-    if (projectsList.length <= 1) return undefined
+    if (projectsList.length <= 1 || isAutoplayPaused) return undefined
 
     const intervalId = window.setInterval(() => {
       setLoadPercent((previousPercent) =>
@@ -109,10 +114,10 @@ export default function Projects() {
     }, AUTO_PROGRESS_INTERVAL_MS)
 
     return () => window.clearInterval(intervalId)
-  }, [projectsList.length, currentIndex])
+  }, [isAutoplayPaused, projectsList.length, currentIndex])
 
   useEffect(() => {
-    if (projectsList.length <= 1 || loadPercent < MAX_PROGRESS) return undefined
+    if (projectsList.length <= 1 || isAutoplayPaused || loadPercent < MAX_PROGRESS) return undefined
 
     const timeoutId = window.setTimeout(() => {
       nextProject()
@@ -120,7 +125,7 @@ export default function Projects() {
     }, 0)
 
     return () => window.clearTimeout(timeoutId)
-  }, [loadPercent, projectsList.length])
+  }, [isAutoplayPaused, loadPercent, projectsList.length])
 
   useEffect(() => {
     if (!isMobileViewport || !swipeAreaRef.current) return
@@ -203,6 +208,7 @@ export default function Projects() {
           counterLabel="project"
           nextProject={handleNextProjectClick}
           prevProject={handlePrevProjectClick}
+          pauseProject={toggleSliderPause}
           loadPercent={loadPercent}
           activeIndicatorCount={activeIndicatorCount}
           currentSlideNumber={currentIndex + 1}

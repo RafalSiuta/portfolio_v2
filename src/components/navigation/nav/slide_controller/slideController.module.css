@@ -1,0 +1,58 @@
+.controller {
+  --slide-controller-width: calc(
+    (var(--icon-button-width) * 1.75) +
+    (var(--chipbutton_padding-horizontal) * 2) +
+    (var(--vertical-text-gap) * 2)
+  );
+  width: var(--slide-controller-width);
+  max-height: var(--icon-button-width);
+  padding: var(--vertical-text-gap) var(--chipbutton_padding-horizontal);
+  border-radius: 999px;
+  border: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab);
+  background: var(--tint-dark, rgba(23, 23, 23, 0.5));
+  backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--vertical-text-gap);
+}
+
+.iconButton {
+  width: calc(var(--icon-button-width) / 2.2);
+  height: calc(var(--icon-button-width) / 2.2);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.iconButton:focus-visible {
+  outline: none;
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: transform 200ms ease-in-out;
+}
+
+.icon path,
+.icon circle,
+.icon rect,
+.icon line,
+.icon polyline,
+.icon polygon {
+  stroke: var(--text-dark, #d4d4d4);
+}
+
+.iconButton:first-child:hover .icon {
+  transform: translateX(calc(var(--icon-hover-shift, calc(var(--icon-button-width) * 0.18)) * -1));
+}
+
+.iconButton:last-child:hover .icon {
+  transform: translateX(var(--icon-hover-shift, calc(var(--icon-button-width) * 0.18)));
+}

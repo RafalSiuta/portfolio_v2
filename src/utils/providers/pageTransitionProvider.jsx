@@ -15,20 +15,35 @@ function waitForNextFrame() {
   })
 }
 
+function waitForTimeout(ms) {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, ms)
+  })
+}
+
 export function PageTransitionProvider({ children }) {
   const location = useLocation()
   const navigate = useNavigate()
   const { lastSectionId, rememberLastSection, scrollToSectionId } = useNavContext()
   const isDetailRoute = matchesDetailRoute(location.pathname)
-  const [isCurtainClosed, setIsCurtainClosed] = useState(() => isDetailRoute)
+  const [isCurtainClosed, setIsCurtainClosed] = useState(false)
   const [isTransitioning, setIsTransitioning] = useState(false)
-  const curtainStateRef = useRef(isDetailRoute ? 'closed' : 'open')
+  const [isDetailFooterVisible, setIsDetailFooterVisible] = useState(false)
+  const curtainStateRef = useRef('open')
   const pendingCurtainActionRef = useRef(null)
   const pendingLandingSectionIdRef = useRef(null)
   const transitionDirectionRef = useRef(null)
-  const previousPathnameRef = useRef(location.pathname)
+  const previousPathnameRef = useRef(null)
+  const curtainFailsafeTimeoutRef = useRef(null)
+
+  const clearCurtainFailsafe = useCallback(() => {
+    if (!curtainFailsafeTimeoutRef.current) return
+    window.clearTimeout(curtainFailsafeTimeoutRef.current)
+    curtainFailsafeTimeoutRef.current = null
+  }, [])
 
   const settleCurtain = useCallback((targetState) => {
+    clearCurtainFailsafe()
     curtainStateRef.current = targetState
 
     const pendingAction = pendingCurtainActionRef.current
@@ -36,7 +51,7 @@ export function PageTransitionProvider({ children }) {
 
     pendingCurtainActionRef.current = null
     pendingAction.resolve()
-  }, [])
+  }, [clearCurtainFailsafe])
 
   const requestCurtainState = useCallback((targetState) => {
     if (curtainStateRef.current === targetState && !pendingCurtainActionRef.current) {
@@ -44,10 +59,28 @@ export function PageTransitionProvider({ children }) {
     }
 
     return new Promise((resolve) => {
+      clearCurtainFailsafe()
       pendingCurtainActionRef.current = { target: targetState, resolve }
       setIsCurtainClosed(targetState === 'closed')
+
+      curtainFailsafeTimeoutRef.current = window.setTimeout(() => {
+        if (!pendingCurtainActionRef.current || pendingCurtainActionRef.current.target !== targetState) {
+          curtainFailsafeTimeoutRef.current = null
+          return
+        }
+
+        curtainFailsafeTimeoutRef.current = null
+        curtainStateRef.current = targetState
+        pendingCurtainActionRef.current = null
+
+        if (targetState === 'open') {
+          setIsCurtainClosed(false)
+        }
+
+        resolve()
+      }, 2000)
     })
-  }, [])
+  }, [clearCurtainFailsafe])
 
   const closeCurtain = useCallback(() => requestCurtainState('closed'), [requestCurtainState])
   const openCurtain = useCallback(() => requestCurtainState('open'), [requestCurtainState])
@@ -96,7 +129,6 @@ export function PageTransitionProvider({ children }) {
 
     if (isDetailRoute) {
       const shouldRevealDetail = transitionDirectionRef.current === 'to-detail'
-        || previousPathname !== location.pathname
 
       if (!shouldRevealDetail) {
         return
@@ -169,20 +201,35 @@ export function PageTransitionProvider({ children }) {
     scrollToSectionId,
   ])
 
+  useEffect(() => {
+    return () => {
+      clearCurtainFailsafe()
+    }
+  }, [clearCurtainFailsafe])
+
+  useEffect(() => {
+    if (isDetailRoute) return
+    setIsDetailFooterVisible(false)
+  }, [isDetailRoute, location.pathname])
+
   const value = useMemo(() => ({
     isCurtainClosed,
     isDetailRoute,
+    isDetailFooterVisible,
     isTransitioning,
     navigateToDetail,
     returnToSection,
+    setIsDetailFooterVisible,
     handleCurtainClosed: () => settleCurtain('closed'),
     handleCurtainOpened: () => settleCurtain('open'),
   }), [
     isCurtainClosed,
     isDetailRoute,
+    isDetailFooterVisible,
     isTransitioning,
     navigateToDetail,
     returnToSection,
+    setIsDetailFooterVisible,
     settleCurtain,
   ])
 

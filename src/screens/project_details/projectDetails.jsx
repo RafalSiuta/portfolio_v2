@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { gsap } from 'gsap'
-import { useNavigate, useParams } from 'react-router-dom'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useParams } from 'react-router-dom'
 import ParticlesBackground from '../../components/containers/particles/particlesBackground'
 import PhotoGrid from '../../components/containers/photo_grid/photoGrid'
 import HeroWrapper from '../../components/containers/herowrapper/heroWrapper'
 import IconButton from '../../components/buttons/icon_button/icon_button'
+import LargeTextButton from '../../components/buttons/large_text_button/largeTextButton'
 import ChipButton from '../../components/buttons/chip_button/chipButton'
 import TextLinkButton from '../../components/buttons/textlink_button/textLinkButton'
 import SectionWrapper from '../../components/containers/wrapper/sectionWrapper'
@@ -24,14 +26,14 @@ const MAX_PROGRESS = 100
 
 export default function ProjectDetails() {
   const { projectId } = useParams()
-  const navigate = useNavigate()
   const { projectsList, heroImages } = useProjectsContext()
   const { smoother } = useNavContext()
-  const { returnToSection } = usePageTransitionContext()
+  const { navigateToDetail, returnToSection, setIsDetailFooterVisible } = usePageTransitionContext()
   const projectChangeTweenRef = useRef(null)
   const [isMobileViewport, setIsMobileViewport] = useState(false)
   const [currentScreenIndex, setCurrentScreenIndex] = useState(0)
   const [loadPercent, setLoadPercent] = useState(0)
+  const [isAutoplayPaused, setIsAutoplayPaused] = useState(false)
 
   const project = useMemo(
     () => projectsList.find((item) => item.id === projectId) ?? null,
@@ -62,6 +64,7 @@ export default function ProjectDetails() {
   useEffect(() => {
     setCurrentScreenIndex(0)
     setLoadPercent(0)
+    setIsAutoplayPaused(false)
   }, [projectId])
 
   useEffect(() => {
@@ -91,12 +94,63 @@ export default function ProjectDetails() {
     }
   }, [projectId, smoother])
 
+  useEffect(() => {
+    let hasLoggedBottom = false
+
+    const checkIfScrolledToBottom = () => {
+      const scrollTop = smoother
+        ? smoother.scrollTop()
+        : window.scrollY || window.pageYOffset || 0
+      const viewportHeight = window.innerHeight
+      const documentHeight = document.documentElement.scrollHeight
+      const isAtBottom = scrollTop + viewportHeight >= documentHeight - 2
+
+      if (isAtBottom && !hasLoggedBottom) {
+        console.log('scroll to bottom')
+        setIsDetailFooterVisible(true)
+        hasLoggedBottom = true
+        return
+      }
+
+      if (!isAtBottom) {
+        setIsDetailFooterVisible(false)
+        hasLoggedBottom = false
+      }
+    }
+
+    checkIfScrolledToBottom()
+
+    if (smoother) {
+      const trigger = ScrollTrigger.create({
+        start: 0,
+        end: 'max',
+        onUpdate: checkIfScrolledToBottom,
+      })
+
+      return () => {
+        trigger.kill()
+        setIsDetailFooterVisible(false)
+      }
+    }
+
+    window.addEventListener('scroll', checkIfScrolledToBottom, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', checkIfScrolledToBottom)
+      setIsDetailFooterVisible(false)
+    }
+  }, [projectId, setIsDetailFooterVisible, smoother])
+
   const handleContactReturn = useCallback(() => {
     returnToSection('contact')
   }, [returnToSection])
 
   const resetSliderProgress = () => {
     setLoadPercent(0)
+  }
+
+  const toggleSliderPause = () => {
+    setIsAutoplayPaused((previousState) => !previousState)
   }
 
   const showNextScreen = useCallback(() => {
@@ -130,11 +184,11 @@ export default function ProjectDetails() {
 
   const handleProjectCardClick = useCallback((nextProjectId) => {
     if (!nextProjectId || nextProjectId === projectId) return
-    navigate(`/projects/${nextProjectId}`)
-  }, [navigate, projectId])
+    navigateToDetail(`/projects/${nextProjectId}`)
+  }, [navigateToDetail, projectId])
 
   useEffect(() => {
-    if (screensList.length <= 1) return undefined
+    if (screensList.length <= 1 || isAutoplayPaused) return undefined
 
     const intervalId = window.setInterval(() => {
       setLoadPercent((previousPercent) =>
@@ -145,10 +199,10 @@ export default function ProjectDetails() {
     }, AUTO_PROGRESS_INTERVAL_MS)
 
     return () => window.clearInterval(intervalId)
-  }, [currentScreenIndex, screensList.length])
+  }, [currentScreenIndex, isAutoplayPaused, screensList.length])
 
   useEffect(() => {
-    if (screensList.length <= 1 || loadPercent < MAX_PROGRESS) return undefined
+    if (screensList.length <= 1 || isAutoplayPaused || loadPercent < MAX_PROGRESS) return undefined
 
     const timeoutId = window.setTimeout(() => {
       showNextScreen()
@@ -156,7 +210,7 @@ export default function ProjectDetails() {
     }, 0)
 
     return () => window.clearTimeout(timeoutId)
-  }, [loadPercent, screensList.length, showNextScreen])
+  }, [isAutoplayPaused, loadPercent, screensList.length, showNextScreen])
 
   const activeIndicatorCount = Math.min(
     10,
@@ -172,7 +226,13 @@ export default function ProjectDetails() {
           '--particles-justify': 'flex-start',
         }}
       />
-      <HeroWrapper className={styles.heroWrapper}>
+      <HeroWrapper
+        className={styles.heroWrapper}
+        style={{
+          '--hero-surface-align-tablet': 'stretch',
+          '--hero-surface-padding-tablet': 'calc(var(--nav-min-height) * 0.35) 0 0',
+        }}
+      >
         <SectionWrapper className={styles.wrapper}>
           <header className={styles.header}>
             <h1 className="strokeText">{project?.title ?? 'Project not found'}</h1>
@@ -191,6 +251,7 @@ export default function ProjectDetails() {
             counterLabel="screen"
             nextProject={handlePrevScreenClick}
             prevProject={handleNextScreenClick}
+            pauseProject={toggleSliderPause}
             loadPercent={loadPercent}
             activeIndicatorCount={activeIndicatorCount}
             currentSlideNumber={screensList.length === 0 ? 0 : currentScreenIndex + 1}
@@ -290,15 +351,12 @@ export default function ProjectDetails() {
                 ))}
               </div>
               <div className={styles.contact_container}>
-                <IconButton
-                  iconName="ArrowThinRight"
+                <LargeTextButton
+                  title="let's talk"
+                  icon="ArrowRight"
                   onClick={handleContactReturn}
-                  ariaLabel="Back to contact section"
-                  className={styles.contactButton}
-                  iconClassName={styles.contactIcon}
-                  style={{ '--icon-hover-shift': 'calc(var(--icon-button-width) * 0.18)' }}
+                  aria-label="Back to contact section"
                 />
-                <h1 className="strokeText">let's talk</h1>
               </div>
             </div>
           ) : null}

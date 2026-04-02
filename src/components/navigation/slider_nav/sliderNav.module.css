@@ -1,4 +1,9 @@
 .projectCardsContainer {
+  --slide-controller-width: calc(
+    (var(--icon-button-width) * 1.75) +
+    (var(--chipbutton_padding-horizontal) * 2) +
+    (var(--vertical-text-gap) * 2)
+  );
   position: relative;
   width: 100%;
   display: flex;
@@ -34,7 +39,7 @@
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x;
   padding: 4px 0;
-  padding-left: calc((var(--icon-button-width) * 2) + var(--project-card-spacing) + var(--project-card-spacing));
+  padding-left: calc(var(--slide-controller-width, (var(--icon-button-width) * 2)) + var(--project-card-spacing));
   /* background-color: black; */
 }
 
@@ -44,14 +49,6 @@
 
 .cardsContainer::-webkit-scrollbar {
   display: none;
-}
-
-.navButtonLeft:hover .navIconLeft {
-  transform: translateX(calc(var(--icon-hover-shift, calc(var(--icon-button-width) * 0.18)) * -1));
-}
-
-.navButtonRight:hover .navIconRight {
-  transform: translateX(var(--icon-hover-shift, calc(var(--icon-button-width) * 0.18)));
 }
 
 @media screen and (max-width: 768px) {

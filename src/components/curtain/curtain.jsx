@@ -10,6 +10,16 @@ function Curtain({ isClosed = false, onClosed, onOpened }) {
   const curtainRef = useRef(null)
   const pathRef = useRef(null)
   const isFirstRender = useRef(true)
+  const onClosedRef = useRef(onClosed)
+  const onOpenedRef = useRef(onOpened)
+
+  useEffect(() => {
+    onClosedRef.current = onClosed
+  }, [onClosed])
+
+  useEffect(() => {
+    onOpenedRef.current = onOpened
+  }, [onOpened])
 
   useEffect(() => {
     const curtainElement = curtainRef.current
@@ -18,7 +28,11 @@ function Curtain({ isClosed = false, onClosed, onOpened }) {
     if (!curtainElement || !pathElement) return
 
     if (isFirstRender.current) {
-      gsap.set(curtainElement, { xPercent: isClosed ? 0 : -100, x: 0 })
+      gsap.set(curtainElement, {
+        xPercent: isClosed ? 0 : -100,
+        x: 0,
+        autoAlpha: isClosed ? 1 : 0,
+      })
       gsap.set(pathElement, { attr: { d: EDGE_FLAT } })
       isFirstRender.current = false
       return
@@ -28,6 +42,7 @@ function Curtain({ isClosed = false, onClosed, onOpened }) {
 
     if (isClosed) {
       timeline
+        .set(curtainElement, { autoAlpha: 1 })
         .set(pathElement, { attr: { d: EDGE_FLAT } })
         .to(curtainElement, {
           xPercent: 0,
@@ -45,10 +60,11 @@ function Curtain({ isClosed = false, onClosed, onOpened }) {
           ease: 'power2.in',
         }, 0.5)
         .call(() => {
-          onClosed?.()
+          onClosedRef.current?.()
         })
     } else {
       timeline
+        .set(curtainElement, { autoAlpha: 1 })
         .set(pathElement, { attr: { d: EDGE_FLAT } })
         .to(curtainElement, {
           xPercent: -100,
@@ -65,15 +81,16 @@ function Curtain({ isClosed = false, onClosed, onOpened }) {
           duration: 0.25,
           ease: 'power2.out',
         }, 0.25)
+        .set(curtainElement, { autoAlpha: 0 })
         .call(() => {
-          onOpened?.()
+          onOpenedRef.current?.()
         })
     }
 
     return () => {
       timeline.kill()
     }
-  }, [isClosed, onClosed, onOpened])
+  }, [isClosed])
 
   return (
     <div

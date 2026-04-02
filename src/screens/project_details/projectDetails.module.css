@@ -30,6 +30,7 @@
 .weblinks_container{
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
   width: 100%;
   align-items: center;
   gap: var(--project-card-spacing);
@@ -45,7 +46,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  border-top: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab80);
+  /* border-top: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab80); */
   border-bottom: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab80);
 }
 
@@ -100,12 +101,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: var(--base-gap);
   margin-bottom:var(--nav-min-height);
-}
-
-.contactButton:hover .contactIcon {
-  transform: translateX(var(--icon-hover-shift, calc(var(--icon-button-width) * 0.18)));
 }
 
 .roleList {
@@ -135,6 +131,7 @@
 .roleListText {
   font-size: clamp(1rem, 2.1vw, 1.25rem);
   line-height: 1.6;
+  font-weight: var(--font-weight-light, 300);
   opacity: 0.85;
 }
 
@@ -211,6 +208,7 @@
   align-items: flex-start;
   text-align: left;
   height: 100%;
+  /* padding: 0 !important; */
 }
 
 .content {
@@ -291,14 +289,16 @@
 
 @media screen and (max-width: 500px) {
   .wrapper {
+    top:0;
     margin: 0;
-    padding: calc(var(--font-size-large-title) * 1.2) var(--menu-button-margin-right) 0;
-    align-items: center;
+    padding: 0 var(--vertical-large-padding);
+    align-items: flex-start;
     gap: var(--project-card-spacing);
   }
 
   .header {
     width: 100%;
+    margin-top: var(--project-mobile-top-offset, calc(var(--font-size-large-title) * 1.5));
     padding: 0;
   }
 
@@ -313,6 +313,7 @@
   }
 
   .content {
+    width: 100%;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -323,7 +324,7 @@
 
   .imageContainer {
     width: 100%;
-    padding: var(--project-card-spacing);
+    padding: var(--project-card-spacing) 0;
     min-height: 0;
   }
 
@@ -340,8 +341,6 @@
   }
 
   .contact_container {
-    flex-direction: column;
-    gap: calc(var(--base-gap) / 2);
     text-align: center;
   }
 }

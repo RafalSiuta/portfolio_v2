@@ -330,6 +330,7 @@ function Nav() {
       <nav className={styles.navigation} aria-label="Primary">
         {!isSmallHorizontal && (
           <Logo
+            isSubpage={currentMode === 'detail'}
             onClick={handleLogoClick}
             onKeyDown={handleLogoKeyDown}
             role="button"
@@ -341,6 +342,7 @@ function Nav() {
           {isSmallHorizontal && (
             <Logo
               className={styles.mobileLogo}
+              isSubpage={currentMode === 'detail'}
               onClick={handleLogoClick}
               onKeyDown={handleLogoKeyDown}
               role="button"

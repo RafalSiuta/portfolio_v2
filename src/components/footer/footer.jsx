@@ -4,6 +4,7 @@ import IconLink from '../buttons/icon_link/icon_link'
 import styles from './footer.module.css'
 import { useNavContext } from '../../utils/providers/navProvider'
 import navLinks from '../../utils/constants/navLinks'
+import { usePageTransitionContext } from '../../utils/providers/pageTransitionProvider'
 
 const iconsList = [
   
@@ -16,16 +17,17 @@ const iconsList = [
 
 function Footer({ variant = 'floating' }) {
   const { isMenuOpen, pageCounter } = useNavContext()
+  const { isDetailFooterVisible } = usePageTransitionContext()
   const containerRef = useRef(null)
   const socialListRef = useRef(null)
   const [isTabletDown, setIsTabletDown] = useState(false)
   const lastIndex = useMemo(() => Math.max(navLinks.length - 1, 0), [])
   const isInline = variant === 'inline'
   const isDetail = variant === 'detail'
-  const isAlwaysVisible = isInline || isDetail
+  const isAlwaysVisible = isInline
   const shouldShowSocial = isTabletDown
-    ? isAlwaysVisible || isMenuOpen
-    : isAlwaysVisible || pageCounter === 0 || pageCounter === lastIndex
+    ? isAlwaysVisible || isMenuOpen || (isDetail && isDetailFooterVisible)
+    : isAlwaysVisible || (isDetail && isDetailFooterVisible) || pageCounter === 0 || pageCounter === lastIndex
 
   useEffect(() => {
     if (isAlwaysVisible) return undefined

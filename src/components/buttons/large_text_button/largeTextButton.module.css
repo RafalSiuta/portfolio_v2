@@ -1,21 +1,18 @@
-.textLinkButton {
+.largeTextButton {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--menu-padding-vertical, 1rem);
-  text-decoration: none;
-  padding: var(--chipbutton_padding-vertical, 0.375rem)
-    var(--chipbutton_padding-horizontal, 1rem);
+  padding: var(--menu-padding-vertical) var(--base-gap);
+  max-height: var(--icon-button-width);
+  appearance: none;
+  -webkit-appearance: none;
   border: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab80);
-  border-radius: var(--font-size-body);
+  border-radius: calc(var(--icon-button-width)/2);
   background: var(--tint-dark, rgba(23, 23, 23, 0.5));
   backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
   color: var(--text-dark, #d4d4d4);
-  text-transform: none;
-  transform: translateY(0);
-  letter-spacing: 0;
-  font-weight: var(--font-weight-regular);
   cursor: pointer;
   overflow: hidden;
   transition:
@@ -25,49 +22,45 @@
     background 300ms ease-in-out;
 }
 
-.textLinkButton::before {
+.largeTextButton::before {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   width: 0;
-  height: 100%;
   background: var(--text-dark, #d4d4d4);
   transition: width 300ms ease-in-out;
-  z-index: 0;
   visibility: hidden;
+  z-index: 0;
 }
 
-.active {
-  background: var(--text-dark, #d4d4d4);
-  color: var(--background-dark, #1f1f1f);
-}
-
-.active::before {
-  display: none;
-}
-
-.inactive {
-  background: var(--tint-dark, rgba(23, 23, 23, 0.5));
-  backdrop-filter: blur(var(--frosted-blur, 0.15625rem));
-  color: var(--text-dark, #d4d4d4);
-}
-
-.label {
-  display: inline-flex;
-  align-items: center;
+.title,
+.icon {
   position: relative;
   z-index: 1;
+}
+
+.title {
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-family-clash-display, 'ClashDisplay');
+  font-size: var(--font-size-subtitle, 2.25rem);
+  font-style: normal;
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: normal;
+  letter-spacing: 0.1125rem;
+  text-transform: uppercase;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .icon {
-  width: var(--text-link-button-icon);
-  height: var(--text-link-button-icon);
+  width: calc(var(--text-link-button-icon) * 1.15);
+  height: calc(var(--text-link-button-icon) * 1.15);
   color: inherit;
   fill: currentColor;
   stroke: currentColor;
-  position: relative;
-  z-index: 1;
+  transition: transform 200ms ease-in-out;
 }
 
 .icon path {
@@ -75,28 +68,26 @@
   stroke: currentColor;
 }
 
-.textLinkButton:hover::before,
-.textLinkButton:focus-visible::before {
+.largeTextButton:hover::before,
+.largeTextButton:focus-visible::before {
   width: 100%;
   visibility: visible;
 }
 
-.textLinkButton:hover .icon,
-.textLinkButton:focus-visible .icon {
-  transition: transform 200ms ease-in-out;
-  transform: translateX(5px);
-}
-
-.textLinkButton:hover,
-.textLinkButton:focus-visible {
+.largeTextButton:hover,
+.largeTextButton:focus-visible {
   color: var(--background-dark, #1f1f1f);
   transform: translateX(0.125rem);
   outline: none;
 }
 
+.largeTextButton:hover .icon,
+.largeTextButton:focus-visible .icon {
+  transform: translateX(5px);
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .textLinkButton {
+  .largeTextButton {
     transition: transform 150ms ease, color 150ms ease, border-color 150ms ease;
   }
 }
-

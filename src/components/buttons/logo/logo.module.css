@@ -6,11 +6,19 @@
   transition: transform 150ms ease;
   will-change: transform;
   cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .logo:hover,
 .logo:focus-visible {
   transform: scale(1.04);
+}
+
+.logo:focus,
+.logo:active {
+  outline: none;
+  box-shadow: none;
 }
 
 .logoPath {

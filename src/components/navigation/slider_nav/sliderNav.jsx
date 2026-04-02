@@ -1,11 +1,12 @@
 import styles from './sliderNav.module.css'
-import IconButton from '../../buttons/icon_button/icon_button'
 import SlideCounter from '../slide_counter/slideCounter'
+import SlideController from '../nav/slide_controller/slideController'
 
 function SliderNav({
   counterLabel,
   nextProject,
   prevProject,
+  pauseProject,
   loadPercent,
   activeIndicatorCount,
   currentSlideNumber,
@@ -15,19 +16,10 @@ function SliderNav({
   return (
     <div className={styles.projectCardsContainer}>
       <div className={styles.navButtonsContainer}>
-        <IconButton
-          iconName="ArrowThinLeft"
-          onClick={nextProject}
-          className={styles.navButtonLeft}
-          iconClassName={styles.navIconLeft}
-          style={{ '--icon-hover-shift': 'calc(var(--icon-button-width) * 0.18)' }}
-        />
-        <IconButton
-          iconName="ArrowThinRight"
-          onClick={prevProject}
-          className={styles.navButtonRight}
-          iconClassName={styles.navIconRight}
-          style={{ '--icon-hover-shift': 'calc(var(--icon-button-width) * 0.18)' }}
+        <SlideController
+          prev={nextProject}
+          pause={pauseProject}
+          next={prevProject}
         />
       </div>
       <div className={styles.cardsContainer}>{children}</div>

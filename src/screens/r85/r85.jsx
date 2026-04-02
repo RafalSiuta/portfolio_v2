@@ -12,9 +12,9 @@ export default function R85() {
   const { lastSectionId } = useNavContext()
   const { returnToSection } = usePageTransitionContext()
 
-  const handleReturn = useCallback(() => {
-    returnToSection(lastSectionId)
-  }, [lastSectionId, returnToSection])
+  // const handleReturn = useCallback(() => {
+  //   returnToSection(lastSectionId)
+  // }, [lastSectionId, returnToSection])
 
   return (
     <HeroWrapper
@@ -30,15 +30,6 @@ export default function R85() {
       <div className={styles.content}>
         <h1 className="strokeText">r85studio</h1>
       </div>
-      <IconButton
-        iconName="ArrowThinLeft"
-        onClick={handleReturn}
-        ariaLabel="Back to main page"
-        hover="0deg"
-        className={styles.heroIconButton}
-        iconClassName={styles.heroIcon}
-        style={{ '--icon-hover-shift': 'calc(var(--icon-button-width) * 0.18)' }}
-      />
     </HeroWrapper>
   )
 }

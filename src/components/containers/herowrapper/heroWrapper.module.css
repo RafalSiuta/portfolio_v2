@@ -13,8 +13,9 @@
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: var(--hero-surface-justify, center);
+  align-items: var(--hero-surface-align, center);
+  padding: var(--hero-surface-padding, 0);
   background-image: var(--hero-bg-desktop);
   background-size: cover;
   background-repeat: no-repeat;
@@ -28,9 +29,9 @@
 @media (max-width: 1024px) {
   .heroSurface {
     min-width: 100%;
-    justify-content: flex-start;
-    align-items: center;
-    padding: var(--nav-min-height, 5rem) var(--menu-button-margin-right) 0;
+    justify-content: var(--hero-surface-justify-tablet, flex-start);
+    align-items: var(--hero-surface-align-tablet, center);
+    padding: var(--hero-surface-padding-tablet, var(--nav-min-height, 5rem) var(--menu-button-margin-right) 0);
     background-image: var(--hero-bg-tablet);
     margin: 0;
   }
