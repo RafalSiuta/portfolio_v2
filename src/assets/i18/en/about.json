@@ -1,25 +1,25 @@
 {
   "about": {
     "title": "about me",
-    "description": "<strong>UI designer</strong> and frontend developer<br/> with graphic design background<br/> <strong>based in Łódź</strong> - central Poland."
+    "description": "I’m a <strong>UI designer and frontend developer</strong> based in <strong>Lodz, Poland</strong>.<br/>I design thoughtful, polished interfaces, combining <strong>design, usability, and code</strong> into cohesive experiences and <strong>functional digital products</strong>."
   },
   "service": {
     "title": "How can I help?",
     "services": [
       {
         "id": "1",
-        "title": "skills",
-        "description": "From concept to finished product. I design clear interfaces and implement them into <strong>working websites and applications.</strong><br/>I combine UX, aesthetics, and code to quickly transform an idea into a product that works and looks great.",
+        "title": "service",
+        "description": "From concept to final delivery. I design clear interfaces and bring them to life as <strong>fully functional websites and applications</strong>.<br/>I combine UX, aesthetics, and code to efficiently turn ideas into <strong>products that not only look great, but truly work</strong>.",
         "skillsList": []
       },
-      { 
+      {
         "id": "2",
         "title": "design",
-        "description": "Starting from scratch, <strong>I can design your brand,</strong> define your goal analysis, user flow, information architecture, and usability. I can design a consistent style for all graphics, and create user-friendly, responsive interfaces.",
+        "description": "I can design <strong>your brand and its digital experience</strong> — from goal analysis, user flows, and information architecture to a useful, cohesive interface.<br/>I create refined visual systems and <strong>responsive UI/UX designs</strong> tailored to both user needs and business goals.",
         "skillsList": [
           "brand design",
           "UI/UX design",
-          "system design",
+          "design systems",
           "user flows",
           "responsive design"
         ]
@@ -27,9 +27,9 @@
       {
         "id": "3",
         "title": "code",
-        "description": "As a front-end developer, <strong>I have experience building websites, web, mobile, and desktop applications.</strong><br/> Depending on the needs, I create a digital, scalable product that fit seamlessly with brand design.",
+        "description": "As a frontend developer, I build <strong>websites, web apps, mobile apps, and desktop applications</strong>.<br/>I create scalable solutions that seamlessly connect <strong>visual design, functionality, and brand needs</strong>, making the final product cohesive and ready to grow.",
         "skillsList": [
-          "landing pages",
+          "websites",
           "mobile apps",
           "web apps",
           "desktop"
@@ -37,17 +37,17 @@
       }
     ],
     "edu": {
-      "title": "just call me rafi",
+      "title": "Hi, call me Rafi!",
       "educations": [
         {
           "id": "1",
           "title": "bio",
-          "description": "<strong>Graphic design and programming</strong> have been my passions for years. I wanted more than just aesthetics, so after graduating in graphic design, I decided to <strong>combine both passions</strong> by creating interactive interfaces. This combination gives me the ability to <strong>bring the entire project to life,</strong> providing users with digital experiences that are not only beautiful but also intuitive, functional, and user-centric."
+          "description": "<strong>Graphic design and programming</strong> have been my greatest passions for years. After graduating in graphic design, the natural next step for me was to <strong>combine design with technology</strong> and create interactive interfaces.<br/>This allows me to approach projects more broadly — from aesthetics and visual communication to <strong>real, functional implementation</strong> that is intuitive, refined, and user-focused."
         },
         {
           "id": "2",
           "title": "education",
-          "description": "<strong>2024 - Bachelor's degree</strong> in computer graphics at the Academy of Humanities and Economics in Łódź"
+          "description": "<strong>2024 — Bachelor’s degree</strong> in Computer Graphics, Academy of Humanities and Economics in Lodz"
         }
       ]
     }

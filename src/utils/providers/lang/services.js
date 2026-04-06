@@ -1,3 +1,5 @@
+import { getLocalizedValue } from './langProvider'
+
 export function getHomeText(t) {
   return {
     subtitle: t('home.subtitle', 'design & code'),
@@ -81,4 +83,62 @@ export function getNavText(t) {
     detailCurrent: t('nav.detail_current', 'details'),
     r85Current: t('nav.r85_current', 'r85'),
   }
+}
+
+export function getProjectsText(t) {
+  return {
+    title: t('projects.title', 'my work'),
+    toolsTitle: t('projects.tools_title', 'project tools...'),
+    caseStudyButton: t('projects.case_study_button', 'case study'),
+    pageCounter: t('projects.page_counter', 'project'),
+  }
+}
+
+export function getDetailsText(t) {
+  return {
+    screen: t('details.screen', 'screen'),
+    aboutProject: t('details.about_project', 'about'),
+    role: t('details.role', 'my role'),
+    screenshots: t('details.screenshots', 'screens & graphics'),
+    tools: t('details.tools', 'project tools'),
+    challanges: t('details.challanges', 'challanges'),
+    projectsList: t('details.projects_list', 'other projects'),
+    ctaButton: t('details.cta_button', "what's your idea?"),
+    errorMessage: t('details.error_message', 'Project not found'),
+  }
+}
+
+export function localizeProject(project, locale) {
+  if (!project || typeof project !== 'object') return project
+
+  return {
+    ...project,
+    title: getLocalizedValue(project.title, locale, ''),
+    subtitle: getLocalizedValue(project.subtitle, locale, ''),
+    description: getLocalizedValue(project.description, locale, ''),
+    web_links: Array.isArray(project.web_links)
+      ? project.web_links.map((item) => ({
+          ...item,
+          link_title: getLocalizedValue(item.link_title, locale, ''),
+        }))
+      : [],
+    role: Array.isArray(project.role)
+      ? project.role.map((item) => getLocalizedValue(item, locale, '')).filter(Boolean)
+      : [],
+    graphics: Array.isArray(project.graphics)
+      ? project.graphics.map((item) => ({
+          ...item,
+          title: getLocalizedValue(item.title, locale, ''),
+        }))
+      : [],
+    challanges: getLocalizedValue(project.challanges, locale, ''),
+    solutions: Array.isArray(project.solutions)
+      ? project.solutions.map((item) => getLocalizedValue(item, locale, '')).filter(Boolean)
+      : [],
+  }
+}
+
+export function localizeProjectsData(projects, locale) {
+  if (!Array.isArray(projects)) return []
+  return projects.map((project) => localizeProject(project, locale))
 }

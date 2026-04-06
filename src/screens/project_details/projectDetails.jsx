@@ -16,6 +16,8 @@ import SmallCard from '../../components/cards/small_card/smallCard'
 import { useProjectsContext } from '../../utils/providers/projectsProvider'
 import { useNavContext } from '../../utils/providers/navProvider'
 import { usePageTransitionContext } from '../../utils/providers/pageTransitionProvider'
+import { useI18n } from '../../utils/providers/lang/langProvider'
+import { getDetailsText } from '../../utils/providers/lang/services'
 import { resolveProjectImage } from '../../utils/projects/projectImages'
 import styles from './projectDetails.module.css'
 
@@ -29,6 +31,8 @@ export default function ProjectDetails() {
   const { projectsList, heroImages } = useProjectsContext()
   const { smoother } = useNavContext()
   const { navigateToDetail, returnToSection, setIsDetailFooterVisible } = usePageTransitionContext()
+  const { t } = useI18n()
+  const detailsText = getDetailsText(t)
   const projectChangeTweenRef = useRef(null)
   const [isMobileViewport, setIsMobileViewport] = useState(false)
   const [currentScreenIndex, setCurrentScreenIndex] = useState(0)
@@ -235,7 +239,7 @@ export default function ProjectDetails() {
       >
         <SectionWrapper className={styles.wrapper}>
           <header className={styles.header}>
-            <h1 className="strokeText">{project?.title ?? 'Project not found'}</h1>
+            <h1 className="strokeText">{project?.title ?? detailsText.errorMessage}</h1>
             <h2>{project?.subtitle}</h2>
           </header>
 
@@ -248,7 +252,7 @@ export default function ProjectDetails() {
           </div>
           <SliderNav
             key={projectId ?? 'project-details-slider'}
-            counterLabel="screen"
+            counterLabel={detailsText.screen}
             nextProject={handlePrevScreenClick}
             prevProject={handleNextScreenClick}
             pauseProject={toggleSliderPause}
@@ -267,9 +271,8 @@ export default function ProjectDetails() {
               />
             ))}
           </SliderNav>
-          
           <div className={styles.text_content}>
-            <h2>about project</h2>
+            <h2>{detailsText.aboutProject}</h2>
             {project?.description ? <p>{project.description}</p> : null}
             <div className={styles.weblinks_container}>
             {webLinks.map(({ link_title, icon_name, link }, index) => (
@@ -285,7 +288,7 @@ export default function ProjectDetails() {
           </div>
           </div>
           <div className={styles.text_content}>
-            <h2>my role</h2>
+            <h2>{detailsText.role}</h2>
             {project?.role?.length ? (
               <ul className={styles.roleList}>
                 {project.role.map((roleItem, index) => (
@@ -299,7 +302,7 @@ export default function ProjectDetails() {
           </div>
           <div className={styles.graphics_container}>
             <div className={styles.graphic_header}>
-              <h2>screens & graphics</h2>
+              <h2>{detailsText.screenshots}</h2>
               <h2>{graphicsList.length}</h2>
             </div>
             <PhotoGrid
@@ -310,7 +313,7 @@ export default function ProjectDetails() {
           </div>
 
           <div className={styles.project_tools_container}>
-            <h2>project tools</h2>
+            <h2>{detailsText.tools}</h2>
             <div className={styles.project_tools_wrapper}>
               {project?.tools?.map(({ tool_name }) => (
                 <ChipButton key={tool_name} text={tool_name} onClick={() => {}} />
@@ -318,7 +321,7 @@ export default function ProjectDetails() {
             </div>
           </div>
           <div className={styles.solutions_container}>
-            <h2>challenges</h2>
+            <h2>{detailsText.challanges}</h2>
               {project?.challanges ? <p>{project.challanges}</p> : null}
             {/* <div className={styles.small_content}>
               
@@ -340,7 +343,7 @@ export default function ProjectDetails() {
           </div>
           {relatedProjects.length ? (
             <div className={styles.related_projects_container}>
-              <h2>other projects</h2>
+              <h2>{detailsText.projectsList}</h2>
               <div className={styles.related_projects_wrapper}>
                 {relatedProjects.map(({ id, title, logo }) => (
                   <SmallCard
@@ -353,7 +356,7 @@ export default function ProjectDetails() {
               </div>
               <div className={styles.contact_container}>
                 <LargeTextButton
-                  title="let's talk"
+                  title={detailsText.ctaButton}
                   icon="ArrowRight"
                   onClick={handleContactReturn}
                   aria-label="Back to contact section"

@@ -1,0 +1,13 @@
+{
+  "details": {
+    "screen":"ekran",
+    "about_project":"o projekcie",
+    "role":"moja rola",
+    "screenshots":"ekrany i grafika",
+    "tools":"narzędzia",
+    "challanges":"wyzwania",
+    "projects_list":"inne projekty",
+    "cta_button":"zbudujmy cos razem",
+    "error_message":"nie znaleziono projektu"
+  }
+}

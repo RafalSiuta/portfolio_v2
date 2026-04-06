@@ -1,0 +1,13 @@
+{
+  "details": {
+    "screen":"screen",
+    "about_project":"about",
+    "role":"my role",
+    "screenshots":"screens & graphics",
+    "tools":"project tools",
+    "challanges":"challanges",
+    "projects_list":"other projects",
+    "cta_button":"what's your idea?",
+    "error_message":"let's build somethink"
+  }
+}

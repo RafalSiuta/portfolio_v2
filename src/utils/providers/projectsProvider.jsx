@@ -1,16 +1,19 @@
 import { createContext, useContext, useMemo } from 'react'
 import projectsData from '../../assets/data/projects_data.json'
+import { useI18n } from './lang/langProvider'
+import { localizeProjectsData } from './lang/services'
 
 const ProjectsContext = createContext(null)
 
-const projectsList = projectsData
 const heroImages = import.meta.glob('../../assets/data/image_data/**/*', {
   eager: true,
   import: 'default',
 })
 
 export function ProjectsProvider({ children }) {
-  const value = useMemo(() => ({ projectsList, heroImages }), [])
+  const { locale } = useI18n()
+  const projectsList = useMemo(() => localizeProjectsData(projectsData, locale), [locale])
+  const value = useMemo(() => ({ projectsList, heroImages }), [projectsList])
   return <ProjectsContext.Provider value={value}>{children}</ProjectsContext.Provider>
 }
 

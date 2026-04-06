@@ -17,6 +17,7 @@ import About from './screens/about/about'
 import Contact from './screens/contact/contact'
 import R85 from './screens/r85/r85'
 import ProjectDetails from './screens/project_details/projectDetails'
+import ErrorPage from './screens/404/error_page'
 import styles from './screens/home/home.module.css'
 import { useNavContext } from './utils/providers/navProvider'
 import { ContactProvider } from './utils/providers/contactProvider'
@@ -60,6 +61,7 @@ function AppRoutes() {
       <Route path="/" element={<MainLanding />} />
       <Route path="/projects/:projectId" element={<ProjectDetails />} />
       <Route path="/r85" element={<R85 />} />
+      <Route path="*" element={<ErrorPage />} />
     </Routes>
   )
 }

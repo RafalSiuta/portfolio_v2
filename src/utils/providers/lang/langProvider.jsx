@@ -7,14 +7,19 @@ import plContact from '../../../assets/i18/pl/contact.json'
 import enContact from '../../../assets/i18/en/contact.json'
 import plNav from '../../../assets/i18/pl/nav.json'
 import enNav from '../../../assets/i18/en/nav.json'
+import plProjects from '../../../assets/i18/pl/projects.json'
+import enProjects from '../../../assets/i18/en/projects.json'
+import plDetails from '../../../assets/i18/pl/details.json'
+import enDetails from '../../../assets/i18/en/details.json'
 
 const LanguageContext = createContext(null)
 
 const STORAGE_KEY = 'r85_lang'
+const SUPPORTED_LOCALES = ['pl', 'en']
 
 const dictionaries = {
-  pl: { ...plHome, ...plAbout, ...plContact, ...plNav },
-  en: { ...enHome, ...enAbout, ...enContact, ...enNav },
+  pl: { ...plHome, ...plAbout, ...plContact, ...plNav, ...plProjects, ...plDetails },
+  en: { ...enHome, ...enAbout, ...enContact, ...enNav, ...enProjects, ...enDetails },
 }
 
 const getValueByPath = (dict, path, fallback) => {
@@ -28,6 +33,19 @@ const getValueByPath = (dict, path, fallback) => {
   return (typeof node === 'string' || typeof node === 'number' || Array.isArray(node))
     ? node
     : fallback
+}
+
+export const isLocalizedValue = (value) => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false
+  return SUPPORTED_LOCALES.some((localeKey) => localeKey in value)
+}
+
+export const getLocalizedValue = (value, locale, fallback = '') => {
+  if (typeof value === 'string' || typeof value === 'number') return value
+  if (!isLocalizedValue(value)) return fallback
+
+  const fallbackLocale = locale === 'pl' ? 'en' : 'pl'
+  return value[locale] ?? value[fallbackLocale] ?? fallback
 }
 
 export function LanguageProvider({ children }) {
@@ -62,7 +80,8 @@ export function LanguageProvider({ children }) {
     const dict = dictionaries[locale] || dictionaries.pl
     const t = (path, fallback = '') => getValueByPath(dict, path, fallback)
     const nextLocale = locale === 'pl' ? 'en' : 'pl'
-    return { locale, nextLocale, setLocale, toggleLocale, t, dict }
+    const localize = (content, fallback = '') => getLocalizedValue(content, locale, fallback)
+    return { locale, nextLocale, setLocale, toggleLocale, t, dict, localize }
   }, [locale])
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>

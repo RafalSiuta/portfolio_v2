@@ -1,7 +1,7 @@
 {
   "about": {
     "title": "o mnie",
-    "description": "<strong>UI designer</strong> i frontend developer<br/> z podłożem graficznym <strong><br/>w Łodzi</strong> -centralna Polska."
+    "description": "Jestem <strong>UI designerem i frontend developerem</strong> z Łodzi.<br/>Projektuję estetyczne, przemyślane interfejsy, łącząc <strong>design, użyteczność i kod</strong> w spójne doświadczenia i <strong>funkcjonalne produkty cyfrowe</strong>."
   },
   "service": {
     "title": "Jak mogę pomóc ?",
@@ -9,27 +9,27 @@
       {
         "id": "1",
         "title": "serwis",
-        "description": "Od koncepcji do gotowego produktu. Projektuję czytelne interfejsy i wdrażam je jako <strong>działające strony i aplikacje.</strong><br/>Łączę UX, estetykę i kod, by szybko zamienić pomysł w produkt, który działa i wygląda świetnie.",
+        "description": "Od koncepcji do gotowego wdrożenia. Projektuję czytelne interfejsy i rozwijam je jako <strong>działające strony oraz aplikacje</strong>.<br/>Łączę UX, estetykę i kod, aby sprawnie zamieniać pomysły w <strong>produkty, które dobrze wyglądają i realnie działają</strong>.",
         "skillsList": []
       },
       {
         "id": "2",
         "title": "projekt",
-        "description": "Zaczynając od zera, <strong>moge zaprojektować Twoją marką,</strong> określić analizę celu, ścieżki użytkownika, architekturę informacji i użyteczność. Mogę zaprojektować spójny styl wszystkich grafik i tworzyć przyjazne, responsywne interfejsy.",
+        "description": "zaprojektuję twoją <strong>markę i jej cyfrowe doświadczenie</strong> — od analizy celu, ścieżek użytkownika i architektury informacji po użyteczny, spójny interfejs.<br/>Tworzę estetyczne systemy wizualne i <strong>responsywne projekty UI/UX</strong>, dopasowane do potrzeb użytkowników i biznesu.",
         "skillsList": [
           "projekt marki",
           "projektowanie UI/UX",
           "systemy projektowe",
-          "?cie?ki u?ytkownika",
+          "ścieżki użytkownika",
           "responsywny design"
         ]
       },
       {
         "id": "3",
         "title": "kod",
-        "description": "Jako front-end developer, <strong>mam do?wiadczenie w budowaniu stron internetowych oraz aplikacji webowych, mobilnych i desktopowych.</strong><br/> W zależności od potrzeb tworzę cyfrowy, skalowalny produkt, który płynnie współgra z identyfikacją marki.",
+        "description": "Jako frontend developer tworzę <strong>strony internetowe, aplikacje webowe, mobilne i desktopowe</strong>.<br/>Buduję skalowalne rozwiązania, które płynnie łączą <strong>warstwę wizualną, funkcjonalność i potrzeby marki</strong>, dzięki czemu finalny produkt jest spójny i gotowy do rozwoju.",
         "skillsList": [
-          "strony landingowe",
+          "strony internetowe",
           "aplikacje mobilne",
           "aplikacje webowe",
           "desktop"
@@ -37,17 +37,17 @@
       }
     ],
     "edu": {
-      "title": "Hej mów mi Rafi !",
+      "title": "Hej, mów mi Rafi !",
       "educations": [
         {
           "id": "1",
           "title": "bio",
-          "description": "<strong>Projektowanie graficzne i programowanie</strong> od lat są moimi pasjami. Chciałem czegoś więcej niż estetyka, więc po ukończeniu grafiki zdecydowałem się <strong>połączyć obie pasje</strong>, tworzac interaktywne interfejsy. To połączenie daje mi możliwość <strong>ożywienia całego projektu,</strong> zapewniając użytkownikom doświadczenia cyfrowe, które są nie tylko piękne, ale też intuicyjne, funkcjonalne i skoncentrowane na użytkowniku."
+          "description": "<strong>Projektowanie graficzne i programowanie</strong> od lat są moimi największymi pasjami. Po ukończeniu studiów graficznych naturalnym krokiem było dla mnie <strong>połączenie designu z technologią</strong> i tworzenie interaktywnych interfejsów.<br/>Dzięki temu mogę prowadzić projekt szerzej — od estetyki i komunikacji wizualnej po <strong>realne, funkcjonalne wdrożenie</strong>, które jest intuicyjne, dopracowane i skoncentrowane na użytkowniku."
         },
         {
           "id": "2",
           "title": "edukacja",
-          "description": "<strong>2024 - licencjat</strong> z grafiki komputerowej w Akademii Humanistyczno-Ekonomicznej w Łodzi"
+          "description": "<strong>2024 — licencjat</strong> z grafiki komputerowej, Akademia Humanistyczno-Ekonomiczna w Łodzi"
         }
       ]
     }

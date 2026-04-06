@@ -7,6 +7,8 @@ import SmallCard from '../../components/cards/small_card/smallCard'
 import { useProjectsContext } from '../../utils/providers/projectsProvider'
 import { useNavContext } from '../../utils/providers/navProvider'
 import { usePageTransitionContext } from '../../utils/providers/pageTransitionProvider'
+import { useI18n } from '../../utils/providers/lang/langProvider'
+import { getProjectsText } from '../../utils/providers/lang/services'
 import { getProjectLeadScreen, resolveProjectImage } from '../../utils/projects/projectImages'
 import styles from './projects.module.css'
 
@@ -19,6 +21,8 @@ export default function Projects() {
   const { projectsList, heroImages } = useProjectsContext()
   const { rememberLastSection } = useNavContext()
   const { navigateToDetail } = usePageTransitionContext()
+  const { t } = useI18n()
+  const projectsText = getProjectsText(t)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobileViewport, setIsMobileViewport] = useState(false)
   const [loadPercent, setLoadPercent] = useState(0)
@@ -173,7 +177,7 @@ export default function Projects() {
   return (
     <section id="projects" className={styles.section}>
       <SectionWrapper className={styles.wrapper}>
-        <h1 className='strokeText'>my work</h1>
+        <h1 className='strokeText'>{projectsText.title}</h1>
         <div className={styles.content} ref={swipeAreaRef}>
           <div className={styles.imageContainer}>
             <div className={styles.imageFrame} aria-hidden="true">
@@ -187,7 +191,7 @@ export default function Projects() {
               {currentProject.description}
             </p>
             <div className={styles.divider} aria-hidden="true" />
-            <p className="description">project tools...</p>
+            <p className="description">{projectsText.toolsTitle}</p>
             <div className={styles.chipRow}>
               {currentProject.tools?.map(({ tool_name }) => (
                 <ChipButton key={tool_name} text={tool_name} onClick={() => {}} />
@@ -195,7 +199,7 @@ export default function Projects() {
             </div>
             <div className={styles.linkRow}>
               <TextLinkButton
-                name="case study"
+                name={projectsText.caseStudyButton}
                 to={currentProject?.id ? `/projects/${currentProject.id}` : '/'}
                 iconName="ArrowThinRight"
                 className="description"
@@ -205,7 +209,7 @@ export default function Projects() {
           </div>
         </div>
         <SliderNav
-          counterLabel="project"
+          counterLabel={projectsText.pageCounter}
           nextProject={handleNextProjectClick}
           prevProject={handlePrevProjectClick}
           pauseProject={toggleSliderPause}
