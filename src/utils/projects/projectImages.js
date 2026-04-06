@@ -1,3 +1,5 @@
+import { resolveProjectAssetUrl } from './projectAssets'
+
 export function getProjectLeadScreen(project) {
   return project?.screens_list?.[0] ?? null
 }
@@ -14,5 +16,5 @@ export function resolveProjectImage(imageSource, heroImages, isMobileViewport = 
 
   if (!imageKey) return ''
 
-  return heroImages[`../../${imageKey}`] ?? ''
+  return resolveProjectAssetUrl(imageKey, heroImages)
 }

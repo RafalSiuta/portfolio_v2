@@ -134,7 +134,7 @@ function Home() {
           {/* <p>my projects...</p> */}
           <div className={styles.heroDivider} ref={dividerRef} aria-hidden="true" />
           <div className={styles.heroUtilityRow} ref={utilityRowRef} onMouseLeave={resetDivider}>
-            {projectsList.slice(0, 3).map(({ title, id }, index) => (
+            {projectsList.slice(0, 3).map(({ title, id, logo }, index) => (
               <div
                 key={id ?? index}
                 className={styles.cardSlot}
@@ -142,7 +142,7 @@ function Home() {
                 onMouseEnter={() => handleCardHover(index)}
                 onClick={() => handleProjectClick(id)}
               >
-                <SmallCard label={title} />
+                <SmallCard label={title} logo={logo} />
               </div>
             ))}
             <IconButton

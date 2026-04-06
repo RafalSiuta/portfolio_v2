@@ -342,10 +342,11 @@ export default function ProjectDetails() {
             <div className={styles.related_projects_container}>
               <h2>other projects</h2>
               <div className={styles.related_projects_wrapper}>
-                {relatedProjects.map(({ id, title }) => (
+                {relatedProjects.map(({ id, title, logo }) => (
                   <SmallCard
                     key={id}
                     label={title}
+                    logo={logo}
                     onClick={() => handleProjectCardClick(id)}
                   />
                 ))}

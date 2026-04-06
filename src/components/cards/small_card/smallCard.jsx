@@ -1,14 +1,16 @@
 ﻿
 
 // export default SmallCard
-import { useEffect, useRef, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import VanillaTilt from 'vanilla-tilt';
 import SystemIcon from '../../../utils/icons/system_icon';
+import { resolveProjectSvgComponent } from '../../../utils/projects/projectAssets';
 import styles from './smallCard.module.css';
 
 function SmallCard({
   label = 'name',
   iconName = 'PhotoIcon',
+  logo = '',
   isActive = false,
   onClick,
 }) {
@@ -19,6 +21,7 @@ function SmallCard({
         ? `${label.slice(0, 8)}..`
         : label
       : String(label ?? '');
+  const LogoComponent = useMemo(() => resolveProjectSvgComponent(logo), [logo]);
 
   useEffect(() => {
     if (!tiltRef.current) return;
@@ -44,9 +47,13 @@ function SmallCard({
     () => `${styles.border} ${isActive ? styles.active : ''}`.trim(),
     [isActive]
   );
+  const wrapperClassName = useMemo(
+    () => `${styles.tiltWrapper} ${isActive ? styles.isActive : ''}`.trim(),
+    [isActive]
+  );
 
   return (
-    <div ref={tiltRef} className={styles.tiltWrapper} onClick={onClick}>
+    <div ref={tiltRef} className={wrapperClassName} onClick={onClick}>
       <svg
         className={styles.container}
         viewBox="0 0 146.25 195"
@@ -69,12 +76,20 @@ function SmallCard({
             
           >
             <div className={styles.iconWrapper}>
-              <SystemIcon
-                name={iconName}
-                className={styles.icon}
-                aria-hidden="true"
-                focusable="false"
-              />
+              {LogoComponent ? (
+                <LogoComponent
+                  className={`${styles.icon} ${styles.logoIcon}`}
+                  aria-hidden="true"
+                  focusable="false"
+                />
+              ) : (
+                <SystemIcon
+                  name={iconName}
+                  className={styles.icon}
+                  aria-hidden="true"
+                  focusable="false"
+                />
+              )}
             </div>
             <span className={styles.label}>{displayLabel}</span>
           </div>

@@ -48,20 +48,61 @@
 }
 
 .icon {
-  width: calc(var(--small-card-max-width) / 1.4);
-  height: calc(var(--small-card-max-width) / 1.4);
+  width: calc(var(--small-card-max-width) / 1.2);
+  height: calc(var(--small-card-max-width) / 1.2);
   object-fit: contain;
+  /* color: var(--text-dark, #d4d4d4); */
+  color:var(--stroke-color, #ababab80);
+  transition: color 200ms ease;
+}
+
+.logoIcon {
+  color:var(--stroke-color, #ababab80);
+  /* color: inherit; */
+  transition: inherit;
+  /* stroke-width: var(--layout-stroke, 0.5); */
+  /* opacity: 0.8; */
+}
+
+.icon :global(path),
+.icon :global(circle),
+.icon :global(rect),
+.icon :global(polygon),
+.icon :global(ellipse),
+.icon :global(line),
+.icon :global(polyline),
+.icon :global(g) {
+  fill: currentColor;
+  /* stroke: currentColor; */
+  transition:
+    fill 200ms ease,
+    stroke 200ms ease;
+}
+
+.tiltWrapper:hover .icon,
+.tiltWrapper:focus-within .icon,
+.isActive .icon {
+  color: var(--accent-dark, #D1A054);
 }
 
 .label {
   width: 100%;
   text-align: right;
+  color: var(--text-dark, #d4d4d4);
   font-size: var(--small-card-title-font-size, 0.75rem);
   font-weight: var(--font-weight-light, 300);
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   transform: translateZ(16px);
-  transition: transform 200ms ease;
+  transition:
+    transform 200ms ease,
+    color 200ms ease;
+}
+
+.tiltWrapper:hover .label,
+.tiltWrapper:focus-within .label,
+.isActive .label {
+  color: var(--accent-dark, #D1A054);
 }
 
 /* OBRYS - peˆna kontrola stroke */
@@ -70,10 +111,17 @@
   stroke: var(--stroke-color, #ababab);
   /* jednostka w ukˆadzie viewBox, skaluje si© z kart¥ */
   stroke-width: var(--layout-stroke, 0.5);
+  transition: stroke 200ms ease;
 }
 
 .border.active {
   stroke: var(--accent-dark, #ffa84a);
+}
+
+.tiltWrapper:hover .border,
+.tiltWrapper:focus-within .border,
+.isActive .border {
+  stroke: var(--accent-dark, #D1A054);
 }
 
 @media screen and (max-width: 1194px) {

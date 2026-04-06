@@ -214,10 +214,11 @@ export default function Projects() {
           currentSlideNumber={currentIndex + 1}
           totalSlides={projectsList.length}
         >
-          {projectsList.map(({ title, id }, index) => (
+          {projectsList.map(({ title, id, logo }, index) => (
             <SmallCard
               key={id ?? index}
               label={title}
+              logo={logo}
               isActive={isProjectActive(id)}
               onClick={() => handleCardClick(index)}
             />
