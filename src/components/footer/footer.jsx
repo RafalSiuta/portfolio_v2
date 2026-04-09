@@ -81,26 +81,34 @@ function Footer({ variant = 'floating' }) {
     gsap.set(listEl, { pointerEvents: shouldShowSocial ? 'all' : 'none' })
 
     if (shouldShowSocial) {
-      gsap.fromTo(
-        items,
-        { autoAlpha: 0, scale: 0.8 },
-        {
+      const timeline = gsap.timeline()
+      gsap.set(items, { autoAlpha: 0, scale: 0.8, yPercent: 16 })
+      if (items[0]) {
+        gsap.set(items[0], { scale: 0.72, yPercent: 24 })
+      }
+
+      items.forEach((item, index) => {
+        timeline.to(item, {
           autoAlpha: 1,
           scale: 1,
+          yPercent: 0,
           duration: 0.5,
           ease: 'power2.out',
-          stagger: { each: 0.08 },
-        }
-      )
+        }, index === 0 ? undefined : '>-0.25')
+      })
+
       return
     }
 
-    gsap.to(items, {
-      autoAlpha: 0,
-      scale: 0.8,
-      duration: 0.5,
-      ease: 'power2.in',
-      stagger: { each: 0.08, from: 'end' },
+    const timeline = gsap.timeline()
+    items.slice().reverse().forEach((item, index) => {
+      timeline.to(item, {
+        autoAlpha: 0,
+        scale: 0.8,
+        yPercent: 16,
+        duration: 0.5,
+        ease: 'power2.in',
+      }, index === 0 ? undefined : '>-0.25')
     })
   }, [shouldShowSocial])
 

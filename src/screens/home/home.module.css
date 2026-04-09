@@ -60,7 +60,25 @@
   margin: var(--project-card-spacing) 0;
 }
 
+.description {
+  margin: 0;
+}
+
+.descriptionLineMask {
+  display: block;
+  overflow: hidden;
+}
+
+.descriptionLineContent {
+  display: block;
+}
+
 .cardSlot {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.heroIconButtonSlot {
   display: flex;
   flex-shrink: 0;
 }
@@ -97,10 +115,14 @@
   }
 }
 
-/* @media screen and (max-width: 500px) {
-  .herotext {
+@media screen and (max-width: 500px) {
+  /* .herotext br{
     padding: calc(var(--vertical-large-padding)*2) 0;
+    display: none;
+  } */
+  br{
+    display: none;
   }
-} */
+}
 
 

@@ -15,9 +15,12 @@ import { useNavContext } from '../../utils/providers/navProvider'
 import navLinks from '../../utils/constants/navLinks'
 import { useI18n } from '../../utils/providers/lang/langProvider'
 import { getHomeText } from '../../utils/providers/lang/services'
-import { toHtml } from '../../utils/convert/stringConvert'
 import { useProjectsContext } from '../../utils/providers/projectsProvider'
 import { usePageTransitionContext } from '../../utils/providers/pageTransitionProvider'
+
+const HOME_SECTION_INDEX = navLinks.findIndex((link) => link.href === '#home')
+const HOME_EXIT_PROGRESS_THRESHOLD = 20
+const HOME_REENTRY_DELAY_MS = 180
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP)
 
@@ -27,21 +30,53 @@ function Home() {
     setPageCounter,
     scrollProgress,
     setScrollProgress,
+    scrollDirection,
     setScrollDirection,
     smoother,
   } = useNavContext()
   const { t, locale } = useI18n()
   const homeText = getHomeText(t)
+  const descriptionLines = homeText.description
+    .split(/<br\s*\/?>/i)
+    .map((line) => line.trim())
+    .filter(Boolean)
   const { projectsList } = useProjectsContext()
   const { navigateToDetail } = usePageTransitionContext()
   const hasTextAnimationEnabledRef = useRef(true)
   const lastAnimatedLocaleRef = useRef(locale)
+  const pageCounterRef = useRef(pageCounter)
+  const scrollProgressRef = useRef(scrollProgress)
+  const scrollDirectionRef = useRef(scrollDirection)
+  const textAnimationRef = useRef({
+    isReady: false,
+    wasActive: false,
+    hasAnimatedThisVisit: false,
+    hasAnimatedOnce: false,
+    hasInitialTriggerPlayed: false,
+    delayedCall: null,
+    animateIn: () => {},
+    animateOut: () => {},
+    reset: () => {},
+  })
+  const utilityAnimationRef = useRef({
+    isReady: false,
+    wasActive: false,
+    hasAnimatedThisVisit: false,
+    hasAnimatedOnce: false,
+    hasInitialTriggerPlayed: false,
+    delayedCall: null,
+    animateIn: () => {},
+    animateOut: () => {},
+    reset: () => {},
+  })
   const dividerRef = useRef(null)
   const utilityRowRef = useRef(null)
+  const iconButtonWrapperRef = useRef(null)
   const heroTextRef = useRef(null)
   const headingRef = useRef(null)
   const subtitleRef = useRef(null)
   const descriptionRef = useRef(null)
+  const descriptionLineRefs = useRef([])
   const cardRefs = useRef([])
   const cardWidthsRef = useRef([])
   const gapRef = useRef(0)
@@ -51,6 +86,11 @@ function Home() {
     hasTextAnimationEnabledRef.current = false
     lastAnimatedLocaleRef.current = locale
   }
+
+  pageCounterRef.current = pageCounter
+  scrollProgressRef.current = scrollProgress
+  scrollDirectionRef.current = scrollDirection
+  descriptionLineRefs.current.length = descriptionLines.length
 
   const handleNextSection = useCallback(() => {
     const nextIndex = Math.min(pageCounter + 1, navLinks.length - 1)
@@ -135,36 +175,139 @@ function Home() {
     navigateToDetail(`/projects/${projectId}`, { fromSectionId: 'home' })
   }, [navigateToDetail])
 
+  const evaluateTextAnimationState = useCallback(() => {
+    const animation = textAnimationRef.current
+    if (!animation.isReady) return
+
+    const currentPageCounter = pageCounterRef.current
+    const currentScrollProgress = scrollProgressRef.current
+    const currentScrollDirection = scrollDirectionRef.current
+    const isHomeActive = currentPageCounter === HOME_SECTION_INDEX
+    const isLeavingHome = isHomeActive
+      && currentScrollDirection === 'down'
+      && currentScrollProgress > HOME_EXIT_PROGRESS_THRESHOLD
+    const shouldAnimateIn = isHomeActive && !isLeavingHome
+
+    if (!isHomeActive) {
+      animation.delayedCall?.kill()
+      animation.delayedCall = null
+
+      if (animation.wasActive) {
+        animation.hasAnimatedThisVisit = false
+        animation.animateOut(currentScrollDirection === 'up' ? 'up' : 'down')
+      }
+
+      animation.wasActive = false
+      return
+    }
+
+    const isReentry = animation.hasAnimatedOnce
+
+    animation.wasActive = true
+
+    if (isLeavingHome) {
+      animation.delayedCall?.kill()
+      animation.delayedCall = null
+
+      if (animation.hasAnimatedThisVisit) {
+        animation.animateOut('down')
+        animation.hasAnimatedThisVisit = false
+      }
+      return
+    }
+
+    if (!shouldAnimateIn || animation.hasAnimatedThisVisit || animation.delayedCall) {
+      return
+    }
+
+    animation.delayedCall = gsap.delayedCall(isReentry ? HOME_REENTRY_DELAY_MS / 1000 : 0, () => {
+      animation.animateIn({ isReentry })
+      animation.hasAnimatedThisVisit = true
+      animation.hasAnimatedOnce = true
+      animation.delayedCall = null
+    })
+  }, [])
+
+  const evaluateUtilityAnimationState = useCallback(() => {
+    const animation = utilityAnimationRef.current
+    if (!animation.isReady) return
+
+    const currentPageCounter = pageCounterRef.current
+    const currentScrollProgress = scrollProgressRef.current
+    const currentScrollDirection = scrollDirectionRef.current
+    const isHomeActive = currentPageCounter === HOME_SECTION_INDEX
+    const isLeavingHome = isHomeActive
+      && currentScrollDirection === 'down'
+      && currentScrollProgress > HOME_EXIT_PROGRESS_THRESHOLD
+    const shouldAnimateIn = isHomeActive && !isLeavingHome
+
+    if (!isHomeActive) {
+      animation.delayedCall?.kill()
+      animation.delayedCall = null
+
+      if (animation.wasActive) {
+        animation.hasAnimatedThisVisit = false
+        animation.animateOut(currentScrollDirection === 'up' ? 'up' : 'down')
+      }
+
+      animation.wasActive = false
+      return
+    }
+
+    const isReentry = animation.hasAnimatedOnce
+    animation.wasActive = true
+
+    if (isLeavingHome) {
+      animation.delayedCall?.kill()
+      animation.delayedCall = null
+
+      if (animation.hasAnimatedThisVisit) {
+        animation.animateOut('down')
+        animation.hasAnimatedThisVisit = false
+      }
+      return
+    }
+
+    if (!shouldAnimateIn || animation.hasAnimatedThisVisit || animation.delayedCall) {
+      return
+    }
+
+    animation.delayedCall = gsap.delayedCall(isReentry ? HOME_REENTRY_DELAY_MS / 1000 : 0, () => {
+      animation.animateIn({ isReentry })
+      animation.hasAnimatedThisVisit = true
+      animation.hasAnimatedOnce = true
+      animation.delayedCall = null
+    })
+  }, [])
+
   useGSAP(() => {
     const textRoot = heroTextRef.current
     const headingEl = headingRef.current
     const subtitleEl = subtitleRef.current
     const descriptionEl = descriptionRef.current
+    const descriptionLineEls = descriptionLineRefs.current.filter(Boolean)
 
-    if (!textRoot || !headingEl || !subtitleEl || !descriptionEl) return undefined
+    if (!textRoot || !headingEl || !subtitleEl || !descriptionEl || !descriptionLineEls.length) return undefined
     if (!hasTextAnimationEnabledRef.current) return undefined
 
     const splitState = {
       heading: null,
       subtitle: null,
-      description: null,
     }
     const splitInstances = []
     let rebuildFrame = null
+    let stateEvalFrame = null
     let activeTweens = []
-    let trigger = null
+    let initialTrigger = null
 
     const killMotion = () => {
       activeTweens.forEach((tween) => tween?.kill())
       activeTweens = []
-      trigger?.kill()
-      trigger = null
     }
 
     const getSplitGroups = () => ({
       heading: splitState.heading?.lines ?? [],
       subtitle: splitState.subtitle?.lines ?? [],
-      description: splitState.description?.lines ?? [],
     })
 
     const setInitialState = (lines) => {
@@ -180,7 +323,41 @@ function Home() {
       })
     }
 
-    const animateGroupsIn = (groups) => {
+    const setDescriptionInitialState = () => {
+      gsap.set(descriptionLineEls, {
+        opacity: 0,
+        yPercent: 115,
+        willChange: 'transform, opacity',
+      })
+    }
+
+    const setDescriptionVisibleState = () => {
+      gsap.set(descriptionLineEls, {
+        opacity: 1,
+        yPercent: 0,
+        willChange: 'transform, opacity',
+      })
+    }
+
+    const clearDelayedCall = () => {
+      textAnimationRef.current.delayedCall?.kill()
+      textAnimationRef.current.delayedCall = null
+    }
+
+    const animateDescriptionExit = (direction) => {
+      const yPercent = direction === 'down' ? -35 : 35
+
+      return gsap.to(descriptionLineEls, {
+        yPercent,
+        opacity: 0,
+        duration: 0.34,
+        ease: 'power2.in',
+        stagger: 0.06,
+        overwrite: 'auto',
+      })
+    }
+
+    const animateGroupsIn = (groups, { isReentry = false } = {}) => {
       activeTweens.forEach((tween) => tween?.kill())
       activeTweens = [
         gsap.to(groups.heading, {
@@ -197,19 +374,18 @@ function Home() {
           yPercent: 0,
           opacity: 1,
           duration: 0.9,
-          delay: 0.08,
+          delay: 0.12,
           ease: 'power3.out',
           stagger: 0.08,
           overwrite: 'auto',
         }),
-        gsap.to(groups.description, {
-          rotationX: 0,
-          yPercent: 0,
+        gsap.to(descriptionLineEls, {
           opacity: 1,
-          duration: 0.95,
-          delay: 0.16,
+          yPercent: 0,
+          duration: 0.72,
+          delay: isReentry ? 0.38 : 0.28,
           ease: 'power3.out',
-          stagger: 0.06,
+          stagger: 0.1,
           overwrite: 'auto',
         }),
       ].filter(Boolean)
@@ -221,15 +397,6 @@ function Home() {
       const yPercent = direction === 'down' ? -110 : 110
 
       activeTweens = [
-        gsap.to(groups.description, {
-          rotationX,
-          yPercent,
-          opacity: 0,
-          duration: 0.45,
-          ease: 'power2.in',
-          stagger: 0.04,
-          overwrite: 'auto',
-        }),
         gsap.to(groups.subtitle, {
           rotationX,
           yPercent,
@@ -250,7 +417,24 @@ function Home() {
           stagger: 0.04,
           overwrite: 'auto',
         }),
+        animateDescriptionExit(direction),
       ].filter(Boolean)
+    }
+
+    const setGroupsVisibleState = (groups) => {
+      gsap.set(groups.heading, {
+        rotationX: 0,
+        yPercent: 0,
+        opacity: 1,
+        willChange: 'transform, opacity',
+      })
+      gsap.set(groups.subtitle, {
+        rotationX: 0,
+        yPercent: 0,
+        opacity: 1,
+        willChange: 'transform, opacity',
+      })
+      setDescriptionVisibleState()
     }
 
     const rebuildTextAnimation = () => {
@@ -260,21 +444,77 @@ function Home() {
       if (!hasLines) return
 
       killMotion()
-      Object.values(groups).forEach(setInitialState)
+      clearDelayedCall()
+      const isHomeActive = pageCounterRef.current === HOME_SECTION_INDEX
+      const shouldReplayInitialAnimation = textAnimationRef.current.hasAnimatedOnce
+        && textAnimationRef.current.hasInitialTriggerPlayed
+        && isHomeActive
+        && scrollDirectionRef.current === 'down'
+        && scrollProgressRef.current <= HOME_EXIT_PROGRESS_THRESHOLD
+      const shouldKeepVisibleState = textAnimationRef.current.hasAnimatedOnce
+        && textAnimationRef.current.hasInitialTriggerPlayed
+        && isHomeActive
+        && !shouldReplayInitialAnimation
 
-      trigger = ScrollTrigger.create({
+      if (shouldReplayInitialAnimation) {
+        Object.values(groups).forEach(setInitialState)
+        setDescriptionInitialState()
+      } else if (shouldKeepVisibleState) {
+        setGroupsVisibleState(groups)
+      } else {
+        Object.values(groups).forEach(setInitialState)
+        setDescriptionInitialState()
+      }
+
+      textAnimationRef.current.isReady = true
+      textAnimationRef.current.hasAnimatedThisVisit = shouldKeepVisibleState
+      textAnimationRef.current.animateIn = (options) => animateGroupsIn(groups, options)
+      textAnimationRef.current.animateOut = (direction) => animateGroupsOut(groups, direction)
+      textAnimationRef.current.reset = () => {
+        killMotion()
+        clearDelayedCall()
+        Object.values(groups).forEach(setInitialState)
+        setDescriptionInitialState()
+      }
+
+      initialTrigger?.kill()
+      initialTrigger = ScrollTrigger.create({
         trigger: textRoot,
         start: 'top 78%',
         end: 'bottom 22%',
-        onEnter: () => animateGroupsIn(groups),
-        onEnterBack: () => animateGroupsIn(groups),
-        onLeave: () => animateGroupsOut(groups, 'down'),
-        onLeaveBack: () => animateGroupsOut(groups, 'up'),
+        once: true,
+        onEnter: () => {
+          if (textAnimationRef.current.hasInitialTriggerPlayed || textAnimationRef.current.hasAnimatedThisVisit) {
+            return
+          }
+          textAnimationRef.current.hasInitialTriggerPlayed = true
+          textAnimationRef.current.hasAnimatedThisVisit = true
+          textAnimationRef.current.hasAnimatedOnce = true
+          textAnimationRef.current.wasActive = true
+          animateGroupsIn(groups, { isReentry: false })
+        },
       })
 
-      if (trigger.isActive) {
-        animateGroupsIn(groups)
+      if (initialTrigger.isActive && !textAnimationRef.current.hasInitialTriggerPlayed) {
+        textAnimationRef.current.hasInitialTriggerPlayed = true
+        textAnimationRef.current.hasAnimatedThisVisit = true
+        textAnimationRef.current.hasAnimatedOnce = true
+        textAnimationRef.current.wasActive = true
+        animateGroupsIn(groups, { isReentry: false })
       }
+
+      if (stateEvalFrame) {
+        window.cancelAnimationFrame(stateEvalFrame)
+      }
+      stateEvalFrame = window.requestAnimationFrame(() => {
+        stateEvalFrame = null
+        ScrollTrigger.refresh()
+
+        if (shouldReplayInitialAnimation) {
+          textAnimationRef.current.hasAnimatedThisVisit = true
+          animateGroupsIn(groups, { isReentry: false })
+        }
+      })
     }
 
     const scheduleRebuild = () => {
@@ -308,22 +548,22 @@ function Home() {
       })
     )
 
-    splitInstances.push(
-      SplitText.create(descriptionEl, {
-        type: 'lines',
-        mask: 'lines',
-        autoSplit: true,
-        onSplit(self) {
-          splitState.description = self
-          scheduleRebuild()
-        },
-      })
-    )
-
     return () => {
       if (rebuildFrame) {
         window.cancelAnimationFrame(rebuildFrame)
       }
+      if (stateEvalFrame) {
+        window.cancelAnimationFrame(stateEvalFrame)
+      }
+      textAnimationRef.current.isReady = false
+      textAnimationRef.current.wasActive = false
+      textAnimationRef.current.hasAnimatedThisVisit = false
+      textAnimationRef.current.hasInitialTriggerPlayed = false
+      textAnimationRef.current.animateIn = () => {}
+      textAnimationRef.current.animateOut = () => {}
+      textAnimationRef.current.reset = () => {}
+      initialTrigger?.kill()
+      clearDelayedCall()
       killMotion()
       splitInstances.forEach((instance) => instance.revert())
     }
@@ -331,6 +571,190 @@ function Home() {
     dependencies: [locale, homeText.subtitle, homeText.description],
     revertOnUpdate: true,
   })
+
+  useGSAP(() => {
+    const utilityRowEl = utilityRowRef.current
+    const iconButtonWrapperEl = iconButtonWrapperRef.current
+    const cardEls = cardRefs.current.slice(0, 3).filter(Boolean)
+    const animatedEls = [...cardEls, iconButtonWrapperEl].filter(Boolean)
+
+    if (!utilityRowEl || !iconButtonWrapperEl || !cardEls.length) return undefined
+
+    let activeTimeline = null
+    let initialTrigger = null
+    let refreshFrame = null
+
+    const killMotion = () => {
+      activeTimeline?.kill()
+      activeTimeline = null
+    }
+
+    const clearDelayedCall = () => {
+      utilityAnimationRef.current.delayedCall?.kill()
+      utilityAnimationRef.current.delayedCall = null
+    }
+
+    const setInitialState = () => {
+      gsap.set(cardEls, {
+        opacity: 0,
+        scale: 0.9,
+        yPercent: 18,
+        willChange: 'transform, opacity',
+      })
+      if (cardEls[0]) {
+        gsap.set(cardEls[0], {
+          scale: 0.82,
+          yPercent: 26,
+        })
+      }
+      gsap.set(iconButtonWrapperEl, {
+        opacity: 0,
+        scale: 0.9,
+        yPercent: 18,
+        willChange: 'transform, opacity',
+      })
+    }
+
+    const setVisibleState = () => {
+      gsap.set(animatedEls, {
+        opacity: 1,
+        scale: 1,
+        yPercent: 0,
+        willChange: 'transform, opacity',
+      })
+    }
+
+    const animateIn = ({ isReentry = false } = {}) => {
+      killMotion()
+      activeTimeline = gsap.timeline({ delay: isReentry ? 0.18 : 0 })
+      cardEls.forEach((cardEl, index) => {
+        activeTimeline.to(cardEl, {
+          opacity: 1,
+          scale: 1,
+          yPercent: 0,
+          duration: 0.52,
+          ease: 'power3.out',
+          overwrite: 'auto',
+        }, index === 0 ? undefined : '>-0.26')
+      })
+      activeTimeline.to(iconButtonWrapperEl, {
+        opacity: 1,
+        scale: 1,
+        yPercent: 0,
+        duration: 0.46,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      }, '>')
+    }
+
+    const animateOut = (direction) => {
+      killMotion()
+      const isReverse = direction === 'down'
+      const targets = isReverse
+        ? [iconButtonWrapperEl, ...cardEls.slice().reverse()]
+        : [...cardEls, iconButtonWrapperEl]
+      const yPercent = direction === 'down' ? -18 : 18
+
+      activeTimeline = gsap.timeline()
+      activeTimeline.to(targets, {
+        opacity: 0,
+        scale: 0.9,
+        yPercent,
+        duration: 0.3,
+        ease: 'power2.in',
+        stagger: 0.08,
+        overwrite: 'auto',
+      })
+    }
+
+    const isHomeActive = pageCounterRef.current === HOME_SECTION_INDEX
+    const shouldReplayInitialAnimation = utilityAnimationRef.current.hasAnimatedOnce
+      && utilityAnimationRef.current.hasInitialTriggerPlayed
+      && isHomeActive
+      && scrollDirectionRef.current === 'down'
+      && scrollProgressRef.current <= HOME_EXIT_PROGRESS_THRESHOLD
+    const shouldKeepVisibleState = utilityAnimationRef.current.hasAnimatedOnce
+      && utilityAnimationRef.current.hasInitialTriggerPlayed
+      && isHomeActive
+      && !shouldReplayInitialAnimation
+
+    if (shouldReplayInitialAnimation) {
+      setInitialState()
+    } else if (shouldKeepVisibleState) {
+      setVisibleState()
+    } else {
+      setInitialState()
+    }
+
+    utilityAnimationRef.current.isReady = true
+    utilityAnimationRef.current.hasAnimatedThisVisit = shouldKeepVisibleState
+    utilityAnimationRef.current.animateIn = animateIn
+    utilityAnimationRef.current.animateOut = animateOut
+    utilityAnimationRef.current.reset = () => {
+      killMotion()
+      clearDelayedCall()
+      setInitialState()
+    }
+
+    initialTrigger = ScrollTrigger.create({
+      trigger: utilityRowEl,
+      start: 'top 82%',
+      end: 'bottom 20%',
+      once: true,
+      onEnter: () => {
+        if (utilityAnimationRef.current.hasInitialTriggerPlayed || utilityAnimationRef.current.hasAnimatedThisVisit) {
+          return
+        }
+        utilityAnimationRef.current.hasInitialTriggerPlayed = true
+        utilityAnimationRef.current.hasAnimatedThisVisit = true
+        utilityAnimationRef.current.hasAnimatedOnce = true
+        utilityAnimationRef.current.wasActive = true
+        animateIn({ isReentry: false })
+      },
+    })
+
+    if (initialTrigger.isActive && !utilityAnimationRef.current.hasInitialTriggerPlayed) {
+      utilityAnimationRef.current.hasInitialTriggerPlayed = true
+      utilityAnimationRef.current.hasAnimatedThisVisit = true
+      utilityAnimationRef.current.hasAnimatedOnce = true
+      utilityAnimationRef.current.wasActive = true
+      animateIn({ isReentry: false })
+    }
+
+    refreshFrame = window.requestAnimationFrame(() => {
+      refreshFrame = null
+      ScrollTrigger.refresh()
+
+      if (shouldReplayInitialAnimation) {
+        utilityAnimationRef.current.hasAnimatedThisVisit = true
+        animateIn({ isReentry: false })
+      }
+    })
+
+    return () => {
+      if (refreshFrame) {
+        window.cancelAnimationFrame(refreshFrame)
+      }
+      utilityAnimationRef.current.isReady = false
+      utilityAnimationRef.current.wasActive = false
+      utilityAnimationRef.current.hasAnimatedThisVisit = false
+      utilityAnimationRef.current.hasInitialTriggerPlayed = false
+      utilityAnimationRef.current.animateIn = () => {}
+      utilityAnimationRef.current.animateOut = () => {}
+      utilityAnimationRef.current.reset = () => {}
+      initialTrigger?.kill()
+      clearDelayedCall()
+      killMotion()
+    }
+  }, {
+    dependencies: [projectsList],
+    revertOnUpdate: true,
+  })
+
+  useEffect(() => {
+    evaluateTextAnimationState()
+    evaluateUtilityAnimationState()
+  }, [evaluateTextAnimationState, evaluateUtilityAnimationState, pageCounter, scrollDirection, scrollProgress])
 
   return (
     <HeroWrapper
@@ -344,7 +768,19 @@ function Home() {
           <div key={locale}>
             <h1 className="strokeText" ref={headingRef}>r85studio</h1>
             <h2 ref={subtitleRef}>{homeText.subtitle}</h2>
-            <p ref={descriptionRef} dangerouslySetInnerHTML={toHtml(homeText.description)} />
+            <p ref={descriptionRef} className={styles.description}>
+              {descriptionLines.map((line, index) => (
+                <span key={`${locale}-description-${index}`} className={styles.descriptionLineMask}>
+                  <span
+                    className={styles.descriptionLineContent}
+                    ref={(el) => {
+                      descriptionLineRefs.current[index] = el
+                    }}
+                    dangerouslySetInnerHTML={{ __html: line }}
+                  />
+                </span>
+              ))}
+            </p>
           </div>
           {/* <p>my projects...</p> */}
           <div className={styles.heroDivider} ref={dividerRef} aria-hidden="true" />
@@ -360,14 +796,16 @@ function Home() {
                 <SmallCard label={title} logo={logo} />
               </div>
             ))}
-            <IconButton
-              iconName="ArrowThinRight"
-              onClick={handleNextSection}
-              ariaLabel="Show next content"
-              hover="45deg"
-              className={styles.heroIconButton}
-              iconClassName={styles.heroIcon}
-            />
+            <div ref={iconButtonWrapperRef} className={styles.heroIconButtonSlot}>
+              <IconButton
+                iconName="ArrowThinRight"
+                onClick={handleNextSection}
+                ariaLabel="Show next content"
+                hover="45deg"
+                className={styles.heroIconButton}
+                iconClassName={styles.heroIcon}
+              />
+            </div>
           </div>
         </article>
       </SectionWrapper>
