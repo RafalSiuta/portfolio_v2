@@ -72,7 +72,7 @@
 
 .icon path {
   fill: currentColor;
-  stroke: currentColor;
+  /* stroke: currentColor; */
 }
 
 .textLinkButton:hover::before,

@@ -5,6 +5,7 @@ function SlideController({
   prev,
   next,
   pause,
+  isPaused = false,
   className = '',
 }) {
   const combinedClassName = [styles.controller, className].filter(Boolean).join(' ')
@@ -23,9 +24,21 @@ function SlideController({
         type="button"
         className={styles.iconButton}
         onClick={pause}
-        aria-label="Pause autoplay"
+        aria-label={isPaused ? 'Resume autoplay' : 'Pause autoplay'}
+        aria-pressed={isPaused}
       >
-        <SystemIcon name="Pause" className={styles.icon} aria-hidden="true" focusable="false" />
+        <span className={styles.toggleIcon} aria-hidden="true">
+          <SystemIcon
+            name="Pause"
+            className={`${styles.icon} ${styles.toggleIconItem} ${!isPaused ? styles.toggleIconVisible : ''}`}
+            focusable="false"
+          />
+          <SystemIcon
+            name="PlayArrow"
+            className={`${styles.icon} ${styles.toggleIconItem} ${isPaused ? styles.toggleIconVisible : ''}`}
+            focusable="false"
+          />
+        </span>
       </button>
       <button
         type="button"

@@ -256,6 +256,7 @@ export default function ProjectDetails() {
             nextProject={handlePrevScreenClick}
             prevProject={handleNextScreenClick}
             pauseProject={toggleSliderPause}
+            isAutoplayPaused={isAutoplayPaused}
             loadPercent={loadPercent}
             activeIndicatorCount={activeIndicatorCount}
             currentSlideNumber={screensList.length === 0 ? 0 : currentScreenIndex + 1}

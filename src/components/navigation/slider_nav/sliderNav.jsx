@@ -7,6 +7,7 @@ function SliderNav({
   nextProject,
   prevProject,
   pauseProject,
+  isAutoplayPaused = false,
   loadPercent,
   activeIndicatorCount,
   currentSlideNumber,
@@ -20,6 +21,7 @@ function SliderNav({
           prev={nextProject}
           pause={pauseProject}
           next={prevProject}
+          isPaused={isAutoplayPaused}
         />
       </div>
       <div className={styles.cardsContainer}>{children}</div>

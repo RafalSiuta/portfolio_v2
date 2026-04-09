@@ -1,5 +1,8 @@
-﻿import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
+import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { SplitText } from 'gsap/SplitText'
 import styles from './home.module.css'
 import HeroWrapper from '../../components/containers/herowrapper/heroWrapper'
 import heroDesktop from '../../assets/images/hero.jpg'
@@ -16,6 +19,8 @@ import { toHtml } from '../../utils/convert/stringConvert'
 import { useProjectsContext } from '../../utils/providers/projectsProvider'
 import { usePageTransitionContext } from '../../utils/providers/pageTransitionProvider'
 
+gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP)
+
 function Home() {
   const {
     pageCounter,
@@ -25,16 +30,27 @@ function Home() {
     setScrollDirection,
     smoother,
   } = useNavContext()
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const homeText = getHomeText(t)
   const { projectsList } = useProjectsContext()
   const { navigateToDetail } = usePageTransitionContext()
+  const hasTextAnimationEnabledRef = useRef(true)
+  const lastAnimatedLocaleRef = useRef(locale)
   const dividerRef = useRef(null)
   const utilityRowRef = useRef(null)
+  const heroTextRef = useRef(null)
+  const headingRef = useRef(null)
+  const subtitleRef = useRef(null)
+  const descriptionRef = useRef(null)
   const cardRefs = useRef([])
   const cardWidthsRef = useRef([])
   const gapRef = useRef(0)
   const baseWidthRef = useRef(0)
+
+  if (lastAnimatedLocaleRef.current !== locale) {
+    hasTextAnimationEnabledRef.current = false
+    lastAnimatedLocaleRef.current = locale
+  }
 
   const handleNextSection = useCallback(() => {
     const nextIndex = Math.min(pageCounter + 1, navLinks.length - 1)
@@ -119,6 +135,203 @@ function Home() {
     navigateToDetail(`/projects/${projectId}`, { fromSectionId: 'home' })
   }, [navigateToDetail])
 
+  useGSAP(() => {
+    const textRoot = heroTextRef.current
+    const headingEl = headingRef.current
+    const subtitleEl = subtitleRef.current
+    const descriptionEl = descriptionRef.current
+
+    if (!textRoot || !headingEl || !subtitleEl || !descriptionEl) return undefined
+    if (!hasTextAnimationEnabledRef.current) return undefined
+
+    const splitState = {
+      heading: null,
+      subtitle: null,
+      description: null,
+    }
+    const splitInstances = []
+    let rebuildFrame = null
+    let activeTweens = []
+    let trigger = null
+
+    const killMotion = () => {
+      activeTweens.forEach((tween) => tween?.kill())
+      activeTweens = []
+      trigger?.kill()
+      trigger = null
+    }
+
+    const getSplitGroups = () => ({
+      heading: splitState.heading?.lines ?? [],
+      subtitle: splitState.subtitle?.lines ?? [],
+      description: splitState.description?.lines ?? [],
+    })
+
+    const setInitialState = (lines) => {
+      if (!lines.length) return
+
+      gsap.set(lines, {
+        transformPerspective: 900,
+        transformOrigin: '50% 50% -140px',
+        rotationX: -95,
+        yPercent: 110,
+        opacity: 0,
+        willChange: 'transform, opacity',
+      })
+    }
+
+    const animateGroupsIn = (groups) => {
+      activeTweens.forEach((tween) => tween?.kill())
+      activeTweens = [
+        gsap.to(groups.heading, {
+          rotationX: 0,
+          yPercent: 0,
+          opacity: 1,
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.08,
+          overwrite: 'auto',
+        }),
+        gsap.to(groups.subtitle, {
+          rotationX: 0,
+          yPercent: 0,
+          opacity: 1,
+          duration: 0.9,
+          delay: 0.08,
+          ease: 'power3.out',
+          stagger: 0.08,
+          overwrite: 'auto',
+        }),
+        gsap.to(groups.description, {
+          rotationX: 0,
+          yPercent: 0,
+          opacity: 1,
+          duration: 0.95,
+          delay: 0.16,
+          ease: 'power3.out',
+          stagger: 0.06,
+          overwrite: 'auto',
+        }),
+      ].filter(Boolean)
+    }
+
+    const animateGroupsOut = (groups, direction) => {
+      activeTweens.forEach((tween) => tween?.kill())
+      const rotationX = direction === 'down' ? 85 : -85
+      const yPercent = direction === 'down' ? -110 : 110
+
+      activeTweens = [
+        gsap.to(groups.description, {
+          rotationX,
+          yPercent,
+          opacity: 0,
+          duration: 0.45,
+          ease: 'power2.in',
+          stagger: 0.04,
+          overwrite: 'auto',
+        }),
+        gsap.to(groups.subtitle, {
+          rotationX,
+          yPercent,
+          opacity: 0,
+          duration: 0.42,
+          delay: 0.03,
+          ease: 'power2.in',
+          stagger: 0.04,
+          overwrite: 'auto',
+        }),
+        gsap.to(groups.heading, {
+          rotationX,
+          yPercent,
+          opacity: 0,
+          duration: 0.4,
+          delay: 0.06,
+          ease: 'power2.in',
+          stagger: 0.04,
+          overwrite: 'auto',
+        }),
+      ].filter(Boolean)
+    }
+
+    const rebuildTextAnimation = () => {
+      rebuildFrame = null
+      const groups = getSplitGroups()
+      const hasLines = Object.values(groups).some((lines) => lines.length)
+      if (!hasLines) return
+
+      killMotion()
+      Object.values(groups).forEach(setInitialState)
+
+      trigger = ScrollTrigger.create({
+        trigger: textRoot,
+        start: 'top 78%',
+        end: 'bottom 22%',
+        onEnter: () => animateGroupsIn(groups),
+        onEnterBack: () => animateGroupsIn(groups),
+        onLeave: () => animateGroupsOut(groups, 'down'),
+        onLeaveBack: () => animateGroupsOut(groups, 'up'),
+      })
+
+      if (trigger.isActive) {
+        animateGroupsIn(groups)
+      }
+    }
+
+    const scheduleRebuild = () => {
+      if (rebuildFrame) {
+        window.cancelAnimationFrame(rebuildFrame)
+      }
+      rebuildFrame = window.requestAnimationFrame(rebuildTextAnimation)
+    }
+
+    splitInstances.push(
+      SplitText.create(headingEl, {
+        type: 'lines',
+        mask: 'lines',
+        autoSplit: true,
+        onSplit(self) {
+          splitState.heading = self
+          scheduleRebuild()
+        },
+      })
+    )
+
+    splitInstances.push(
+      SplitText.create(subtitleEl, {
+        type: 'lines',
+        mask: 'lines',
+        autoSplit: true,
+        onSplit(self) {
+          splitState.subtitle = self
+          scheduleRebuild()
+        },
+      })
+    )
+
+    splitInstances.push(
+      SplitText.create(descriptionEl, {
+        type: 'lines',
+        mask: 'lines',
+        autoSplit: true,
+        onSplit(self) {
+          splitState.description = self
+          scheduleRebuild()
+        },
+      })
+    )
+
+    return () => {
+      if (rebuildFrame) {
+        window.cancelAnimationFrame(rebuildFrame)
+      }
+      killMotion()
+      splitInstances.forEach((instance) => instance.revert())
+    }
+  }, {
+    dependencies: [locale, homeText.subtitle, homeText.description],
+    revertOnUpdate: true,
+  })
+
   return (
     <HeroWrapper
       id="home"
@@ -126,11 +339,13 @@ function Home() {
       isLastSection={false}
     >
       <SectionWrapper className={styles.wrapper}>
-        <article className={styles.herotext}>
+        <article className={styles.herotext} ref={heroTextRef}>
           {/* <SectionTitle /> */}
-          <h1 className='strokeText'>r85studio</h1>
-          <h2>{homeText.subtitle}</h2>
-          <p dangerouslySetInnerHTML={toHtml(homeText.description)} />
+          <div key={locale}>
+            <h1 className="strokeText" ref={headingRef}>r85studio</h1>
+            <h2 ref={subtitleRef}>{homeText.subtitle}</h2>
+            <p ref={descriptionRef} dangerouslySetInnerHTML={toHtml(homeText.description)} />
+          </div>
           {/* <p>my projects...</p> */}
           <div className={styles.heroDivider} ref={dividerRef} aria-hidden="true" />
           <div className={styles.heroUtilityRow} ref={utilityRowRef} onMouseLeave={resetDivider}>

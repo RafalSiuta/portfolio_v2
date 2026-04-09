@@ -213,6 +213,7 @@ export default function Projects() {
           nextProject={handleNextProjectClick}
           prevProject={handlePrevProjectClick}
           pauseProject={toggleSliderPause}
+          isAutoplayPaused={isAutoplayPaused}
           loadPercent={loadPercent}
           activeIndicatorCount={activeIndicatorCount}
           currentSlideNumber={currentIndex + 1}

@@ -22,6 +22,19 @@ const dictionaries = {
   en: { ...enHome, ...enAbout, ...enContact, ...enNav, ...enProjects, ...enDetails },
 }
 
+const getInitialLocale = () => {
+  if (typeof window === 'undefined') return 'pl'
+
+  try {
+    const saved = window.localStorage.getItem(STORAGE_KEY)
+    if (saved === 'pl' || saved === 'en') {
+      return saved
+    }
+  } catch {}
+
+  return 'pl'
+}
+
 const getValueByPath = (dict, path, fallback) => {
   if (!dict || !path) return fallback
   const parts = path.split('.')
@@ -49,16 +62,7 @@ export const getLocalizedValue = (value, locale, fallback = '') => {
 }
 
 export function LanguageProvider({ children }) {
-  const [locale, setLocale] = useState('pl')
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY)
-      if (saved === 'pl' || saved === 'en') {
-        setLocale(saved)
-      }
-    } catch {}
-  }, [])
+  const [locale, setLocale] = useState(getInitialLocale)
 
   useEffect(() => {
     if (typeof document !== 'undefined') {

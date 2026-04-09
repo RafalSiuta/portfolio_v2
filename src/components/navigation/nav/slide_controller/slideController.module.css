@@ -15,6 +15,11 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--vertical-text-gap);
+  transition: border-color 200ms ease-in-out;
+}
+
+.controller:hover {
+  border-color: var(--accent-dark, #D1A054);
 }
 
 .iconButton {
@@ -40,6 +45,28 @@
   transition: transform 200ms ease-in-out;
 }
 
+.toggleIcon {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.toggleIconItem {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(0.92);
+  transition:
+    opacity 180ms ease-in-out,
+    transform 180ms ease-in-out;
+}
+
+.toggleIconVisible {
+  opacity: 1;
+  transform: scale(1);
+}
+
 .icon path,
 .icon circle,
 .icon rect,
@@ -47,12 +74,26 @@
 .icon polyline,
 .icon polygon {
   stroke: var(--text-dark, #d4d4d4);
+  transition: stroke 200ms ease-in-out;
 }
 
-.iconButton:first-child:hover .icon {
-  transform: translateX(calc(var(--icon-hover-shift, calc(var(--icon-button-width) * 0.18)) * -1));
+.iconButton:hover .icon path,
+.iconButton:hover .icon circle,
+.iconButton:hover .icon rect,
+.iconButton:hover .icon line,
+.iconButton:hover .icon polyline,
+.iconButton:hover .icon polygon {
+  stroke: var(--accent-dark, #D1A054);
 }
 
-.iconButton:last-child:hover .icon {
-  transform: translateX(var(--icon-hover-shift, calc(var(--icon-button-width) * 0.18)));
+.iconButton:hover .icon {
+  transform: scale(1.08);
+}
+
+.iconButton:hover .toggleIconItem {
+  transform: scale(0.98);
+}
+
+.iconButton:hover .toggleIconVisible {
+  transform: scale(1.08);
 }
