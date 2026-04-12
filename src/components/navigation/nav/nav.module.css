@@ -74,6 +74,10 @@
   transition: color 150ms ease-in-out;
 }
 
+.linkLabel {
+  display: inline-block;
+}
+
 .link[aria-current='page'],
 .link:hover,
 .link:focus-visible {

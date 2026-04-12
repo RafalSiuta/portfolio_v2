@@ -269,7 +269,8 @@ h4{
   color: var(--text-dark, #d4d4d4);
   text-overflow: ellipsis;
   font-family: var(--font-family-clash-display, 'ClashDisplay');
-  font-size: var(--font-size-body, 1.5rem);
+  /* font-size: var(--font-size-body, 1.5rem); var(--font-size-body-small);*/
+  font-size: var(--font-size-body-small);
   font-style: normal;
   font-weight: var(--font-weight-semibold, 600);
   line-height: normal;

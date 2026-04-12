@@ -13,10 +13,15 @@ function SliderNav({
   currentSlideNumber,
   totalSlides,
   children,
+  navButtonsRef,
+  counterContainerRef,
+  counterIndicatorRefs,
+  counterLabelRef,
+  counterNumberRef,
 }) {
   return (
     <div className={styles.projectCardsContainer}>
-      <div className={styles.navButtonsContainer}>
+      <div className={styles.navButtonsContainer} ref={navButtonsRef}>
         <SlideController
           prev={nextProject}
           pause={pauseProject}
@@ -31,6 +36,10 @@ function SliderNav({
         activeIndicatorCount={activeIndicatorCount}
         currentSlideNumber={currentSlideNumber}
         totalSlides={totalSlides}
+        containerRef={counterContainerRef}
+        indicatorRefs={counterIndicatorRefs}
+        labelRef={counterLabelRef}
+        numberRef={counterNumberRef}
       />
     </div>
   )

@@ -46,7 +46,7 @@ function Home() {
     .map(({ id }, index) => id ?? index)
     .join('|')
   const { navigateToDetail } = usePageTransitionContext()
-  const hasTextAnimationEnabledRef = useRef(true)
+  const shouldAnimateLocaleChangeRef = useRef(false)
   const lastAnimatedLocaleRef = useRef(locale)
   const pageCounterRef = useRef(pageCounter)
   const scrollProgressRef = useRef(scrollProgress)
@@ -87,7 +87,7 @@ function Home() {
   const baseWidthRef = useRef(0)
 
   if (lastAnimatedLocaleRef.current !== locale) {
-    hasTextAnimationEnabledRef.current = false
+    shouldAnimateLocaleChangeRef.current = true
     lastAnimatedLocaleRef.current = locale
   }
 
@@ -292,7 +292,6 @@ function Home() {
     const descriptionLineEls = descriptionLineRefs.current.filter(Boolean)
 
     if (!textRoot || !headingEl || !subtitleEl || !descriptionEl || !descriptionLineEls.length) return undefined
-    if (!hasTextAnimationEnabledRef.current) return undefined
 
     const splitState = {
       heading: null,
@@ -339,6 +338,15 @@ function Home() {
       gsap.set(descriptionLineEls, {
         opacity: 1,
         yPercent: 0,
+        willChange: 'transform, opacity',
+      })
+    }
+
+    const setHeadingVisibleState = (groups) => {
+      gsap.set(groups.heading, {
+        rotationX: 0,
+        yPercent: 0,
+        opacity: 1,
         willChange: 'transform, opacity',
       })
     }
@@ -390,6 +398,30 @@ function Home() {
           delay: isReentry ? 0.38 : 0.28,
           ease: 'power3.out',
           stagger: 0.1,
+          overwrite: 'auto',
+        }),
+      ].filter(Boolean)
+    }
+
+    const animateLocaleTextIn = (groups) => {
+      activeTweens.forEach((tween) => tween?.kill())
+      activeTweens = [
+        gsap.to(groups.subtitle, {
+          rotationX: 0,
+          yPercent: 0,
+          opacity: 1,
+          duration: 0.72,
+          ease: 'power3.out',
+          stagger: 0.08,
+          overwrite: 'auto',
+        }),
+        gsap.to(descriptionLineEls, {
+          opacity: 1,
+          yPercent: 0,
+          duration: 0.62,
+          delay: 0.16,
+          ease: 'power3.out',
+          stagger: 0.08,
           overwrite: 'auto',
         }),
       ].filter(Boolean)
@@ -459,8 +491,17 @@ function Home() {
         && textAnimationRef.current.hasInitialTriggerPlayed
         && isHomeActive
         && !shouldReplayInitialAnimation
+      const shouldAnimateLocaleChange = shouldAnimateLocaleChangeRef.current
+        && textAnimationRef.current.hasAnimatedOnce
+        && isHomeActive
 
-      if (shouldReplayInitialAnimation) {
+      shouldAnimateLocaleChangeRef.current = false
+
+      if (shouldAnimateLocaleChange) {
+        setHeadingVisibleState(groups)
+        setInitialState(groups.subtitle)
+        setDescriptionInitialState()
+      } else if (shouldReplayInitialAnimation) {
         Object.values(groups).forEach(setInitialState)
         setDescriptionInitialState()
       } else if (shouldKeepVisibleState) {
@@ -471,7 +512,12 @@ function Home() {
       }
 
       textAnimationRef.current.isReady = true
-      textAnimationRef.current.hasAnimatedThisVisit = shouldKeepVisibleState
+      textAnimationRef.current.hasAnimatedThisVisit = shouldKeepVisibleState || shouldAnimateLocaleChange
+      if (shouldAnimateLocaleChange) {
+        textAnimationRef.current.hasInitialTriggerPlayed = true
+        textAnimationRef.current.hasAnimatedOnce = true
+        textAnimationRef.current.wasActive = true
+      }
       textAnimationRef.current.animateIn = (options) => animateGroupsIn(groups, options)
       textAnimationRef.current.animateOut = (direction) => animateGroupsOut(groups, direction)
       textAnimationRef.current.reset = () => {
@@ -517,6 +563,9 @@ function Home() {
         if (shouldReplayInitialAnimation) {
           textAnimationRef.current.hasAnimatedThisVisit = true
           animateGroupsIn(groups, { isReentry: false })
+        } else if (shouldAnimateLocaleChange) {
+          textAnimationRef.current.hasAnimatedThisVisit = true
+          animateLocaleTextIn(groups)
         }
       })
     }

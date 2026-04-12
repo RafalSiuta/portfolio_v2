@@ -6,20 +6,31 @@ function SlideCounter({
   activeIndicatorCount,
   currentSlideNumber,
   totalSlides,
+  containerRef,
+  indicatorRefs,
+  labelRef,
+  numberRef,
 }) {
+  const indicatorCount = 9
+
   return (
-    <div className={styles.indicatorContainer}>
+    <div className={styles.indicatorContainer} ref={containerRef}>
       <div className={styles.indicatorsContainer}>
-        {Array.from({ length: 10 }, (_, index) => (
+        {Array.from({ length: indicatorCount }, (_, index) => (
           <span
             key={index + 1}
-            className={`${styles.indicator} ${index >= 10 - activeIndicatorCount ? styles.indicatorActive : ''}`}
+            ref={(el) => {
+              if (indicatorRefs) {
+                indicatorRefs.current[index] = el
+              }
+            }}
+            className={`${styles.indicator} ${index >= indicatorCount - activeIndicatorCount ? styles.indicatorActive : ''}`}
           />
         ))}
       </div>
       <div className={styles.indicatorTextContainer}>
-        <p className={styles.label}>{label} {loadPercent}%</p>
-        <h3>{currentSlideNumber}/{totalSlides}</h3>
+        <p className={styles.label} ref={labelRef}>{label} {loadPercent}%</p>
+        <h3 ref={numberRef}>{currentSlideNumber}/{totalSlides}</h3>
       </div>
     </div>
   )

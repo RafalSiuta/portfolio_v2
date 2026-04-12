@@ -10,10 +10,12 @@
 }
 
 .indicatorsContainer {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(9, 10px);
+  grid-template-rows: 1fr;
   gap: var(--vertical-text-gap);
   justify-content: flex-end;
-    align-items: flex-end;
+  align-items: flex-end;
 }
 
 .indicatorTextContainer {
@@ -70,23 +72,23 @@
 }
 
 @media screen and (max-width: 820px) {
-  .indicatorContainer {
-    flex-direction: column;
-    
-  }
+  /* .indicatorContainer {
+    /* flex-direction: column; 
+  } */
 
   .indicatorsContainer {
-    flex-wrap: wrap;
+    grid-template-columns: repeat(3, 6px);
+    grid-template-rows: repeat(3, 6px);
     justify-content: flex-end;
     align-items: flex-end;
-    
+    padding-left: var(--project-card-spacing);
   }
 
   .indicatorTextContainer{
     flex: auto;
     text-align: right;
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: flex-end;
+    justify-content: flex-end;
   }
 
   .label{

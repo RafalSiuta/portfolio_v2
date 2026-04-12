@@ -24,9 +24,12 @@ function Nav() {
   const navRootRef = useRef(null)
   const linkRefs = useRef({})
   const menuItemRefs = useRef([])
+  const menuTextRefs = useRef([])
   const activeIndexRef = useRef(0)
   const lastDirectionRef = useRef(1)
   const hasPlayedDesktopIntroRef = useRef(false)
+  const shouldAnimateLocaleChangeRef = useRef(false)
+  const lastLocaleRef = useRef(null)
   const isProgrammaticScrollRef = useRef(false)
   const scrollEndHandlerRef = useRef(null)
   const [activeKey, setActiveKey] = useState(navLinks[0].href)
@@ -42,7 +45,7 @@ function Nav() {
     smoother,
     lastSectionId,
   } = useNavContext()
-  const { nextLocale, toggleLocale, t } = useI18n()
+  const { locale, nextLocale, toggleLocale, t } = useI18n()
   const { isDetailRoute, navigateToDetail, returnToSection } = usePageTransitionContext()
   const navText = getNavText(t)
   const location = useLocation()
@@ -63,6 +66,15 @@ function Nav() {
       isActive: true,
     },
   ]
+
+  if (lastLocaleRef.current === null) {
+    lastLocaleRef.current = locale
+  } else if (lastLocaleRef.current !== locale) {
+    shouldAnimateLocaleChangeRef.current = true
+    lastLocaleRef.current = locale
+  }
+
+  menuTextRefs.current.length = currentMode === 'landing' ? navLinks.length : detailItems.length
   const handleLogoClick = useCallback(() => {
     const currentSectionId = navLinks[pageCounter]?.href.replace('#', '') || 'home'
     navigateToDetail('/r85', { fromSectionId: currentSectionId })
@@ -265,6 +277,40 @@ function Nav() {
       window.removeEventListener('resize', moveIndicator)
     }
   }, [activeKey, isSmallHorizontal])
+
+  useLayoutEffect(() => {
+    if (!shouldAnimateLocaleChangeRef.current) return undefined
+
+    shouldAnimateLocaleChangeRef.current = false
+
+    const menuTextEls = menuTextRefs.current.filter(Boolean)
+    if (!menuTextEls.length) return undefined
+    if (isSmallHorizontal && !isMenuOpen) return undefined
+
+    gsap.killTweensOf(menuTextEls)
+    gsap.set(menuTextEls, {
+      autoAlpha: 0,
+      yPercent: 65,
+      willChange: 'transform, opacity',
+    })
+
+    const timeline = gsap.timeline()
+    timeline.to(menuTextEls, {
+      autoAlpha: 1,
+      yPercent: 0,
+      duration: 0.42,
+      ease: 'power3.out',
+      stagger: 0.055,
+      overwrite: 'auto',
+    })
+
+    return () => {
+      timeline.kill()
+      gsap.set(menuTextEls, {
+        clearProps: 'opacity,visibility,transform,willChange',
+      })
+    }
+  }, [currentMode, isMenuOpen, isSmallHorizontal, locale, navText])
 
   useEffect(() => {
     const indicatorEl = indicatorRef.current
@@ -510,7 +556,14 @@ function Nav() {
                         }
                       }}
                     >
-                      {label}
+                      <span
+                        className={styles.linkLabel}
+                        ref={(el) => {
+                          menuTextRefs.current[index] = el
+                        }}
+                      >
+                        {label}
+                      </span>
                     </a>
                   </li>
                 )
@@ -529,7 +582,9 @@ function Nav() {
                       onClick={handleReturnClick}
                     >
                       <span
+                        className={styles.linkLabel}
                         ref={(el) => {
+                          menuTextRefs.current[index] = el
                           if (el) {
                             linkRefs.current[item.key] = el
                           } else {
@@ -552,7 +607,14 @@ function Nav() {
                         }
                       }}
                     >
-                      {item.label}
+                      <span
+                        className={styles.linkLabel}
+                        ref={(el) => {
+                          menuTextRefs.current[index] = el
+                        }}
+                      >
+                        {item.label}
+                      </span>
                     </span>
                   )}
                 </li>
