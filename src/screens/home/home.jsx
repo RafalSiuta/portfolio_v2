@@ -41,6 +41,10 @@ function Home() {
     .map((line) => line.trim())
     .filter(Boolean)
   const { projectsList } = useProjectsContext()
+  const homeUtilityAnimationKey = projectsList
+    .slice(0, 3)
+    .map(({ id }, index) => id ?? index)
+    .join('|')
   const { navigateToDetail } = usePageTransitionContext()
   const hasTextAnimationEnabledRef = useRef(true)
   const lastAnimatedLocaleRef = useRef(locale)
@@ -574,11 +578,12 @@ function Home() {
 
   useGSAP(() => {
     const utilityRowEl = utilityRowRef.current
+    const dividerEl = dividerRef.current
     const iconButtonWrapperEl = iconButtonWrapperRef.current
     const cardEls = cardRefs.current.slice(0, 3).filter(Boolean)
     const animatedEls = [...cardEls, iconButtonWrapperEl].filter(Boolean)
 
-    if (!utilityRowEl || !iconButtonWrapperEl || !cardEls.length) return undefined
+    if (!utilityRowEl || !dividerEl || !iconButtonWrapperEl || !cardEls.length) return undefined
 
     let activeTimeline = null
     let initialTrigger = null
@@ -607,6 +612,11 @@ function Home() {
           yPercent: 26,
         })
       }
+      gsap.set(dividerEl, {
+        scaleX: 0,
+        transformOrigin: '0% 50%',
+        willChange: 'transform, width',
+      })
       gsap.set(iconButtonWrapperEl, {
         opacity: 0,
         scale: 0.9,
@@ -622,11 +632,24 @@ function Home() {
         yPercent: 0,
         willChange: 'transform, opacity',
       })
+      gsap.set(dividerEl, {
+        scaleX: 1,
+        transformOrigin: '0% 50%',
+        willChange: 'transform, width',
+      })
     }
 
     const animateIn = ({ isReentry = false } = {}) => {
       killMotion()
+      measureDivider()
       activeTimeline = gsap.timeline({ delay: isReentry ? 0.18 : 0 })
+      activeTimeline.to(dividerEl, {
+        scaleX: 1,
+        transformOrigin: '0% 50%',
+        duration: 0.54,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      })
       cardEls.forEach((cardEl, index) => {
         activeTimeline.to(cardEl, {
           opacity: 1,
@@ -635,7 +658,7 @@ function Home() {
           duration: 0.52,
           ease: 'power3.out',
           overwrite: 'auto',
-        }, index === 0 ? undefined : '>-0.26')
+        }, index === 0 ? '<0.16' : '>-0.26')
       })
       activeTimeline.to(iconButtonWrapperEl, {
         opacity: 1,
@@ -665,6 +688,13 @@ function Home() {
         stagger: 0.08,
         overwrite: 'auto',
       })
+      activeTimeline.to(dividerEl, {
+        scaleX: 0,
+        transformOrigin: '0% 50%',
+        duration: 0.28,
+        ease: 'power2.in',
+        overwrite: 'auto',
+      }, '<0.08')
     }
 
     const isHomeActive = pageCounterRef.current === HOME_SECTION_INDEX
@@ -747,7 +777,7 @@ function Home() {
       killMotion()
     }
   }, {
-    dependencies: [projectsList],
+    dependencies: [measureDivider, homeUtilityAnimationKey],
     revertOnUpdate: true,
   })
 

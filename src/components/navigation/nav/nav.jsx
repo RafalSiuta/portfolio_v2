@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { matchPath, useLocation } from 'react-router-dom'
 import styles from './nav.module.css'
@@ -16,12 +16,17 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 function Nav() {
   const menuRef = useRef(null)
   const buttonRef = useRef(null)
+  const desktopLogoRef = useRef(null)
+  const mobileLogoRef = useRef(null)
+  const langButtonRef = useRef(null)
   const indicatorRef = useRef(null)
   const navDividerRef = useRef(null)
   const navRootRef = useRef(null)
   const linkRefs = useRef({})
+  const menuItemRefs = useRef([])
   const activeIndexRef = useRef(0)
   const lastDirectionRef = useRef(1)
+  const hasPlayedDesktopIntroRef = useRef(false)
   const isProgrammaticScrollRef = useRef(false)
   const scrollEndHandlerRef = useRef(null)
   const [activeKey, setActiveKey] = useState(navLinks[0].href)
@@ -58,7 +63,6 @@ function Nav() {
       isActive: true,
     },
   ]
-
   const handleLogoClick = useCallback(() => {
     const currentSectionId = navLinks[pageCounter]?.href.replace('#', '') || 'home'
     navigateToDetail('/r85', { fromSectionId: currentSectionId })
@@ -101,6 +105,136 @@ function Nav() {
       document.body.style.overflow = ''
     }
   }, [isSmallHorizontal, setIsMenuOpen])
+
+  useLayoutEffect(() => {
+    const logoEl = isSmallHorizontal ? mobileLogoRef.current : desktopLogoRef.current
+    const langButtonEl = langButtonRef.current
+    const menuItemEls = menuItemRefs.current.filter(Boolean)
+    const dividerEl = navDividerRef.current
+    const indicatorEl = indicatorRef.current
+
+    if (!logoEl || !langButtonEl || !menuItemEls.length) return undefined
+
+    const setSharedInitialState = () => {
+      gsap.set([logoEl, langButtonEl], {
+        autoAlpha: 0,
+        scale: 0.5,
+        yPercent: -50,
+        transformOrigin: '50% 50%',
+        willChange: 'transform, opacity',
+      })
+      gsap.set(logoEl, {
+        scale: 0.2,
+      })
+      gsap.set(menuItemEls, {
+        autoAlpha: 0,
+        scale: 0.92,
+        yPercent: -18,
+        transformOrigin: '50% 50%',
+        willChange: 'transform, opacity',
+      })
+    }
+
+    const animateSharedItems = (timeline) => {
+      timeline
+        .to(logoEl, {
+          autoAlpha: 1,
+          scale: 1,
+          yPercent: 0,
+          duration: 0.56,
+          ease: 'power3.out',
+          overwrite: 'auto',
+        })
+        .to(langButtonEl, {
+          autoAlpha: 1,
+          scale: 1,
+          yPercent: 0,
+          duration: 0.46,
+          ease: 'power3.out',
+          overwrite: 'auto',
+        }, '<50%')
+        .to(menuItemEls, {
+          autoAlpha: 1,
+          scale: 1,
+          yPercent: 0,
+          duration: 0.42,
+          ease: 'power3.out',
+          stagger: 0.07,
+          overwrite: 'auto',
+        }, '<50%')
+    }
+
+    if (isSmallHorizontal) {
+      if (!isMenuOpen) {
+        gsap.killTweensOf([logoEl, langButtonEl, ...menuItemEls])
+        setSharedInitialState()
+        return undefined
+      }
+
+      setSharedInitialState()
+      const timeline = gsap.timeline()
+      animateSharedItems(timeline)
+
+      return () => {
+        timeline.kill()
+      }
+    }
+
+    if (hasPlayedDesktopIntroRef.current || !dividerEl || !indicatorEl) {
+      gsap.set([logoEl, langButtonEl, ...menuItemEls], {
+        clearProps: 'opacity,visibility,scale,transform,transformOrigin,willChange',
+      })
+      if (dividerEl) {
+        gsap.set(dividerEl, {
+          clearProps: 'transform,transformOrigin,willChange',
+        })
+      }
+      if (indicatorEl) {
+        gsap.set(indicatorEl, {
+          clearProps: 'opacity,visibility,scale,transform,transformOrigin,willChange',
+        })
+      }
+      return undefined
+    }
+
+    setSharedInitialState()
+    gsap.set(dividerEl, {
+      scaleX: 0,
+      transformOrigin: '0% 50%',
+      willChange: 'transform',
+    })
+    gsap.set(indicatorEl, {
+      autoAlpha: 0,
+      scaleX: 0,
+      transformOrigin: '50% 50%',
+      willChange: 'transform, opacity',
+    })
+
+    const timeline = gsap.timeline({
+      onComplete: () => {
+        hasPlayedDesktopIntroRef.current = true
+      },
+    })
+    animateSharedItems(timeline)
+    timeline
+      .to(dividerEl, {
+        scaleX: 1,
+        duration: 0.54,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      }, '>-0.08')
+      .to(indicatorEl, {
+        autoAlpha: 1,
+        scaleX: 1,
+        duration: 0.34,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      })
+
+    return () => {
+      timeline.kill()
+    }
+  }, [currentMode, isMenuOpen, isSmallHorizontal])
 
   useEffect(() => {
     const menuEl = menuRef.current
@@ -330,6 +464,7 @@ function Nav() {
       <nav className={styles.navigation} aria-label="Primary">
         {!isSmallHorizontal && (
           <Logo
+            ref={desktopLogoRef}
             isSubpage={currentMode === 'detail'}
             onClick={handleLogoClick}
             onKeyDown={handleLogoKeyDown}
@@ -341,6 +476,7 @@ function Nav() {
         <div className={styles.menuList}>
           {isSmallHorizontal && (
             <Logo
+              ref={mobileLogoRef}
               className={styles.mobileLogo}
               isSubpage={currentMode === 'detail'}
               onClick={handleLogoClick}
@@ -355,7 +491,12 @@ function Nav() {
               navLinks.map((link, index) => {
                 const label = navText.menuOptions?.[index] ?? link.label
                 return (
-                  <li key={link.href}>
+                  <li
+                    key={link.href}
+                    ref={(el) => {
+                      menuItemRefs.current[index] = el
+                    }}
+                  >
                     <a
                       className={styles.link}
                       href={link.href}
@@ -375,8 +516,13 @@ function Nav() {
                 )
               })
             ) : (
-              detailItems.map((item) => (
-                <li key={item.key}>
+              detailItems.map((item, index) => (
+                <li
+                  key={item.key}
+                  ref={(el) => {
+                    menuItemRefs.current[index] = el
+                  }}
+                >
                   {item.type === 'button' ? (
                     <TextButton
                       className={styles.link}
@@ -414,9 +560,11 @@ function Nav() {
             )}
             <span className={styles.indicator} ref={indicatorRef} aria-hidden="true" />
           </ul>
-          <TextButton className={styles.langButton} onClick={toggleLocale}>
-            {nextLocale}
-          </TextButton>
+          <span className={styles.langButtonShell} ref={langButtonRef}>
+            <TextButton className={styles.langButton} onClick={toggleLocale}>
+              {nextLocale}
+            </TextButton>
+          </span>
         </div>
       </nav>
       <div className={styles.divider} ref={navDividerRef} aria-hidden="true" />

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import styles from './sideIndicator.module.css'
 import { useNavContext } from '../../../utils/providers/navProvider'
@@ -16,6 +16,10 @@ function SideIndicator() {
   const progressPercent = clampPercent(scrollProgress)
   const topFillRef = useRef(null)
   const bottomFillRef = useRef(null)
+  const topBarRef = useRef(null)
+  const bottomBarRef = useRef(null)
+  const labelRef = useRef(null)
+  const hasPlayedIntroRef = useRef(false)
   const previousProgressRef = useRef(progressPercent)
   const reachedFullRef = useRef(progressPercent >= 100)
   const containerRef = useRef(null)
@@ -56,6 +60,82 @@ function SideIndicator() {
     }
   }, [isMenuOpen, isTabletDown])
 
+  useLayoutEffect(() => {
+    const topBarEl = topBarRef.current
+    const bottomBarEl = bottomBarRef.current
+    const labelEl = labelRef.current
+    const topFillEl = topFillRef.current
+    const bottomFillEl = bottomFillRef.current
+
+    if (hasPlayedIntroRef.current || !topBarEl || !bottomBarEl || !labelEl || !topFillEl || !bottomFillEl) {
+      if (topBarEl && bottomBarEl && labelEl && topFillEl && bottomFillEl) {
+        gsap.set([topBarEl, bottomBarEl], {
+          clearProps: 'transform,transformOrigin,willChange',
+        })
+        gsap.set(labelEl, {
+          clearProps: 'opacity,visibility,scale,transform,transformOrigin,willChange',
+        })
+        gsap.set([topFillEl, bottomFillEl], {
+          clearProps: 'opacity,visibility,willChange',
+        })
+      }
+      return undefined
+    }
+
+    gsap.set(labelEl, {
+      autoAlpha: 0,
+      scale: 0.5,
+      yPercent: -50,
+      transformOrigin: '50% 50%',
+      willChange: 'transform, opacity',
+    })
+    gsap.set(topBarEl, {
+      scaleY: 0,
+      transformOrigin: 'top center',
+      willChange: 'transform',
+    })
+    gsap.set(bottomBarEl, {
+      scaleY: 0,
+      transformOrigin: 'bottom center',
+      willChange: 'transform',
+    })
+    gsap.set([topFillEl, bottomFillEl], {
+      autoAlpha: 0,
+      willChange: 'opacity, transform',
+    })
+
+    const timeline = gsap.timeline({
+      onComplete: () => {
+        hasPlayedIntroRef.current = true
+      },
+    })
+    timeline
+      .to(labelEl, {
+        autoAlpha: 1,
+        scale: 1,
+        yPercent: 0,
+        duration: 0.46,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      })
+      .to([topBarEl, bottomBarEl], {
+        scaleY: 1,
+        duration: 0.54,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      }, '<50%')
+      .to([topFillEl, bottomFillEl], {
+        autoAlpha: 1,
+        duration: 0.28,
+        ease: 'power2.out',
+        overwrite: false,
+      })
+
+    return () => {
+      timeline.kill()
+    }
+  }, [])
+
   useEffect(() => {
     const prev = previousProgressRef.current
     if (progressPercent >= 100) {
@@ -87,11 +167,19 @@ function SideIndicator() {
 
   return (
     <aside className={styles.container} aria-hidden="true" ref={containerRef}>
-      <div className={`${styles.progressBar} ${styles.progressBarTop}`} role="presentation">
+      <div
+        className={`${styles.progressBar} ${styles.progressBarTop}`}
+        ref={topBarRef}
+        role="presentation"
+      >
         <span ref={topFillRef} className={styles.progressFill} aria-hidden="true" />
       </div>
-      <h3 className={styles.label}>{displayValue}</h3>
-      <div className={`${styles.progressBar} ${styles.progressBarBottom}`} role="presentation">
+      <h3 className={styles.label} ref={labelRef}>{displayValue}</h3>
+      <div
+        className={`${styles.progressBar} ${styles.progressBarBottom}`}
+        ref={bottomBarRef}
+        role="presentation"
+      >
         <span ref={bottomFillRef} className={styles.progressFill} aria-hidden="true" />
       </div>
     </aside>
