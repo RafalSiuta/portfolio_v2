@@ -59,6 +59,15 @@
   pointer-events: all;
 }
 
+.descriptionLineMask {
+  display: block;
+  overflow: hidden;
+}
+
+.descriptionLineContent {
+  display: inline-block;
+}
+
 .detailsContainer{
   display: flex;
   flex-direction: column;

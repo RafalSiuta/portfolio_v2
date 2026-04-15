@@ -78,39 +78,10 @@ function Footer({ variant = 'floating' }) {
     if (!items.length) return
 
     gsap.killTweensOf(items)
-    gsap.set(listEl, { pointerEvents: shouldShowSocial ? 'all' : 'none' })
-
-    if (shouldShowSocial) {
-      const timeline = gsap.timeline()
-      gsap.set(items, { autoAlpha: 0, scale: 0.8, yPercent: 16 })
-      if (items[0]) {
-        gsap.set(items[0], { scale: 0.72, yPercent: 24 })
-      }
-
-      items.forEach((item, index) => {
-        timeline.to(item, {
-          autoAlpha: 1,
-          scale: 1,
-          yPercent: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-        }, index === 0 ? undefined : '>-0.25')
-      })
-
-      return
-    }
-
-    const timeline = gsap.timeline()
-    items.slice().reverse().forEach((item, index) => {
-      timeline.to(item, {
-        autoAlpha: 0,
-        scale: 0.8,
-        yPercent: 16,
-        duration: 0.5,
-        ease: 'power2.in',
-      }, index === 0 ? undefined : '>-0.25')
+    gsap.set(items, {
+      clearProps: 'opacity,visibility,transform,willChange',
     })
-  }, [shouldShowSocial])
+  }, [])
 
   return (
     <footer
@@ -128,7 +99,13 @@ function Footer({ variant = 'floating' }) {
           isDetail ? styles.footerContainerDetail : '',
         ].filter(Boolean).join(' ')}
       >
-        <div className={styles.socialList} ref={socialListRef}>
+        <div
+          className={[
+            styles.socialList,
+            shouldShowSocial ? styles.socialListVisible : styles.socialListHidden,
+          ].join(' ')}
+          ref={socialListRef}
+        >
           {iconsList.map(({ link, name, label }) => (
             <IconLink key={name} link={link} iconName={name} label={label} />
           ))}

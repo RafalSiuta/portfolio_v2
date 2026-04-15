@@ -17,6 +17,19 @@
   align-items: center;
   pointer-events: all;
 }
+
+.socialListVisible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.socialListHidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .footerContainer{
   display: flex;
   width: min(100%, var(--nav-max-width, 108rem));
