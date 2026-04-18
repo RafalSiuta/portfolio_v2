@@ -7,7 +7,7 @@ import { useI18n } from '../../../utils/providers/lang/langProvider'
 import { getContactText } from '../../../utils/providers/lang/services'
 import styles from './formContainer.module.css'
 
-export default function FormContainer() {
+export default function FormContainer({ animationRefs = {} }) {
   const {
     emailValue,
     setEmailValue,
@@ -21,7 +21,6 @@ export default function FormContainer() {
     setTopicError,
     messageError,
     setMessageError,
-    isSending,
     clearErrors,
     submitForm,
   } = useContactContext()
@@ -29,6 +28,16 @@ export default function FormContainer() {
   const contactText = getContactText(t)
 
   const formRef = useRef(null)
+  const setAnimationWindowRef = (index) => (el) => {
+    if (animationRefs.windowRefs?.current) {
+      animationRefs.windowRefs.current[index] = el
+    }
+  }
+  const setAnimationPlaceholderRef = (index) => (el) => {
+    if (animationRefs.placeholderRefs?.current) {
+      animationRefs.placeholderRefs.current[index] = el
+    }
+  }
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -53,6 +62,8 @@ export default function FormContainer() {
         onMouseDownCapture={clearErrors}
       >
         <InputWindow
+          animationWrapperRef={setAnimationWindowRef(0)}
+          animatedPlaceholderRef={setAnimationPlaceholderRef(0)}
           name="email"
           type="email"
           placeholder={contactText.form.email.placeholder}
@@ -69,6 +80,8 @@ export default function FormContainer() {
           errorMessage={contactText.form.email.errorMessage}
         />
         <InputWindow
+          animationWrapperRef={setAnimationWindowRef(1)}
+          animatedPlaceholderRef={setAnimationPlaceholderRef(1)}
           name="topic"
           type="text"
           isDropdown={true}
@@ -87,6 +100,8 @@ export default function FormContainer() {
           errorMessage={contactText.form.topic.errorMessage}
         />
         <TextWindow
+          animationWrapperRef={setAnimationWindowRef(2)}
+          animatedPlaceholderRef={setAnimationPlaceholderRef(2)}
           name="message"
           placeholder={contactText.form.message.placeholder}
           autoComplete="off"
@@ -102,7 +117,11 @@ export default function FormContainer() {
           errorMessage={contactText.form.message.errorMessage}
         />
         <div className={styles.submitRow}>
-          <SubmitButton name={contactText.submitButton} iconName="ArrowThinRight" />
+          <SubmitButton
+            ref={animationRefs.submitButtonRef}
+            name={contactText.submitButton}
+            iconName="ArrowThinRight"
+          />
         </div>
       </form>
     </>

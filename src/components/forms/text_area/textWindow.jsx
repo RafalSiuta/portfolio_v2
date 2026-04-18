@@ -5,6 +5,8 @@ import styles from './textWindow.module.css'
 export default function TextWindow({
   className,
   placeholder = 'message',
+  animationWrapperRef,
+  animatedPlaceholderRef,
   maxLength = 500,
   isError = false,
   errorMessage = '',
@@ -19,6 +21,7 @@ export default function TextWindow({
   const currentValue = value ?? internalValue
   const usedCount = currentValue.length
   const isAtMax = usedCount >= maxLength
+  const shouldRenderAnimatedPlaceholder = Boolean(animatedPlaceholderRef && placeholder && !currentValue)
 
   const handleChange = (event) => {
     if (onChange) {
@@ -83,6 +86,7 @@ export default function TextWindow({
 
   const combinedClassName = [
     styles.textWindow,
+    animatedPlaceholderRef ? styles.textWindowWithAnimatedPlaceholder : null,
     isError ? styles.textError : null,
     className
   ].filter(Boolean).join(' ')
@@ -92,7 +96,16 @@ export default function TextWindow({
   ].filter(Boolean).join(' ')
 
   return (
-    <div className={styles.textWrapper}>
+    <div
+      className={styles.textWrapper}
+      ref={(el) => {
+        if (typeof animationWrapperRef === 'function') {
+          animationWrapperRef(el)
+        } else if (animationWrapperRef) {
+          animationWrapperRef.current = el
+        }
+      }}
+    >
       <textarea
         ref={textRef}
         className={combinedClassName}
@@ -105,6 +118,15 @@ export default function TextWindow({
         onKeyDown={handleKeyDown}
         {...props}
       />
+      {shouldRenderAnimatedPlaceholder ? (
+        <span
+          className={styles.animatedPlaceholder}
+          ref={animatedPlaceholderRef}
+          aria-hidden="true"
+        >
+          {placeholder}
+        </span>
+      ) : null}
       <Tooltip
         message={errorMessage}
         isError={isError}

@@ -55,5 +55,5 @@
 .iconLink:focus-visible .icon polyline,
 .iconLink:focus-visible .icon polygon {
   stroke: var(--accent-dark, #ffa84a);
-  /* fill: var(--accent-dark, #ffa84a); 
-} */
+   fill: var(--accent-dark, #ffa84a); 
+}  */

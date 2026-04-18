@@ -1,6 +1,7 @@
 .textWrapper {
   position: relative;
   width: 100%;
+  z-index: 1;
 }
 
 .textWindow {
@@ -32,6 +33,28 @@
 .textWindow::placeholder {
   color: var(--unselected-dark, #6e6e6e);
   opacity: 1;
+}
+
+.textWindowWithAnimatedPlaceholder::placeholder {
+  opacity: 0;
+}
+
+.animatedPlaceholder {
+  position: absolute;
+  top: calc(var(--menu-padding-vertical, 1rem) * 0.75);
+  left: var(--menu-padding-vertical);
+  right: calc(var(--menu-padding-vertical, 1rem) * 3);
+  color: var(--unselected-dark, #6e6e6e);
+  font-family: var(--font-family-supreme, 'Poppins');
+  font-size: var(--font-size-body-small);
+  font-style: normal;
+  font-weight: var(--font-weight-light, 300);
+  line-height: 1.5;
+  letter-spacing: 0.15rem;
+  pointer-events: none;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .textWindow:-webkit-autofill,

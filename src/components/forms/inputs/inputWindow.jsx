@@ -8,6 +8,8 @@ const DEFAULT_DROPDOWN_ITEMS = ['ui design', 'brand design', 'web dev', 'mobile 
 export default function InputWindow({
   className,
   placeholder,
+  animationWrapperRef,
+  animatedPlaceholderRef,
   isDropdown = false,
   isError = false,
   errorMessage = '',
@@ -15,15 +17,15 @@ export default function InputWindow({
   ...props
 }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [shouldRender, setShouldRender] = useState(false)
   const [internalValue, setInternalValue] = useState('')
   const wrapperRef = useRef(null)
-  const closeTimerRef = useRef(null)
   const isControlled = props.value !== undefined
   const inputValue = isControlled ? props.value : internalValue
+  const shouldRenderAnimatedPlaceholder = Boolean(animatedPlaceholderRef && placeholder && !inputValue)
 
   const combinedClassName = [
     styles.inputWindow,
+    animatedPlaceholderRef ? styles.inputWindowWithAnimatedPlaceholder : null,
     isError ? styles.inputError : null,
     className
   ].filter(Boolean).join(' ')
@@ -65,8 +67,23 @@ export default function InputWindow({
     }
   }, [isOpen])
 
+  const wrapperClassName = [
+    styles.inputWrapper,
+    isDropdown ? styles.dropdownWrapper : null,
+  ].filter(Boolean).join(' ')
+
   return (
-    <div className={styles.inputWrapper} ref={wrapperRef}>
+    <div
+      className={wrapperClassName}
+      ref={(el) => {
+        wrapperRef.current = el
+        if (typeof animationWrapperRef === 'function') {
+          animationWrapperRef(el)
+        } else if (animationWrapperRef) {
+          animationWrapperRef.current = el
+        }
+      }}
+    >
       <input
         className={combinedClassName}
         placeholder={placeholder}
@@ -74,6 +91,15 @@ export default function InputWindow({
         onChange={handleInputChange}
         {...props}
       />
+      {shouldRenderAnimatedPlaceholder ? (
+        <span
+          className={styles.animatedPlaceholder}
+          ref={animatedPlaceholderRef}
+          aria-hidden="true"
+        >
+          {placeholder}
+        </span>
+      ) : null}
       <Tooltip
         message={errorMessage}
         isError={isError}

@@ -11,7 +11,7 @@
             "topic_error_message":"Topic is required"
         },
         {
-            "message_placeholder":"your email",
+            "message_placeholder":"your message",
             "message_error_message":"Message is required"
         }
     ],

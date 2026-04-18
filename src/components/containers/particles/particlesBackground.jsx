@@ -15,6 +15,7 @@ export default function ParticlesBackground({ children, className = '', contentC
   useEffect(() => {
     let p5Constructor
     let sketchInstance
+    let isDisposed = false
     let accentTimers = []
     let accentCycleId = 0
 
@@ -35,6 +36,7 @@ export default function ParticlesBackground({ children, className = '', contentC
       let dotColor = PATTERN_COLORS.BASE
       let containerSize = { w: 0, h: 0 }
       let lastDpr = 1
+      let isCanvasReady = false
 
       const resolveDotColor = () => {
         const target = canvasContainer.current || document.documentElement
@@ -50,27 +52,13 @@ export default function ParticlesBackground({ children, className = '', contentC
       }
 
       const setPixelDensity = () => {
+        if (!isCanvasReady) return
+
         const dpr = Math.min(2, window.devicePixelRatio || 1)
         if (dpr !== lastDpr) {
           p.pixelDensity(dpr)
           lastDpr = dpr
         }
-      }
-
-      const findNearestDotIndex = (targetX, targetY, usedIndices) => {
-        let bestIndex = -1
-        let bestDistance = Infinity
-
-        dots.forEach(({ x, y }, idx) => {
-          if (usedIndices.has(idx)) return
-          const dist = (x - targetX) ** 2 + (y - targetY) ** 2
-          if (dist < bestDistance) {
-            bestDistance = dist
-            bestIndex = idx
-          }
-        })
-
-        return bestIndex
       }
 
       const selectAccentShapes = () => {
@@ -177,6 +165,8 @@ export default function ParticlesBackground({ children, className = '', contentC
       }
 
       const forceResize = () => {
+        if (!isCanvasReady) return
+
         const { w, h } = getContainerSize()
         setPixelDensity()
         p.resizeCanvas(w, h, true)
@@ -189,9 +179,10 @@ export default function ParticlesBackground({ children, className = '', contentC
 
       p.setup = () => {
         const { w, h } = getContainerSize()
-        setPixelDensity()
         const canvas = p.createCanvas(w, h)
         canvas.parent(canvasContainer.current)
+        isCanvasReady = true
+        setPixelDensity()
 
         p.noLoop()
         resolveDotColor()
@@ -213,6 +204,8 @@ export default function ParticlesBackground({ children, className = '', contentC
     }
 
     import('p5').then((p5Module) => {
+      if (isDisposed || !canvasContainer.current) return
+
       p5Constructor = p5Module.default
       sketchInstance = new p5Constructor(sketch)
 
@@ -229,12 +222,11 @@ export default function ParticlesBackground({ children, className = '', contentC
     })
 
     return () => {
-      try {
-        window.removeEventListener('orientationchange', sketchInstance?.__forceResize)
-        if (resizeObserverRef.current) {
-          resizeObserverRef.current.disconnect()
-        }
-      } catch (_) {}
+      isDisposed = true
+      window.removeEventListener('orientationchange', sketchInstance?.__forceResize)
+      if (resizeObserverRef.current) {
+        resizeObserverRef.current.disconnect()
+      }
       if (sketchInstance) {
         sketchInstance.remove()
       }

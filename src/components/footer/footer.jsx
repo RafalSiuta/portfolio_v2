@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useRef } from 'react'
 import { gsap } from 'gsap'
 import IconLink from '../buttons/icon_link/icon_link'
 import styles from './footer.module.css'
@@ -7,20 +7,22 @@ import navLinks from '../../utils/constants/navLinks'
 import { usePageTransitionContext } from '../../utils/providers/pageTransitionProvider'
 
 const iconsList = [
-  
   { link: '#', name: 'Play', label: 'Odtworz' },
+  
   // { link: '#', name: 'Youtube', label: 'YouTube' },
   { link: 'https://github.com/RafalSiuta', name: 'Github', label: 'GitHub' },
   
   { link: 'https://linkedin.com/in/rafal-siuta-3023ba323', name: 'Linkedin', label: 'LinkedIn' },
+  
 ]
 
 function Footer({ variant = 'floating' }) {
   const { isMenuOpen, pageCounter } = useNavContext()
   const { isDetailFooterVisible } = usePageTransitionContext()
-  const containerRef = useRef(null)
-  const socialListRef = useRef(null)
   const [isTabletDown, setIsTabletDown] = useState(false)
+  const iconRefs = useRef([])
+  const socialAnimationRef = useRef(null)
+  const previousSocialVisibilityRef = useRef(null)
   const lastIndex = useMemo(() => Math.max(navLinks.length - 1, 0), [])
   const isInline = variant === 'inline'
   const isDetail = variant === 'detail'
@@ -28,6 +30,7 @@ function Footer({ variant = 'floating' }) {
   const shouldShowSocial = isTabletDown
     ? isAlwaysVisible || isMenuOpen || (isDetail && isDetailFooterVisible)
     : isAlwaysVisible || (isDetail && isDetailFooterVisible) || pageCounter === 0 || pageCounter === lastIndex
+  const [isSocialListVisible, setIsSocialListVisible] = useState(shouldShowSocial)
 
   useEffect(() => {
     if (isAlwaysVisible) return undefined
@@ -40,48 +43,82 @@ function Footer({ variant = 'floating' }) {
   }, [isAlwaysVisible])
 
   useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
+    const iconEls = iconRefs.current.filter(Boolean)
+    if (!iconEls.length) return undefined
 
-    if (isAlwaysVisible) {
-      gsap.set(el, { clearProps: 'all' })
-      return
-    }
+    const previousSocialVisibility = previousSocialVisibilityRef.current
+    const isInitialRender = previousSocialVisibility === null
+    previousSocialVisibilityRef.current = shouldShowSocial
 
-    if (!isTabletDown) {
-      gsap.set(el, { clearProps: 'all' })
-      return
-    }
+    socialAnimationRef.current?.kill()
+    socialAnimationRef.current = null
+    gsap.killTweensOf(iconEls)
 
-    if (isMenuOpen) {
-      gsap.set(el, { display: 'flex' })
-      gsap.fromTo(
-        el,
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }
-      )
-    } else {
-      gsap.to(el, {
+    if (shouldShowSocial) {
+      setIsSocialListVisible(true)
+      gsap.set(iconEls, {
+        visibility: 'visible',
+        pointerEvents: 'auto',
+        transformOrigin: '50% 50%',
+      })
+
+      if (isInitialRender) {
+        gsap.set(iconEls, { opacity: 1, scale: 1 })
+      } else {
+        socialAnimationRef.current = gsap.fromTo(iconEls, {
+          opacity: 0,
+          scale: 0.82,
+        }, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.34,
+          ease: 'back.out(1.7)',
+          stagger: 0.06,
+          overwrite: 'auto',
+        })
+      }
+    } else if (isInitialRender) {
+      setIsSocialListVisible(false)
+      gsap.set(iconEls, {
         opacity: 0,
-        y: 24,
-        duration: 0.25,
+        scale: 0.82,
+        visibility: 'hidden',
+        pointerEvents: 'none',
+        transformOrigin: '50% 50%',
+      })
+    } else {
+      gsap.set(iconEls, {
+        visibility: 'visible',
+        pointerEvents: 'none',
+        transformOrigin: '50% 50%',
+      })
+
+      socialAnimationRef.current = gsap.to(iconEls.slice().reverse(), {
+        opacity: 0,
+        scale: 0.82,
+        duration: 0.3,
         ease: 'power2.in',
-        onComplete: () => gsap.set(el, { display: 'none' }),
+        stagger: 0.08,
+        overwrite: 'auto',
+        onComplete: () => {
+          gsap.set(iconEls, {
+            visibility: 'hidden',
+            pointerEvents: 'none',
+          })
+          socialAnimationRef.current = null
+          setIsSocialListVisible(false)
+        },
       })
     }
-  }, [isAlwaysVisible, isMenuOpen, isTabletDown])
 
-  useEffect(() => {
-    const listEl = socialListRef.current
-    if (!listEl) return
-    const items = Array.from(listEl.children)
-    if (!items.length) return
+    return () => {
+      socialAnimationRef.current?.kill()
+      socialAnimationRef.current = null
+      gsap.killTweensOf(iconEls)
+    }
+  }, [shouldShowSocial])
 
-    gsap.killTweensOf(items)
-    gsap.set(items, {
-      clearProps: 'opacity,visibility,transform,willChange',
-    })
-  }, [])
+  iconRefs.current.length = iconsList.length
 
   return (
     <footer
@@ -89,8 +126,8 @@ function Footer({ variant = 'floating' }) {
         styles.footer,
         isInline ? styles.footerInline : '',
         isDetail ? styles.footerDetail : '',
+        isTabletDown && isSocialListVisible ? styles.footerMobileVisible : '',
       ].filter(Boolean).join(' ')}
-      ref={containerRef}
     >
       <div
         className={[
@@ -102,12 +139,20 @@ function Footer({ variant = 'floating' }) {
         <div
           className={[
             styles.socialList,
-            shouldShowSocial ? styles.socialListVisible : styles.socialListHidden,
+            isSocialListVisible ? styles.socialListVisible : styles.socialListHidden,
           ].join(' ')}
-          ref={socialListRef}
         >
-          {iconsList.map(({ link, name, label }) => (
-            <IconLink key={name} link={link} iconName={name} label={label} />
+          {iconsList.map(({ link, name, label }, index) => (
+            <IconLink
+              key={name}
+              ref={(node) => {
+                iconRefs.current[index] = node
+              }}
+              link={link}
+              iconName={name}
+              label={label}
+              className={styles.footerIconLink}
+            />
           ))}
         </div>
       </div>

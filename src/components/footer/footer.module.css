@@ -30,6 +30,10 @@
   pointer-events: none;
 }
 
+.footerIconLink svg g {
+  clip-path: none;
+}
+
 .footerContainer{
   display: flex;
   width: min(100%, var(--nav-max-width, 108rem));
@@ -71,6 +75,10 @@
 @media screen and (max-width: 1024px) {
   .footer {
     display: none;
+  }
+
+  .footerMobileVisible {
+    display: flex;
   }
 
   .footerInline {
