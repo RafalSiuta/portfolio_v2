@@ -32,6 +32,7 @@ function Nav() {
   const lastLocaleRef = useRef(null)
   const isProgrammaticScrollRef = useRef(false)
   const scrollEndHandlerRef = useRef(null)
+  const indicatorUpdateFrameRef = useRef(null)
   const [activeKey, setActiveKey] = useState(navLinks[0].href)
   const {
     pageCounter,
@@ -46,7 +47,7 @@ function Nav() {
     lastSectionId,
   } = useNavContext()
   const { locale, nextLocale, toggleLocale, t } = useI18n()
-  const { isDetailRoute, navigateToDetail, returnToSection } = usePageTransitionContext()
+  const { isDetailRoute, curtainRevealKey, navigateToDetail, returnToSection } = usePageTransitionContext()
   const navText = getNavText(t)
   const location = useLocation()
   const [isSmallHorizontal, setIsSmallHorizontal] = useState(false)
@@ -97,6 +98,67 @@ function Nav() {
     document.body.style.overflow = ''
   }, [isSmallHorizontal, setIsMenuOpen])
 
+  const updateIndicatorPosition = useCallback(({ immediate = false, localeRefresh = false } = {}) => {
+    const menuEl = menuRef.current
+    const indicatorEl = indicatorRef.current
+    const activeEl = linkRefs.current[activeKey]
+    if (!menuEl || !indicatorEl || !activeEl) return
+
+    const linkRect = activeEl.getBoundingClientRect()
+    const menuRect = menuEl.getBoundingClientRect()
+    const duration = immediate ? 0 : localeRefresh ? 0.42 : 0.3
+    const ease = localeRefresh ? 'expo.out' : 'power3.out'
+
+    if (isSmallHorizontal) {
+      const y = linkRect.top - menuRect.top
+      const height = linkRect.height
+      if (localeRefresh && !immediate) {
+        gsap.set(indicatorEl, { transformOrigin: '50% 50%' })
+      }
+      gsap.to(indicatorEl, {
+        x: 0,
+        y,
+        height,
+        width: 'var(--layout-stroke)',
+        scaleY: 1,
+        duration,
+        ease,
+        overwrite: 'auto',
+      })
+      return
+    }
+
+    const x = linkRect.left - menuRect.left
+    const width = linkRect.width
+    if (localeRefresh && !immediate) {
+      gsap.set(indicatorEl, {
+        scaleX: 0.72,
+        transformOrigin: '50% 50%',
+      })
+    }
+    gsap.to(indicatorEl, {
+      x,
+      y: 0,
+      width,
+      height: 'calc(var(--layout-stroke, 0.125rem) * 3)',
+      scaleX: 1,
+      duration,
+      ease,
+      overwrite: 'auto',
+    })
+  }, [activeKey, isSmallHorizontal])
+
+  const scheduleIndicatorUpdate = useCallback(({ immediate = false, localeRefresh = false } = {}) => {
+    if (indicatorUpdateFrameRef.current) {
+      window.cancelAnimationFrame(indicatorUpdateFrameRef.current)
+    }
+
+    indicatorUpdateFrameRef.current = window.requestAnimationFrame(() => {
+      indicatorUpdateFrameRef.current = null
+      updateIndicatorPosition({ immediate, localeRefresh })
+    })
+  }, [updateIndicatorPosition])
+
   useEffect(() => {
     const updateBreakpoint = () => {
       const breakpoint = 1194
@@ -117,6 +179,13 @@ function Nav() {
       document.body.style.overflow = ''
     }
   }, [isSmallHorizontal, setIsMenuOpen])
+
+  useEffect(() => () => {
+    if (indicatorUpdateFrameRef.current) {
+      window.cancelAnimationFrame(indicatorUpdateFrameRef.current)
+      indicatorUpdateFrameRef.current = null
+    }
+  }, [])
 
   useLayoutEffect(() => {
     const logoEl = isSmallHorizontal ? mobileLogoRef.current : desktopLogoRef.current
@@ -249,34 +318,19 @@ function Nav() {
   }, [currentMode, isMenuOpen, isSmallHorizontal])
 
   useEffect(() => {
-    const menuEl = menuRef.current
-    const indicatorEl = indicatorRef.current
-    const activeEl = linkRefs.current[activeKey]
-    if (!menuEl || !indicatorEl || !activeEl) return
-
-    const moveIndicator = () => {
-      const linkRect = activeEl.getBoundingClientRect()
-      const menuRect = menuEl.getBoundingClientRect()
-      const x = linkRect.left - menuRect.left
-
-      if (isSmallHorizontal) {
-        const y = linkRect.top - menuRect.top
-        const height = linkRect.height 
-        gsap.to(indicatorEl, { x: 0, y, height, width: 'var(--layout-stroke)', duration: 0.3, ease: 'power3.out' })
-        return
-      }
-
-      const width = linkRect.width
-      gsap.to(indicatorEl, { x, y: 0, width, height: 'calc(var(--layout-stroke, 0.125rem) * 3)', duration: 0.3, ease: 'power3.out' })
-    }
-
-    moveIndicator()
-    window.addEventListener('resize', moveIndicator)
+    updateIndicatorPosition()
+    window.addEventListener('resize', updateIndicatorPosition)
 
     return () => {
-      window.removeEventListener('resize', moveIndicator)
+      window.removeEventListener('resize', updateIndicatorPosition)
     }
-  }, [activeKey, isSmallHorizontal])
+  }, [updateIndicatorPosition])
+
+  useLayoutEffect(() => {
+    if (!shouldAnimateLocaleChangeRef.current) return
+
+    scheduleIndicatorUpdate({ localeRefresh: true })
+  }, [locale, scheduleIndicatorUpdate])
 
   useLayoutEffect(() => {
     if (!shouldAnimateLocaleChangeRef.current) return undefined
@@ -311,6 +365,95 @@ function Nav() {
       })
     }
   }, [currentMode, isMenuOpen, isSmallHorizontal, locale, navText])
+
+  useLayoutEffect(() => {
+    if (currentMode !== 'detail') return undefined
+    if (isSmallHorizontal && !isMenuOpen) return undefined
+
+    const logoEl = isSmallHorizontal ? mobileLogoRef.current : desktopLogoRef.current
+    const langButtonEl = langButtonRef.current
+    const dividerEl = navDividerRef.current
+    const indicatorEl = indicatorRef.current
+    const menuItemEls = menuItemRefs.current.filter(Boolean)
+
+    if (!logoEl || !langButtonEl || !dividerEl || !indicatorEl || !menuItemEls.length) {
+      return undefined
+    }
+
+    gsap.killTweensOf([logoEl, langButtonEl, dividerEl, indicatorEl, ...menuItemEls])
+    gsap.set([logoEl, langButtonEl], {
+      autoAlpha: 0,
+      scale: 0.5,
+      yPercent: -50,
+      transformOrigin: '50% 50%',
+      willChange: 'transform, opacity',
+    })
+    gsap.set(menuItemEls, {
+      autoAlpha: 0,
+      scale: 0.92,
+      yPercent: -18,
+      transformOrigin: '50% 50%',
+      willChange: 'transform, opacity',
+    })
+    gsap.set(dividerEl, {
+      opacity: 0,
+      scaleX: 0,
+      transformOrigin: '0% 50%',
+      willChange: 'transform, opacity',
+    })
+    gsap.set(indicatorEl, {
+      autoAlpha: 0,
+      scaleX: 0.72,
+      transformOrigin: '50% 50%',
+      willChange: 'transform, opacity',
+    })
+
+    const timeline = gsap.timeline()
+    timeline
+      .to(logoEl, {
+        autoAlpha: 1,
+        scale: 1,
+        yPercent: 0,
+        duration: 0.52,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      })
+      .to(langButtonEl, {
+        autoAlpha: 1,
+        scale: 1,
+        yPercent: 0,
+        duration: 0.44,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      }, '<50%')
+      .to(menuItemEls, {
+        autoAlpha: 1,
+        scale: 1,
+        yPercent: 0,
+        duration: 0.38,
+        ease: 'power3.out',
+        stagger: 0.06,
+        overwrite: 'auto',
+      }, '<55%')
+      .to(dividerEl, {
+        opacity: 1,
+        scaleX: 1,
+        duration: 0.38,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      }, '<0.02')
+      .to(indicatorEl, {
+        autoAlpha: 1,
+        scaleX: 1,
+        duration: 0.34,
+        ease: 'expo.out',
+        overwrite: 'auto',
+      }, '<0.04')
+
+    return () => {
+      timeline.kill()
+    }
+  }, [curtainRevealKey, currentMode, isMenuOpen, isSmallHorizontal])
 
   useEffect(() => {
     const indicatorEl = indicatorRef.current
@@ -417,6 +560,10 @@ function Nav() {
     closeMenuOverlay()
     returnToSection(lastSectionId)
   }, [closeMenuOverlay, lastSectionId, returnToSection])
+
+  const handleLocaleToggle = useCallback(() => {
+    toggleLocale()
+  }, [toggleLocale])
 
   useEffect(() => {
     if (currentMode !== 'landing') return
@@ -623,7 +770,7 @@ function Nav() {
             <span className={styles.indicator} ref={indicatorRef} aria-hidden="true" />
           </ul>
           <span className={styles.langButtonShell} ref={langButtonRef}>
-            <TextButton className={styles.langButton} onClick={toggleLocale}>
+            <TextButton className={styles.langButton} onClick={handleLocaleToggle}>
               {nextLocale}
             </TextButton>
           </span>

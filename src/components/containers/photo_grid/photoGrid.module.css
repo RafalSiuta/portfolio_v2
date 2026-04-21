@@ -18,11 +18,17 @@
   padding: var(--base-gap) 0 calc(var(--base-gap) + 0.75rem);
   scrollbar-width: none;
   -ms-overflow-style: none;
+  cursor: grab;
+  user-select: none;
 }
 
 .graphics_grid_list_view::-webkit-scrollbar {
   width: 0;
   height: 0;
+}
+
+.graphics_grid_list_view:active {
+  cursor: grabbing;
 }
 
 .graphic_card {

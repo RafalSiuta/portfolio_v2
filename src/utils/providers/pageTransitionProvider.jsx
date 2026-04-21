@@ -29,6 +29,7 @@ export function PageTransitionProvider({ children }) {
   const [isCurtainClosed, setIsCurtainClosed] = useState(false)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [isDetailFooterVisible, setIsDetailFooterVisible] = useState(false)
+  const [curtainRevealKey, setCurtainRevealKey] = useState(0)
   const curtainStateRef = useRef('open')
   const pendingCurtainActionRef = useRef(null)
   const pendingLandingSectionIdRef = useRef(null)
@@ -45,6 +46,10 @@ export function PageTransitionProvider({ children }) {
   const settleCurtain = useCallback((targetState) => {
     clearCurtainFailsafe()
     curtainStateRef.current = targetState
+
+    if (targetState === 'open') {
+      setCurtainRevealKey((value) => value + 1)
+    }
 
     const pendingAction = pendingCurtainActionRef.current
     if (!pendingAction || pendingAction.target !== targetState) return
@@ -214,6 +219,7 @@ export function PageTransitionProvider({ children }) {
 
   const value = useMemo(() => ({
     isCurtainClosed,
+    curtainRevealKey,
     isDetailRoute,
     isDetailFooterVisible,
     isTransitioning,
@@ -224,6 +230,7 @@ export function PageTransitionProvider({ children }) {
     handleCurtainOpened: () => settleCurtain('open'),
   }), [
     isCurtainClosed,
+    curtainRevealKey,
     isDetailRoute,
     isDetailFooterVisible,
     isTransitioning,

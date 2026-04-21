@@ -41,10 +41,16 @@
   padding: 4px 0;
   padding-left: calc(var(--slide-controller-width, (var(--icon-button-width) * 2)) + var(--project-card-spacing));
   /* background-color: black; */
+  cursor: grab;
+  user-select: none;
 }
 
 .cardsContainer > * {
   flex: 0 0 auto;
+}
+
+.cardsContainer:active {
+  cursor: grabbing;
 }
 
 .cardsContainer::-webkit-scrollbar {

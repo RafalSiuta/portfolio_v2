@@ -20,6 +20,10 @@ const CONTACT_REENTRY_DELAY_MS = 180
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP)
 
+const isBrowserRefreshNavigation = () => typeof window !== 'undefined' && window.performance
+  ?.getEntriesByType?.('navigation')
+  ?.some((entry) => entry.entryType === 'navigation' && entry.type === 'reload')
+
 export default function Contact() {
   const {
     pageCounter,
@@ -44,6 +48,7 @@ export default function Contact() {
   const lastLocaleRef = useRef(locale)
   const shouldAnimateLocaleChangeRef = useRef(false)
   const hasLoggedContactRefreshRef = useRef(false)
+  const shouldReplayContactRefreshRef = useRef(isBrowserRefreshNavigation())
   const contactAnimationRef = useRef({
     isReady: false,
     wasActive: false,
@@ -105,11 +110,7 @@ export default function Contact() {
   useEffect(() => {
     if (hasLoggedContactRefreshRef.current) return undefined
 
-    const navigationEntry = window.performance
-      ?.getEntriesByType?.('navigation')
-      ?.find((entry) => entry.entryType === 'navigation')
-    const isBrowserRefresh = navigationEntry?.type === 'reload'
-      || window.performance?.navigation?.type === 1
+    const isBrowserRefresh = isBrowserRefreshNavigation()
 
     if (!isBrowserRefresh) return undefined
 
@@ -419,12 +420,15 @@ export default function Contact() {
       const isContactHash = window.location.hash === '#contact' || initialHashRef.current === '#contact'
       const isContactActive = pageCounterRef.current === CONTACT_SECTION_INDEX
         || (isContactHash && isContactInViewport())
+      const shouldReplayInitialAnimation = shouldReplayContactRefreshRef.current
+        && isContactActive
       const shouldAnimateLocaleChange = shouldAnimateLocaleChangeRef.current
         && contactAnimationRef.current.hasAnimatedOnce
         && isContactActive
       const shouldKeepVisibleState = contactAnimationRef.current.hasAnimatedOnce
         && contactAnimationRef.current.hasInitialTriggerPlayed
         && isContactActive
+        && !shouldReplayInitialAnimation
         && !shouldAnimateLocaleChange
 
       shouldAnimateLocaleChangeRef.current = false
@@ -445,6 +449,8 @@ export default function Contact() {
             willChange: 'transform, opacity',
           })
         }
+      } else if (shouldReplayInitialAnimation) {
+        setInitialState()
       } else if (shouldKeepVisibleState) {
         setVisibleState()
       } else {
@@ -453,6 +459,11 @@ export default function Contact() {
 
       contactAnimationRef.current.isReady = true
       contactAnimationRef.current.hasAnimatedThisVisit = shouldKeepVisibleState || shouldAnimateLocaleChange
+      if (shouldReplayInitialAnimation) {
+        contactAnimationRef.current.hasInitialTriggerPlayed = true
+        contactAnimationRef.current.hasAnimatedOnce = true
+        contactAnimationRef.current.wasActive = true
+      }
       contactAnimationRef.current.animateIn = animateIn
       contactAnimationRef.current.animateOut = animateOut
       contactAnimationRef.current.animateLocaleIn = animateLocaleIn
@@ -498,7 +509,11 @@ export default function Contact() {
         refreshFrame = null
         ScrollTrigger.refresh()
 
-        if (shouldAnimateLocaleChange) {
+        if (shouldReplayInitialAnimation) {
+          shouldReplayContactRefreshRef.current = false
+          contactAnimationRef.current.hasAnimatedThisVisit = true
+          animateIn({ isReentry: false })
+        } else if (shouldAnimateLocaleChange) {
           contactAnimationRef.current.hasAnimatedThisVisit = true
           animateLocaleIn()
         } else if (!contactAnimationRef.current.hasInitialTriggerPlayed) {

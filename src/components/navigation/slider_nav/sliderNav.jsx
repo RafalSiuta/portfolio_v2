@@ -1,3 +1,4 @@
+import { useCallback, useRef } from 'react'
 import styles from './sliderNav.module.css'
 import SlideCounter from '../slide_counter/slideCounter'
 import SlideController from '../nav/slide_controller/slideController'
@@ -19,6 +20,71 @@ function SliderNav({
   counterLabelRef,
   counterNumberRef,
 }) {
+  const cardsContainerRef = useRef(null)
+  const dragStateRef = useRef({
+    pointerId: null,
+    startX: 0,
+    startScrollLeft: 0,
+    hasDragged: false,
+  })
+
+  const handleCardsPointerDown = useCallback((event) => {
+    const container = cardsContainerRef.current
+    if (!container) return
+
+    dragStateRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startScrollLeft: container.scrollLeft,
+      hasDragged: false,
+    }
+
+    container.setPointerCapture(event.pointerId)
+  }, [])
+
+  const handleCardsPointerMove = useCallback((event) => {
+    const container = cardsContainerRef.current
+    const dragState = dragStateRef.current
+    if (!container || dragState.pointerId !== event.pointerId) return
+
+    const deltaX = event.clientX - dragState.startX
+    if (Math.abs(deltaX) > 4) {
+      dragState.hasDragged = true
+    }
+
+    if (!dragState.hasDragged) return
+
+    container.scrollLeft = dragState.startScrollLeft - deltaX
+    event.preventDefault()
+  }, [])
+
+  const clearCardsDrag = useCallback((event) => {
+    const container = cardsContainerRef.current
+    const dragState = dragStateRef.current
+    if (!container || dragState.pointerId !== event.pointerId) return
+
+    if (container.hasPointerCapture(event.pointerId)) {
+      container.releasePointerCapture(event.pointerId)
+    }
+
+    dragStateRef.current = {
+      pointerId: null,
+      startX: 0,
+      startScrollLeft: 0,
+      hasDragged: dragState.hasDragged,
+    }
+
+    window.setTimeout(() => {
+      dragStateRef.current.hasDragged = false
+    }, 0)
+  }, [])
+
+  const handleCardsClickCapture = useCallback((event) => {
+    if (!dragStateRef.current.hasDragged) return
+    event.preventDefault()
+    event.stopPropagation()
+  }, [])
+
   return (
     <div className={styles.projectCardsContainer}>
       <div className={styles.navButtonsContainer} ref={navButtonsRef}>
@@ -29,7 +95,17 @@ function SliderNav({
           isPaused={isAutoplayPaused}
         />
       </div>
-      <div className={styles.cardsContainer}>{children}</div>
+      <div
+        className={styles.cardsContainer}
+        ref={cardsContainerRef}
+        onPointerDown={handleCardsPointerDown}
+        onPointerMove={handleCardsPointerMove}
+        onPointerUp={clearCardsDrag}
+        onPointerCancel={clearCardsDrag}
+        onClickCapture={handleCardsClickCapture}
+      >
+        {children}
+      </div>
       <SlideCounter
         label={counterLabel}
         loadPercent={loadPercent}

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import p5 from 'p5'
 import styles from './art_canvas.module.css'
 import { drawDot, drawSquare } from '../../../utils/shapes/draw_shapes'
@@ -16,15 +16,20 @@ import {
 
 const SVG_VIEWBOX_SIZE = 800
 
-export default function ArtCanvas() {
+export default function ArtCanvas({ onAnimationReady, onClick }) {
   const containerRef = useRef(null)
   const instanceRef = useRef(null)
 
-  const handleCanvasClick = () => {
+  const handleCanvasClick = (event) => {
+    if (onClick) {
+      onClick(event, instanceRef.current)
+      return
+    }
+
     instanceRef.current?.startArcAnimation?.()
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const container = containerRef.current
     if (!container) return undefined
 
@@ -63,17 +68,17 @@ export default function ArtCanvas() {
       let arcAnimationPaused = false
       let arcAnimationStartMs = 0
       let arcAnimationElapsedMs = 0
-      let arcAnimationForward = false
-      let arcProgressCurrent = 1
-      let arcProgressTarget = 1
-      let lineProgressCurrent = 1
-      let lineProgressTarget = 1
-      let squaresProgressCurrent = 1
-      let squaresProgressTarget = 1
-      let smallLinesProgressCurrent = 1
-      let smallLinesProgressTarget = 1
-      let imageProgressCurrent = 1
-      let imageProgressTarget = 1
+      let arcAnimationForward = true
+      let arcProgressCurrent = 0
+      let arcProgressTarget = 0
+      let lineProgressCurrent = 0
+      let lineProgressTarget = 0
+      let squaresProgressCurrent = 0
+      let squaresProgressTarget = 0
+      let smallLinesProgressCurrent = 0
+      let smallLinesProgressTarget = 0
+      let imageProgressCurrent = 0
+      let imageProgressTarget = 0
       const arcAnimationDurationMs = 800
       const arcAnimationSmoothingMs = 80
       const lineAnimationDelayMs = 160
@@ -254,7 +259,6 @@ export default function ArtCanvas() {
         imageProgress = 1
       ) => {
         const scaleFactor = p.width / SVG_VIEWBOX_SIZE
-        const context = p.drawingContext
         const imageCenterX = 407
         const imageCenterY = 407
         const imageSize = 500
@@ -311,8 +315,37 @@ export default function ArtCanvas() {
         p.pop()
       }
 
+      const setArcAnimationProgress = (progress = 0) => {
+        const safeProgress = Math.max(0, Math.min(1, progress))
+        arcAnimationActive = false
+        arcAnimationPaused = false
+        arcAnimationElapsedMs = 0
+        arcAnimationForward = safeProgress <= 0
+        arcProgressCurrent = safeProgress
+        arcProgressTarget = safeProgress
+        lineProgressCurrent = safeProgress
+        lineProgressTarget = safeProgress
+        squaresProgressCurrent = safeProgress
+        squaresProgressTarget = safeProgress
+        smallLinesProgressCurrent = safeProgress
+        smallLinesProgressTarget = safeProgress
+        imageProgressCurrent = safeProgress
+        imageProgressTarget = safeProgress
+        drawLargeArc(
+          arcProgressCurrent,
+          lineProgressCurrent,
+          squaresProgressCurrent,
+          smallLinesProgressCurrent,
+          imageProgressCurrent
+        )
+        p.noLoop()
+      }
+
       // Animacja rysowania lukow od arc_start do arc_end
-      const startArcAnimation = () => {
+      const startArcAnimation = ({ restart = false, direction } = {}) => {
+        if (restart) {
+          setArcAnimationProgress(direction === 'backward' ? 1 : 0)
+        }
         if (arcAnimationActive && !arcAnimationPaused) {
           arcAnimationPaused = true
           p.noLoop()
@@ -353,7 +386,7 @@ export default function ArtCanvas() {
       }
 
       // Animacja zanikania kwadratow (SQUARES_LIST) sekwencyjnie
-      const startSquaresAnimation = (deltaMs, deltaProgress) => {
+      const startSquaresAnimation = (deltaMs) => {
         if (arcAnimationElapsedMs < squaresAnimationDelayMs) return
         const squaresDeltaProgress = deltaMs / smallShapesAnimationDurationMs
         squaresProgressTarget = Math.max(
@@ -422,6 +455,7 @@ export default function ArtCanvas() {
       }
 
       p.startArcAnimation = startArcAnimation
+      p.resetArcAnimation = setArcAnimationProgress
 
       p.setup = () => {
         const size = Math.min(
@@ -490,7 +524,7 @@ export default function ArtCanvas() {
           arcProgressCurrent = arcProgressTarget
         }
         startLargeLinesAnimation(deltaMs, deltaProgress)
-        startSquaresAnimation(deltaMs, deltaProgress)
+        startSquaresAnimation(deltaMs)
         startSmallLinesAnimation(deltaMs)
         startImageAnimation(deltaMs)
 
@@ -537,13 +571,18 @@ export default function ArtCanvas() {
 
     const instance = new p5(sketch)
     instanceRef.current = instance
+    onAnimationReady?.({
+      start: (options) => instance.startArcAnimation?.(options),
+      reset: (progress = 0) => instance.resetArcAnimation?.(progress),
+    })
 
     return () => {
+      onAnimationReady?.(null)
       instance.remove()
       container.innerHTML = ''
       instanceRef.current = null
     }
-  }, [])
+  }, [onAnimationReady])
 
   return (
     <div

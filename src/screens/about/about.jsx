@@ -19,6 +19,7 @@ import { getAboutText } from '../../utils/providers/lang/services'
 const ABOUT_SECTION_INDEX = navLinks.findIndex((link) => link.href === '#about')
 const ABOUT_EXIT_PROGRESS_THRESHOLD = 20
 const ABOUT_REENTRY_DELAY_MS = 180
+const ABOUT_DETAILS_TRIGGER_START = 0.82
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP)
 
@@ -63,6 +64,7 @@ export default function About() {
   const welcomeHeadingRef = useRef(null)
   const welcomeDescriptionRef = useRef(null)
   const welcomeDescriptionLineRefs = useRef([])
+  const artCanvasAnimationRef = useRef(null)
   const socialListRef = useRef(null)
   const serviceHeadingRef = useRef(null)
   const educationHeadingRef = useRef(null)
@@ -149,9 +151,13 @@ export default function About() {
     if (!animation.isReady) return
 
     const welcomeEl = welcomeRef.current
+    const firstDetailsHeadingEl = serviceHeadingRef.current
     const isWelcomeVisible = welcomeEl
       ? welcomeEl.getBoundingClientRect().top < window.innerHeight * 0.78
         && welcomeEl.getBoundingClientRect().bottom > window.innerHeight * 0.22
+      : false
+    const hasReachedFirstDetails = firstDetailsHeadingEl
+      ? firstDetailsHeadingEl.getBoundingClientRect().top <= window.innerHeight * ABOUT_DETAILS_TRIGGER_START
       : false
     const isAboutHash = window.location.hash === '#about' || initialHashRef.current === '#about'
     const currentPageCounter = pageCounterRef.current
@@ -160,9 +166,7 @@ export default function About() {
     const isAboutActive = currentPageCounter === ABOUT_SECTION_INDEX || (isAboutHash && isWelcomeVisible)
     const isLeavingAbout = isAboutActive
       && currentPageCounter === ABOUT_SECTION_INDEX
-      && currentScrollDirection === 'down'
-      && currentScrollProgress > ABOUT_EXIT_PROGRESS_THRESHOLD
-      && !isWelcomeVisible
+      && hasReachedFirstDetails
     const shouldAnimateIn = isAboutActive && !isLeavingAbout
 
     logAboutDebug('evaluate-welcome', {
@@ -172,6 +176,7 @@ export default function About() {
       currentScrollProgress,
       currentScrollDirection,
       isWelcomeVisible,
+      hasReachedFirstDetails,
       isAboutHash,
       isAboutActive,
       isLeavingAbout,
@@ -215,9 +220,14 @@ export default function About() {
       return
     }
 
-    animation.delayedCall = gsap.delayedCall(isReentry ? ABOUT_REENTRY_DELAY_MS / 1000 : 0, () => {
+    const reentryDelay = isReentry && currentScrollDirection !== 'up'
+      ? ABOUT_REENTRY_DELAY_MS / 1000
+      : 0
+
+    animation.delayedCall = gsap.delayedCall(reentryDelay, () => {
       logAboutDebug('evaluate-animate-in', {
         isReentry,
+        reentryDelay,
         currentHash: window.location.hash,
         initialHash: initialHashRef.current,
         pageCounter: pageCounterRef.current,
@@ -284,6 +294,14 @@ export default function About() {
     })
   }, [pageCounter, scrollProgress, setPageCounter, setScrollProgress, setScrollDirection, smoother])
 
+  const handleArtCanvasReady = useCallback((controls) => {
+    artCanvasAnimationRef.current = controls
+  }, [])
+
+  const handleArtCanvasClick = useCallback((_event, canvasInstance) => {
+    canvasInstance?.startArcAnimation?.()
+  }, [])
+
   useGSAP(() => {
     const welcomeEl = welcomeRef.current
     const headingEl = welcomeHeadingRef.current
@@ -319,7 +337,23 @@ export default function About() {
       welcomeAnimationRef.current.delayedCall = null
     }
 
-    const setInitialState = () => {
+    const setArtCanvasInitialState = () => {
+      artCanvasAnimationRef.current?.reset?.(0)
+    }
+
+    const setArtCanvasVisibleState = () => {
+      artCanvasAnimationRef.current?.reset?.(1)
+    }
+
+    const animateArtCanvasIn = () => {
+      artCanvasAnimationRef.current?.start?.({ restart: true, direction: 'forward' })
+    }
+
+    const animateArtCanvasOut = () => {
+      artCanvasAnimationRef.current?.start?.({ restart: true, direction: 'backward' })
+    }
+
+    const setInitialState = ({ includeArtCanvas = true } = {}) => {
       gsap.set(getTextTargets(), {
         opacity: 0,
         yPercent: 65,
@@ -333,6 +367,9 @@ export default function About() {
       })
       if (socialItems[0]) {
         gsap.set(socialItems[0], { scale: 0.72, yPercent: 24 })
+      }
+      if (includeArtCanvas) {
+        setArtCanvasInitialState()
       }
     }
 
@@ -348,11 +385,13 @@ export default function About() {
         yPercent: 0,
         willChange: 'transform, opacity',
       })
+      setArtCanvasVisibleState()
     }
 
     const animateIn = ({ isReentry = false } = {}) => {
       killMotion()
       const textTargets = getTextTargets()
+      animateArtCanvasIn()
       logAboutDebug('animate-in-start', {
         source: 'welcome',
         isReentry,
@@ -421,6 +460,7 @@ export default function About() {
 
     const animateOut = (direction) => {
       killMotion()
+      animateArtCanvasOut()
       const yPercent = direction === 'down' ? -24 : 24
       const socialTargets = direction === 'down' ? socialItems.slice().reverse() : socialItems
 
@@ -462,6 +502,10 @@ export default function About() {
 
       const isWelcomeVisible = welcomeEl.getBoundingClientRect().top < window.innerHeight * 0.78
         && welcomeEl.getBoundingClientRect().bottom > window.innerHeight * 0.22
+      const firstDetailsHeadingEl = serviceHeadingRef.current
+      const hasReachedFirstDetails = firstDetailsHeadingEl
+        ? firstDetailsHeadingEl.getBoundingClientRect().top <= window.innerHeight * ABOUT_DETAILS_TRIGGER_START
+        : false
       const isAboutHash = window.location.hash === '#about' || initialHashRef.current === '#about'
       const isAboutActive = pageCounterRef.current === ABOUT_SECTION_INDEX
         || (isAboutHash && isWelcomeVisible)
@@ -477,6 +521,7 @@ export default function About() {
       const shouldKeepVisibleState = welcomeAnimationRef.current.hasAnimatedOnce
         && welcomeAnimationRef.current.hasInitialTriggerPlayed
         && isAboutActive
+        && !hasReachedFirstDetails
         && !shouldReplayInitialAnimation
 
       logAboutDebug('rebuild-welcome', {
@@ -486,6 +531,7 @@ export default function About() {
         scrollProgress: scrollProgressRef.current,
         scrollDirection: scrollDirectionRef.current,
         isWelcomeVisible,
+        hasReachedFirstDetails,
         isAboutHash,
         isAboutActive,
         shouldAnimateLocaleChange,
@@ -500,7 +546,7 @@ export default function About() {
       shouldAnimateLocaleChangeRef.current = false
 
       if (shouldAnimateLocaleChange) {
-        setInitialState()
+        setInitialState({ includeArtCanvas: false })
       } else if (shouldKeepVisibleState) {
         setVisibleState()
       } else {
@@ -988,7 +1034,7 @@ export default function About() {
             </div>
           </article>
           <div className={styles.art_canvas}>
-            <ArtCanvas />
+            <ArtCanvas onAnimationReady={handleArtCanvasReady} onClick={handleArtCanvasClick} />
           </div>
         </div>
         <div className={styles.detailsContainer}>

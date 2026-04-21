@@ -15,6 +15,14 @@ function PhotoGrid({ graphicsList = [], heroImages, isMobileViewport = false }) 
     startPointer: 0,
     startScroll: 0,
   })
+  const contentDragStateRef = useRef({
+    pointerId: null,
+    startX: 0,
+    startY: 0,
+    startScrollLeft: 0,
+    startScrollTop: 0,
+    hasDragged: false,
+  })
   const [isSmallViewport, setIsSmallViewport] = useState(false)
   const [indicatorStyle, setIndicatorStyle] = useState({
     size: MIN_INDICATOR_SIZE,
@@ -157,9 +165,85 @@ function PhotoGrid({ graphicsList = [], heroImages, isMobileViewport = false }) 
     }
   }, [])
 
+  const handleContentPointerDown = useCallback((event) => {
+    const container = scrollContainerRef.current
+    if (!container || !canScroll) return
+
+    contentDragStateRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      startScrollLeft: container.scrollLeft,
+      startScrollTop: container.scrollTop,
+      hasDragged: false,
+    }
+
+    event.currentTarget.setPointerCapture(event.pointerId)
+  }, [canScroll])
+
+  const handleContentPointerMove = useCallback((event) => {
+    const container = scrollContainerRef.current
+    const dragState = contentDragStateRef.current
+    if (!container || dragState.pointerId !== event.pointerId) return
+
+    const deltaX = event.clientX - dragState.startX
+    const deltaY = event.clientY - dragState.startY
+    const relevantDelta = isSmallViewport ? deltaY : deltaX
+
+    if (Math.abs(relevantDelta) > 4) {
+      dragState.hasDragged = true
+    }
+
+    if (!dragState.hasDragged) return
+
+    if (isSmallViewport) {
+      container.scrollTop = dragState.startScrollTop - deltaY
+    } else {
+      container.scrollLeft = dragState.startScrollLeft - deltaX
+    }
+
+    event.preventDefault()
+  }, [isSmallViewport])
+
+  const clearContentDrag = useCallback((event) => {
+    const dragState = contentDragStateRef.current
+    if (dragState.pointerId !== event.pointerId) return
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId)
+    }
+
+    contentDragStateRef.current = {
+      pointerId: null,
+      startX: 0,
+      startY: 0,
+      startScrollLeft: 0,
+      startScrollTop: 0,
+      hasDragged: dragState.hasDragged,
+    }
+
+    window.setTimeout(() => {
+      contentDragStateRef.current.hasDragged = false
+    }, 0)
+  }, [])
+
+  const handleContentClickCapture = useCallback((event) => {
+    if (!contentDragStateRef.current.hasDragged) return
+    event.preventDefault()
+    event.stopPropagation()
+  }, [])
+
   return (
     <div className={styles.graphics_grid_shell}>
-      <div className={styles.graphics_grid_list_view} ref={scrollContainerRef}>
+      <div
+        className={styles.graphics_grid_list_view}
+        ref={scrollContainerRef}
+        onPointerDown={handleContentPointerDown}
+        onPointerMove={handleContentPointerMove}
+        onPointerUp={clearContentDrag}
+        onPointerCancel={clearContentDrag}
+        onClickCapture={handleContentClickCapture}
+      >
         {graphicsList.map((graphic, index) => (
           <div key={`${graphic.title}-${index}`} className={styles.graphic_card}>
             <div className={styles.graphic_frame}>
