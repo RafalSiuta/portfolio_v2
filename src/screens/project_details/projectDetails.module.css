@@ -79,6 +79,7 @@
   /* padding-bottom: var(--base-gap); */
 }
 
+
 .text_content h1 {
   font-size: clamp(2.5rem, 5vw, 4rem);
 }
@@ -221,6 +222,13 @@
   border: var(--layout-stroke, 0.5px) solid var(--stroke-color, #ababab80);
   overflow: hidden;
   min-height: 0;
+}
+
+.sliderNavWrapper {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .imageContainer {

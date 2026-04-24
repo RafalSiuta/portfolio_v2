@@ -37,7 +37,7 @@
       }
     ],
     "edu": {
-      "title": "Hej, mów mi Rafi !",
+      "title": "Mów mi Rafi !",
       "educations": [
         {
           "id": "1",
@@ -46,8 +46,11 @@
         },
         {
           "id": "2",
-          "title": "edukacja",
-          "description": "<strong>2024 — licencjat</strong> z grafiki komputerowej, Akademia Humanistyczno-Ekonomiczna w Łodzi"
+          "title": "studia",
+          "description": [
+            "<strong>2024 — licencjat</strong> z grafiki komputerowej, Akademia Humanistyczno-Ekonomiczna w Łodzi",
+            "<strong>2017 — studia inżynierskie</strong> z informatyki WSINF Łódź - nieukończone, po roku rzuciłem studia i zacząłem uczyć się technologii programistycznych samodzielnie, rozwijam te umiejętności do dziś."
+          ]
         }
       ]
     }

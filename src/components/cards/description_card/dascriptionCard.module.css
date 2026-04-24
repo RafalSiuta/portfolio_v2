@@ -40,6 +40,20 @@
 .description {
   margin: 0;
 }
+
+.descriptionList {
+  margin: 0;
+  padding-left: 1.25em;
+}
+
+.descriptionListItem::marker {
+  color: var(--text-dark);
+}
+
+.descriptionListItem + .descriptionListItem {
+  margin-top: 0.5em;
+}
+
 .childrenContainer{
   display: flex;
   flex-wrap: wrap;

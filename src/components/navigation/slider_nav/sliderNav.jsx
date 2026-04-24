@@ -26,6 +26,7 @@ function SliderNav({
     startX: 0,
     startScrollLeft: 0,
     hasDragged: false,
+    hasPointerCapture: false,
   })
 
   const handleCardsPointerDown = useCallback((event) => {
@@ -37,9 +38,8 @@ function SliderNav({
       startX: event.clientX,
       startScrollLeft: container.scrollLeft,
       hasDragged: false,
+      hasPointerCapture: false,
     }
-
-    container.setPointerCapture(event.pointerId)
   }, [])
 
   const handleCardsPointerMove = useCallback((event) => {
@@ -54,6 +54,11 @@ function SliderNav({
 
     if (!dragState.hasDragged) return
 
+    if (!dragState.hasPointerCapture) {
+      container.setPointerCapture(event.pointerId)
+      dragState.hasPointerCapture = true
+    }
+
     container.scrollLeft = dragState.startScrollLeft - deltaX
     event.preventDefault()
   }, [])
@@ -63,7 +68,7 @@ function SliderNav({
     const dragState = dragStateRef.current
     if (!container || dragState.pointerId !== event.pointerId) return
 
-    if (container.hasPointerCapture(event.pointerId)) {
+    if (dragState.hasPointerCapture && container.hasPointerCapture(event.pointerId)) {
       container.releasePointerCapture(event.pointerId)
     }
 
@@ -72,6 +77,7 @@ function SliderNav({
       startX: 0,
       startScrollLeft: 0,
       hasDragged: dragState.hasDragged,
+      hasPointerCapture: false,
     }
 
     window.setTimeout(() => {
@@ -103,6 +109,7 @@ function SliderNav({
         onPointerUp={clearCardsDrag}
         onPointerCancel={clearCardsDrag}
         onClickCapture={handleCardsClickCapture}
+        onDragStart={(event) => event.preventDefault()}
       >
         {children}
       </div>

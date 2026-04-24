@@ -20,6 +20,20 @@
   -ms-overflow-style: none;
   cursor: grab;
   user-select: none;
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    black var(--photo-grid-edge-fade, 3rem),
+    black calc(100% - var(--photo-grid-edge-fade, 3rem)),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    black var(--photo-grid-edge-fade, 3rem),
+    black calc(100% - var(--photo-grid-edge-fade, 3rem)),
+    transparent 100%
+  );
 }
 
 .graphics_grid_list_view::-webkit-scrollbar {
@@ -38,6 +52,7 @@
 .graphic_frame {
   height: calc(var(--small-card-max-height) * 1.6);
   aspect-ratio: 1728 / 1117;
+  border-radius: var(--miniature-frame-radius, 0.5rem);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -116,6 +131,20 @@
     overflow-y: auto;
     max-height: 85vh;
     padding: var(--base-gap) calc(var(--project-card-spacing) + 0.75rem) var(--base-gap) 0;
+    mask-image: linear-gradient(
+      180deg,
+      transparent 0,
+      black var(--photo-grid-edge-fade, 3rem),
+      black calc(100% - var(--photo-grid-edge-fade, 3rem)),
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      transparent 0,
+      black var(--photo-grid-edge-fade, 3rem),
+      black calc(100% - var(--photo-grid-edge-fade, 3rem)),
+      transparent 100%
+    );
   }
 
   .graphic_card,

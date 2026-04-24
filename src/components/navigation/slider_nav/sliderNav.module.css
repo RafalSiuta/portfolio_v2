@@ -1,23 +1,19 @@
 .projectCardsContainer {
-  --slide-controller-width: calc(
-    (var(--icon-button-width) * 1.75) +
-    (var(--chipbutton_padding-horizontal) * 2) +
-    (var(--vertical-text-gap) * 2)
-  );
-  position: relative;
+  /* position: relative; */
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--project-card-spacing);
   margin: var(--project-card-spacing) 0;
 }
 
 .navButtonsContainer {
-  position: absolute;
-  left: 0;
-  top: 50%;
+  flex: 0 0 auto;
   z-index: 2;
-  transform: translateY(-50%);
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -25,28 +21,52 @@
 }
 
 .cardsContainer {
+  flex: 1 1 auto;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   gap: var(--project-card-spacing);
   height: auto;
-  width: 100%;
+  width: auto;
   min-width: 0;
-  overflow-x: auto;
+  max-width: 100%;
+  overflow-x: hidden;
   overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x;
   padding: 4px 0;
-  padding-left: calc(var(--slide-controller-width, (var(--icon-button-width) * 2)) + var(--project-card-spacing));
   /* background-color: black; */
   cursor: grab;
   user-select: none;
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    black var(--slider-nav-edge-fade, 2.5rem),
+    black calc(100% - var(--slider-nav-edge-fade, 2.5rem)),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    black var(--slider-nav-edge-fade, 2.5rem),
+    black calc(100% - var(--slider-nav-edge-fade, 2.5rem)),
+    transparent 100%
+  );
 }
 
 .cardsContainer > * {
   flex: 0 0 auto;
+}
+
+.cardsContainer > :first-child {
+  margin-left: auto;
+}
+
+.projectCardsContainer > :last-child {
+  flex: 0 0 auto;
+  margin-left: 0;
 }
 
 .cardsContainer:active {
@@ -74,8 +94,6 @@
   }
 
   .navButtonsContainer {
-    position: static;
-    transform: none;
     margin-bottom: var(--project-card-spacing);
   }
 }

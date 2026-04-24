@@ -40,7 +40,7 @@ export default function ProjectDetails() {
     returnToSection,
     setIsDetailFooterVisible,
   } = usePageTransitionContext()
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const detailsText = getDetailsText(t)
   const projectChangeTweenRef = useRef(null)
   const screenTransitionRef = useRef(null)
@@ -69,6 +69,8 @@ export default function ProjectDetails() {
   const relatedSectionRef = useRef(null)
   const relatedCardRefs = useRef([])
   const contactCtaRef = useRef(null)
+  const shouldAnimateLocaleChangeRef = useRef(false)
+  const lastLocaleRef = useRef(locale)
   const [isMobileViewport, setIsMobileViewport] = useState(false)
   const [currentScreenIndex, setCurrentScreenIndex] = useState(0)
   const [loadPercent, setLoadPercent] = useState(0)
@@ -86,6 +88,11 @@ export default function ProjectDetails() {
     () => projectsList.filter(({ id }) => id && id !== projectId),
     [projectsList, projectId]
   )
+
+  if (lastLocaleRef.current !== locale) {
+    shouldAnimateLocaleChangeRef.current = true
+    lastLocaleRef.current = locale
+  }
 
   const screenHeroImages = useMemo(
     () => screensList.map((screen) => resolveProjectImage(screen, heroImages, isMobileViewport)),
@@ -591,7 +598,11 @@ export default function ProjectDetails() {
         textTargets: graphicsSectionRef.current
           ? Array.from(graphicsSectionRef.current.querySelectorAll(`.${styles.graphic_header} h2`))
           : [],
-        listTargets: [],
+        listTargets: graphicsSectionRef.current
+          ? Array.from(graphicsSectionRef.current.querySelectorAll(
+              '[class*="graphic_card"], [class*="scrollbar_arrow"], [class*="scrollbar_rail"]'
+            ))
+          : [],
       },
       {
         element: toolsSectionRef.current,
@@ -734,6 +745,161 @@ export default function ProjectDetails() {
     revertOnUpdate: false,
   })
 
+  useGSAP(() => {
+    if (!shouldAnimateLocaleChangeRef.current) return undefined
+
+    shouldAnimateLocaleChangeRef.current = false
+
+    let firstFrame = null
+    let secondFrame = null
+    let localeTimeline = null
+    let refreshFrame = null
+
+    const isInViewport = (element) => {
+      if (!element) return false
+      const rect = element.getBoundingClientRect()
+      return rect.top < window.innerHeight * 0.88 && rect.bottom > window.innerHeight * 0.12
+    }
+
+    const getVisibleLocaleTargets = () => {
+      const targets = []
+      const pushTargets = (items) => {
+        items.filter(Boolean).forEach((item) => {
+          if (!targets.includes(item)) targets.push(item)
+        })
+      }
+
+      if (isInViewport(headerRef.current) || isInViewport(sliderNavRef.current)) {
+        pushTargets([
+          ...(headerRef.current ? Array.from(headerRef.current.querySelectorAll('h1, h2')) : []),
+          sliderCounterLabelRef.current,
+          sliderCounterNumberRef.current,
+          ...shotMiniatureRefs.current.filter(Boolean),
+        ])
+      }
+
+      const sectionConfigs = [
+        {
+          element: aboutSectionRef.current,
+          targets: [
+            ...(aboutSectionRef.current ? Array.from(aboutSectionRef.current.querySelectorAll('h2, p')) : []),
+            ...webLinkRefs.current.filter(Boolean),
+          ],
+        },
+        {
+          element: roleSectionRef.current,
+          targets: [
+            ...(roleSectionRef.current ? Array.from(roleSectionRef.current.querySelectorAll('h2')) : []),
+            ...roleItemRefs.current.filter(Boolean),
+          ],
+        },
+        {
+          element: graphicsSectionRef.current,
+          targets: graphicsSectionRef.current
+            ? Array.from(graphicsSectionRef.current.querySelectorAll(
+                `.${styles.graphic_header} h2, [class*="graphic_card"], [class*="scrollbar_arrow"], [class*="scrollbar_rail"]`
+              ))
+            : [],
+        },
+        {
+          element: toolsSectionRef.current,
+          targets: [
+            ...(toolsSectionRef.current ? Array.from(toolsSectionRef.current.querySelectorAll('h2')) : []),
+            ...toolChipRefs.current.filter(Boolean),
+          ],
+        },
+        {
+          element: solutionsSectionRef.current,
+          targets: solutionsSectionRef.current
+            ? Array.from(solutionsSectionRef.current.querySelectorAll('h2, p'))
+            : [],
+        },
+        {
+          element: relatedSectionRef.current,
+          targets: [
+            ...(relatedSectionRef.current ? Array.from(relatedSectionRef.current.querySelectorAll('h2')) : []),
+            ...relatedCardRefs.current.filter(Boolean),
+            contactCtaRef.current,
+          ],
+        },
+      ]
+
+      sectionConfigs.forEach(({ element, targets: sectionTargets }) => {
+        if (isInViewport(element)) pushTargets(sectionTargets)
+      })
+
+      return targets
+    }
+
+    const animateLocaleTargets = () => {
+      firstFrame = null
+      secondFrame = null
+
+      const targets = getVisibleLocaleTargets()
+      if (!targets.length) {
+        refreshFrame = window.requestAnimationFrame(() => ScrollTrigger.refresh())
+        return
+      }
+
+      gsap.killTweensOf(targets)
+      gsap.set(targets, {
+        opacity: 0,
+        yPercent: 28,
+        scale: 0.98,
+        willChange: 'transform, opacity',
+      })
+
+      localeTimeline = gsap.timeline({
+        onComplete: () => {
+          refreshFrame = window.requestAnimationFrame(() => ScrollTrigger.refresh())
+        },
+      })
+
+      localeTimeline.to(targets, {
+        opacity: 1,
+        yPercent: 0,
+        scale: 1,
+        duration: 0.48,
+        ease: 'power3.out',
+        stagger: 0.045,
+        overwrite: 'auto',
+      })
+    }
+
+    firstFrame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(animateLocaleTargets)
+    })
+
+    return () => {
+      if (firstFrame) window.cancelAnimationFrame(firstFrame)
+      if (secondFrame) window.cancelAnimationFrame(secondFrame)
+      if (refreshFrame) window.cancelAnimationFrame(refreshFrame)
+      localeTimeline?.kill()
+    }
+  }, {
+    dependencies: [
+      locale,
+      projectId,
+      detailsText.aboutProject,
+      detailsText.role,
+      detailsText.screenshots,
+      detailsText.tools,
+      detailsText.challanges,
+      detailsText.projectsList,
+      detailsText.ctaButton,
+      detailsText.screen,
+      project?.description,
+      project?.challanges,
+      project?.subtitle,
+      webLinks.length,
+      graphicsList.length,
+      relatedProjects.length,
+      project?.role?.length ?? 0,
+      project?.tools?.length ?? 0,
+    ],
+    revertOnUpdate: false,
+  })
+
   const handleNextScreenClick = () => {
     transitionToScreen(currentScreenIndexRef.current + 1, 'next')
   }
@@ -820,7 +986,7 @@ export default function ProjectDetails() {
               </div>
             </div>
           </div>
-          <div ref={sliderNavRef}>
+          <div className={styles.sliderNavWrapper} ref={sliderNavRef}>
             <SliderNav
               key={projectId ?? 'project-details-slider'}
               counterLabel={detailsText.screen}
@@ -838,12 +1004,13 @@ export default function ProjectDetails() {
               counterLabelRef={sliderCounterLabelRef}
               counterNumberRef={sliderCounterNumberRef}
             >
-              {screensList.map((screen, index) => (
+               {screensList.map((screen, index) => (
                 <div
                   key={`${projectId ?? 'project'}-${screen.desktop ?? screen.mobile ?? 'screen'}-${index}`}
                   ref={(el) => {
                     shotMiniatureRefs.current[index] = el
                   }}
+                  
                 >
                   <ShotMiniature
                     src={resolveProjectImage(screen, heroImages, isMobileViewport)}
@@ -853,6 +1020,7 @@ export default function ProjectDetails() {
                   />
                 </div>
               ))}
+              
             </SliderNav>
           </div>
           <div className={styles.text_content} ref={aboutSectionRef}>

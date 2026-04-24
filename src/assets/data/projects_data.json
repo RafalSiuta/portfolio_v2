@@ -11,8 +11,8 @@
       "pl": "strona firmy ochroniarskiej"
     },
     "description": {
-      "en": "VIP Security crafts a modern web presence for a company specializing in large-scale event protection. The landing hero highlights rapid deployment teams and crowd management expertise. Service sections outline risk assessments, perimeter control, and discreet VIP escorts. A credibility band lists certifications, insurance coverage, and emergency protocols. The site includes a timeline showing pre-event planning through post-event reporting. Case study cards summarize stadium concerts, trade fairs, and sports tournaments. A stats row emphasizes response times, personnel readiness, and satisfied partners. Testimonials from organizers build trust and social proof. A contact CTA keeps an always-visible phone number and urgent request form. The design uses strong typography, dark gradients, and metallic accents to convey authority.",
-      "pl": "VIP Security buduje nowoczesną obecność online dla firmy specjalizującej się w ochronie dużych wydarzeń. Sekcja hero podkreśla szybko reagujące zespoły operacyjne i doświadczenie w zarządzaniu tłumem. Części serwisowe przedstawiają ocenę ryzyka, kontrolę obwodu oraz dyskretną ochronę VIP. Pas wiarygodności eksponuje certyfikaty, zakres ubezpieczenia i procedury awaryjne. Na stronie znajduje się także oś czasu pokazująca proces od planowania przed wydarzeniem po raport końcowy. Karty case study podsumowują realizacje dla koncertów stadionowych, targów i turniejów sportowych. Sekcja statystyk akcentuje czas reakcji, gotowość personelu i zadowolonych partnerów. Opinie organizatorów budują zaufanie i społeczny dowód słuszności. Wezwanie do kontaktu utrzymuje zawsze widoczny numer telefonu oraz formularz pilnych zgłoszeń. Projekt wykorzystuje mocną typografię, ciemne gradienty i metaliczne akcenty, aby komunikować autorytet."
+      "en": "A website for a security company. VIP Security builds a modern online presence for a company specializing in the protection of large events. The website highlights the company's strengths and areas of expertise, including rapid-response operational teams, crowd management experience, risk assessment, perimeter control, and discreet VIP protection. VIP Security also specializes in security staff training and firearms training. An elegant, clear, responsive website with animated section transitions promotes the protection service while communicating experience and professionalism.",
+      "pl": "Strona internetowa dla firmy ochroniarskiej. VIP Security buduje nowoczesną obecność online dla firmy specjalizującej się w ochronie dużych wydarzeń. Strona podkreśla zalety i specjalizacje firmy jakimi są szybko reagujące zespoły operacyjne i doświadczenie w zarządzaniu tłumem, ocenę ryzyka, kontrolę obwodu oraz dyskretną ochronę VIP. Firma VIP Security specjalizuje się także w szkoleniach personelu ochrony i szkoleniach strzeleckich. Elegancka, czytelna, responsywna strona z animowanymi przejściami sekcji promuje usługę ochrony, dowodząc także doświadczenie i profesjonalizm."
     },
     "screens_list": [
       {
@@ -149,7 +149,7 @@
       }
     ],
     "challanges": {
-      "en": "creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients.",
+      "en": "Creating a brand and visual identity for a company operating across several sectors of the security industry, focused mainly on mass event security, VIP protection, and training qualified security staff, with an operating strategy tailored to each client's individual needs.",
       "pl": "stworzenie marki i identyfikacji wizualnej dla firmy działającej w kilku sektorach branży ochrony, skoncentrowanej głównie na zabezpieczeniu imprez masowych, ochronie VIP oraz szkoleniu wykwalifikowanych pracowników ochrony, z dopasowaniem strategii działania do indywidualnych potrzeb klientów."
     },
     "solutions": [
@@ -175,12 +175,12 @@
       "pl": "noti"
     },
     "subtitle": {
-      "en": "mobile app promo website",
-      "pl": "strona promocyjna aplikacji mobilnej"
+      "en": "mobile app",
+      "pl": "aplikacja mobilna"
     },
     "description": {
-      "en": "Noti is a promo site for a mobile note-taking app focused on speed and clarity. The hero pairs download buttons with a looping screen capture of the app in action. Feature sections highlight color-coded notebooks, quick voice capture, and offline sync. A productivity banner shows calendar and reminder integration. Interactive tiles explain how handwriting recognition turns scribbles into clean text. A short comparison chart shows how Noti stacks up against other note apps. A mini gallery cycles through themed templates for school, work, and personal life. Testimonials from students and managers reinforce usability and reliability. Pricing and plan cards clarify free versus pro features without clutter. A sticky footer CTA keeps the app store links accessible as you scroll.",
-      "pl": "Noti to strona promocyjna aplikacji mobilnej do notatek, zaprojektowanej z myślą o szybkości i przejrzystości. Sekcja hero łączy przyciski pobierania z zapętlonym nagraniem ekranu pokazującym aplikację w działaniu. Sekcje funkcji prezentują kolorowe notatniki, szybkie nagrywanie głosowe i synchronizację offline. Baner produktywności pokazuje integrację z kalendarzem i przypomnieniami. Interaktywne kafelki wyjaśniają, jak rozpoznawanie pisma ręcznego zamienia bazgroły w czytelny tekst. Krótkie porównanie pokazuje, jak Noti wypada na tle innych aplikacji do notatek. Mała galeria przewija motywy szablonów dla szkoły, pracy i życia prywatnego. Opinie studentów i managerów wzmacniają przekaz o użyteczności i niezawodności. Karty cenowe i planów jasno rozróżniają wersję darmową i pro bez zbędnego chaosu. Przyklejone CTA w stopce utrzymuje linki do sklepów z aplikacją zawsze pod ręką podczas przewijania."
+      "en": "Noti is a mobile app for managing tasks and notes. The app makes it possible to separate notes from tasks so that notes remain visible and always close at hand, while tasks are pinned to the calendar. Noti offers broader options for adding calendar reminders through advanced settings that allow users to create loops and recurring reminder patterns for regular tasks. Users can define date ranges, set up individual schedules, and add many reminders at once. The app includes unusual interface solutions, a custom color system, themes, and background patterns so users do not get bored with a monotonous look. Noti is my individual project built from scratch, from the first sketches and ideas to the current version. It has a sentimental meaning for me because while creating it I learned a great deal, both technically and in terms of communicating with users. The feeling when a user says the app is genuinely useful, is happy with the product, and leaves positive feedback in the official Google Play store is priceless.",
+      "pl": "Noti to aplikacja mobilna do zarządzania zadaniami i notatkami. Aplikacja daje możliwość rozdzielania notatek i zadań tak aby notatki były widoczne, zawsze pod ręką, a zadania były przypięte w kalendarzu. Noti daje szersze możliwości dodawania samych przypisów do kalendarza poprzez zaawansowane opcje, dzięki którym można ustawiać zapętlenie i dodanie powtarzalności przypisów dla regularnych zadań. Użytkownik ma możliwość ustawienia zakresu daty i ustawienia indywidualnego schematu, dodawania wielu przypisów na raz. Aplikacja posiada nietypowe rozwiązania dla widoków interfejsu, własny systemy kolorów - motywy oraz wzory tła tak aby użytkownik nie znudził się monotonnym wyglądem. Noti jest moim indywidualnym projektem zbudowanym od zera, pierwszych szkiców, pomysłów po obecną wersję, ma to dla mnie sentymentalny wydźwięk ponieważ tworząc ten projekt bardzo wiele się nauczyłem zarówno od strony technicznej ale także komunikacji z odbiorcą, a uczucie kiedy użytkownik mówi że naprawdę mu się to przydaje, jest zadowolony z produktu, daje pozytywne opinie w autoryzowanym sklepie google play jest bezcenne."
     },
     "screens_list": [
       {
@@ -314,16 +314,16 @@
       }
     ],
     "challanges": {
-      "en": "creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients.",
-      "pl": "stworzenie spójnej marki i identyfikacji wizualnej dla produktu cyfrowego, który musi jednocześnie wyglądać lekko, nowocześnie i jasno komunikować szybkość działania, prostotę obsługi oraz korzyści płynące z codziennego korzystania z aplikacji."
+      "en": "Creating a consistent brand and visual identity for a digital product that needs to feel light and modern while clearly communicating speed, ease of use, and the everyday benefits of using the app. Building stylistic consistency across different app theme colors, creating a dynamic interface, meeting the technical and configuration challenges required for publication in the official Google Play store, and creating a promotional website with written content and a privacy policy.",
+      "pl": "stworzenie spójnej marki i identyfikacji wizualnej dla produktu cyfrowego, który musi jednocześnie wyglądać lekko, nowocześnie i jasno komunikować szybkość działania, prostotę obsługi oraz korzyści płynące z codziennego korzystania z aplikacji. Zbudowanie spójności stylistycznej dla różnych kolorów motywów aplikacji, stworzenie dynamicznego interfejsu. Sprostanie wszelkim wyzwaniom technologicznym i konfiguracjom projektu pod publikacje w oficjalnym sklepie google play. Tworzenie strony promującej aplikacje, pisanie kontentu, polityki prywatności."
     },
     "solutions": [
       {
-        "en": "creating a brand and visual identity",
+        "en": "developing a consistent UI and promotional materials",
         "pl": "stworzenie marki i identyfikacji wizualnej"
       },
       {
-        "en": "creating a brand and visual identity",
+        "en": "implementing the website and preparing the app for publication",
         "pl": "opracowanie spójnego UI i materiałów promocyjnych"
       },
       {
@@ -334,39 +334,39 @@
   },
   {
     "id": "003",
-    "logo": "assets/data/image_data/noti/noti_icon.svg",
+    "logo": "assets/data/image_data/organic_nutrition/organic_logo.svg",
     "title": {
-      "en": "organic nutrition",
-      "pl": "organic nutrition"
+      "en": "organic labs",
+      "pl": "organic labs"
     },
     "subtitle": {
-      "en": "supplements store website",
-      "pl": "strona sklepu z suplementami"
+      "en": "supplement store",
+      "pl": "sklep z suplementami"
     },
     "description": {
-      "en": "Organic Nutrition is an ecommerce site for premium dietary supplements. The hero showcases clean product renders with a guarantee badge and subscription CTA. Category grids make it easy to browse vitamins, performance blends, and daily essentials. Each product page highlights ingredients, sourcing transparency, and lab results. An education hub covers routines for energy, immunity, and recovery. A quiz funnels shoppers to personalized stacks based on lifestyle and goals. Animated charts explain absorption rates and recommended timing. Reviews and trust signals emphasize third-party testing and customer satisfaction. A membership banner presents free shipping, refills, and loyalty rewards. The visual language uses earthy gradients, precise typography, and bright accent highlights.",
-      "pl": "Organic Nutrition to sklep ecommerce z premium suplementami diety. Sekcja hero eksponuje czyste rendery produktów, znak gwarancji i CTA do subskrypcji. Siatki kategorii ułatwiają przeglądanie witamin, mieszanek wspierających wydolność i codziennych suplementów. Każda karta produktu podkreśla skład, transparentność pochodzenia i wyniki badań laboratoryjnych. Centrum wiedzy opisuje rutyny wspierające energię, odporność i regenerację. Quiz kieruje użytkowników do spersonalizowanych zestawów dopasowanych do stylu życia i celów. Animowane wykresy wyjaśniają tempo wchłaniania i rekomendowany czas stosowania. Opinie i sygnały zaufania akcentują testy zewnętrzne oraz satysfakcję klientów. Baner członkowski przedstawia darmową dostawę, automatyczne odnowienia i program lojalnościowy. Warstwa wizualna korzysta z organicznych gradientów, precyzyjnej typografii i jasnych akcentów kolorystycznych."
+      "en": "Organic Nutrition is a brand concept for a premium dietary supplement ecommerce store. The brand presents a small Polish company of a dozen or so people with research laboratories where high-quality supplements based on natural ingredients are produced. The products are defined by high bioavailability and product quality supported by rigorous testing standards for every batch. The entire brand is presented as an elegant, high-quality product offered in ecological packaging. The online store is designed as a simple, minimalist, and clear interface. This project concept shows my full range of skills, from graphic design and a frontend application to a server-side application, creating the complete technological scope needed to implement an ecommerce product.",
+      "pl": "Organic Nutrition to koncept marki sklepu ecommerce z suplementami diety premium. Marka przedstawia małą kilkunastoosobową Polską firmę dysponującą labolatoriami badawczymi w których wytwarzają wysokiej jakości suplementy diety oparte na naturalnych składnikach. Same produkty cechuje wysoka przyswajalność i jakość produktu poparta wysokim standardem testów każdej partii produktu. Cała marka przedstawiona jest jako elegancki wysokiej jakości produkt podawany w ekologicznych opakowaniach. Sklep internetowy jest zaprojektowany jako prosty minimalistyczny i czytelny interfejs. Koncept tego projektu pokazuje mój pełen zakres umiejętności od projektu graficznego, przez aplikacje frontendową po aplikację serwerową co daje pełen zakres technologiczny który pozwala na wdrożenie aplikacji e-commerce."
     },
     "screens_list": [
       {
-        "desktop": "assets/data/image_data/organic_nutrition.png",
-        "mobile": "assets/data/image_data/organic_nutrition_mobile.png"
+        "desktop": "assets/data/image_data/organic_nutrition/desktop/hero.jpg",
+        "mobile": "assets/data/image_data/organic_nutrition/mobile/hero.jpg"
       },
       {
-        "desktop": "assets/data/image_data/organic_nutrition.png",
-        "mobile": "assets/data/image_data/organic_nutrition_mobile.png"
+        "desktop": "assets/data/image_data/organic_nutrition/desktop/products.jpg",
+        "mobile": "assets/data/image_data/organic_nutrition/mobile/products.jpg"
       },
       {
-        "desktop": "assets/data/image_data/organic_nutrition.png",
-        "mobile": "assets/data/image_data/organic_nutrition_mobile.png"
+        "desktop": "assets/data/image_data/organic_nutrition/desktop/about.jpg",
+        "mobile": "assets/data/image_data/organic_nutrition/mobile/about.jpg"
       },
       {
-        "desktop": "assets/data/image_data/organic_nutrition.png",
-        "mobile": "assets/data/image_data/organic_nutrition_mobile.png"
+        "desktop": "assets/data/image_data/organic_nutrition/desktop/team.jpg",
+        "mobile": "assets/data/image_data/organic_nutrition/mobile/team.jpg"
       },
       {
-        "desktop": "assets/data/image_data/organic_nutrition.png",
-        "mobile": "assets/data/image_data/organic_nutrition_mobile.png"
+        "desktop": "assets/data/image_data/organic_nutrition/desktop/contact.jpg",
+        "mobile": "assets/data/image_data/organic_nutrition/mobile/contact.jpg"
       }
     ],
     "web_links": [
@@ -411,56 +411,35 @@
           "en": "hero page",
           "pl": "sekcja hero"
         },
-        "url": "assets/data/image_data/vip_security/hero.png"
+        "url": "assets/data/image_data/organic_nutrition/desktop/hero.jpg"
       },
       {
         "title": {
-          "en": "service page",
-          "pl": "sekcja usług"
+          "en": "products page",
+          "pl": "produkty"
         },
-        "url": "assets/data/image_data/vip_security/service.png"
+        "url": "assets/data/image_data/organic_nutrition/desktop/products.jpg"
       },
       {
         "title": {
           "en": "about page",
           "pl": "sekcja o marce"
         },
-        "url": "assets/data/image_data/vip_security/about.png"
+        "url": "assets/data/image_data/organic_nutrition/desktop/about.jpg"
+      },
+      {
+        "title": {
+          "en": "team page",
+          "pl": "zespół"
+        },
+        "url": "assets/data/image_data/organic_nutrition/desktop/team.jpg"
       },
       {
         "title": {
           "en": "contact page",
-          "pl": "sekcja kontaktu"
+          "pl": "strona kontaktowa"
         },
-        "url": "assets/data/image_data/vip_security/contact.png"
-      },
-      {
-        "title": {
-          "en": "about page",
-          "pl": "sekcja o marce"
-        },
-        "url": "assets/data/image_data/vip_security/about.png"
-      },
-      {
-        "title": {
-          "en": "about page",
-          "pl": "sekcja o marce"
-        },
-        "url": "assets/data/image_data/vip_security/about.png"
-      },
-      {
-        "title": {
-          "en": "about page",
-          "pl": "sekcja o marce"
-        },
-        "url": "assets/data/image_data/vip_security/about.png"
-      },
-      {
-        "title": {
-          "en": "about page",
-          "pl": "sekcja o marce"
-        },
-        "url": "assets/data/image_data/vip_security/about.png"
+        "url": "assets/data/image_data/organic_nutrition/desktop/contact.jpg"
       }
     ],
     "tools": [
@@ -484,188 +463,21 @@
       }
     ],
     "challanges": {
-      "en": "creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients.",
-      "pl": "zaprojektowanie marki i sklepu online dla produktów premium w sposób, który łączy ekspercki charakter, przejrzystą architekturę oferty i atrakcyjną prezentację korzyści, bez przeciążania użytkownika nadmiarem informacji."
+      "en": "Designing a brand and online store for premium products in a way that combines an expert character, clear offer architecture, and an attractive presentation of benefits without overwhelming the user with too much information. Designing the architecture for an ecommerce application and combining several technologies into one complex product.",
+      "pl": "zaprojektowanie marki i sklepu online dla produktów premium w sposób, który łączy ekspercki charakter, przejrzystą architekturę oferty i atrakcyjną prezentację korzyści, bez przeciążania użytkownika nadmiarem informacji. Zaprojektowanie architektury dla aplikacji e-commerce, łączenie kilku technologii w jednym złożonym produkcie."
     },
     "solutions": [
       {
-        "en": "creating a brand and visual identity",
+        "en": "developing the store content architecture and UI",
         "pl": "stworzenie marki i identyfikacji wizualnej"
       },
       {
-        "en": "creating a brand and visual identity",
+        "en": "implementing and preparing the shopping experience",
         "pl": "opracowanie architektury treści i UI sklepu"
       },
       {
         "en": "creating a brand and visual identity",
         "pl": "wdrożenie i przygotowanie doświadczenia zakupowego"
-      }
-    ]
-  },
-  {
-    "id": "004",
-    "logo": "",
-    "title": {
-      "en": "vip security",
-      "pl": "vip security"
-    },
-    "subtitle": {
-      "en": "events security company website",
-      "pl": "strona internetowa firmy ochrony eventowej"
-    },
-    "description": {
-      "en": "VIP Security crafts a modern web presence for a company specializing in large-scale event protection. The landing hero highlights rapid deployment teams and crowd management expertise. Service sections outline risk assessments, perimeter control, and discreet VIP escorts. A credibility band lists certifications, insurance coverage, and emergency protocols. The site includes a timeline showing pre-event planning through post-event reporting. Case study cards summarize stadium concerts, trade fairs, and sports tournaments. A stats row emphasizes response times, personnel readiness, and satisfied partners. Testimonials from organizers build trust and social proof. A contact CTA keeps an always-visible phone number and urgent request form. The design uses strong typography, dark gradients, and metallic accents to convey authority.",
-      "pl": "VIP Security buduje nowoczesną obecność online dla firmy specjalizującej się w ochronie dużych wydarzeń. Sekcja hero podkreśla szybko reagujące zespoły operacyjne i doświadczenie w zarządzaniu tłumem. Części serwisowe przedstawiają ocenę ryzyka, kontrolę obwodu oraz dyskretną ochronę VIP. Pas wiarygodności eksponuje certyfikaty, zakres ubezpieczenia i procedury awaryjne. Na stronie znajduje się także oś czasu pokazująca proces od planowania przed wydarzeniem po raport końcowy. Karty case study podsumowują realizacje dla koncertów stadionowych, targów i turniejów sportowych. Sekcja statystyk akcentuje czas reakcji, gotowość personelu i zadowolonych partnerów. Opinie organizatorów budują zaufanie i społeczny dowód słuszności. Wezwanie do kontaktu utrzymuje zawsze widoczny numer telefonu oraz formularz pilnych zgłoszeń. Projekt wykorzystuje mocną typografię, ciemne gradienty i metaliczne akcenty, aby komunikować autorytet."
-    },
-    "screens_list": [
-      {
-        "desktop": "assets/data/image_data/vip_security/hero.png",
-        "mobile": "assets/data/image_data/vip_mobile.png"
-      },
-      {
-        "desktop": "assets/data/image_data/vip_security/service.png",
-        "mobile": "assets/data/image_data/vip_mobile.png"
-      },
-      {
-        "desktop": "assets/data/image_data/vip_security/about.png",
-        "mobile": "assets/data/image_data/vip_mobile.png"
-      },
-      {
-        "desktop": "assets/data/image_data/vip_security/gallery.png",
-        "mobile": "assets/data/image_data/vip_mobile.png"
-      },
-      {
-        "desktop": "assets/data/image_data/vip_security/contact.png",
-        "mobile": "assets/data/image_data/vip_mobile.png"
-      }
-    ],
-    "web_links": [
-      {
-        "link_title": {
-          "en": "github project",
-          "pl": "projekt github"
-        },
-        "icon_name": "GithubFill",
-        "link": "https://github.com/RafalSiuta/vip_security"
-      },
-      {
-        "link_title": {
-          "en": "live website",
-          "pl": "strona www"
-        },
-        "icon_name": "Planet",
-        "link": "https://grupavip.netlify.app/#home"
-      }
-    ],
-    "role": [
-      {
-        "en": "brand design, brand identity",
-        "pl": "projekt marki, identyfikacja wizualna"
-      },
-      {
-        "en": "graphic design - assets, images, custom icons",
-        "pl": "projektowanie graficzne - assety, obrazy, autorskie ikony"
-      },
-      {
-        "en": "UI design, create design system, responsive layouts",
-        "pl": "projektowanie UI, stworzenie design systemu, responsywne layouty"
-      },
-      {
-        "en": "web development code, test, seo setup and publish",
-        "pl": "development frontendowy, testy, konfiguracja SEO i publikacja"
-      }
-    ],
-    "graphics": [
-      {
-        "title": {
-          "en": "hero page",
-          "pl": "sekcja hero"
-        },
-        "url": "assets/data/image_data/vip_security/hero.png"
-      },
-      {
-        "title": {
-          "en": "service page",
-          "pl": "sekcja usług"
-        },
-        "url": "assets/data/image_data/vip_security/service.png"
-      },
-      {
-        "title": {
-          "en": "about page",
-          "pl": "sekcja o firmie"
-        },
-        "url": "assets/data/image_data/vip_security/about.png"
-      },
-      {
-        "title": {
-          "en": "contact page",
-          "pl": "sekcja kontaktu"
-        },
-        "url": "assets/data/image_data/vip_security/contact.png"
-      },
-      {
-        "title": {
-          "en": "about page",
-          "pl": "sekcja o firmie"
-        },
-        "url": "assets/data/image_data/vip_security/about.png"
-      },
-      {
-        "title": {
-          "en": "about page",
-          "pl": "sekcja o firmie"
-        },
-        "url": "assets/data/image_data/vip_security/about.png"
-      },
-      {
-        "title": {
-          "en": "about page",
-          "pl": "sekcja o firmie"
-        },
-        "url": "assets/data/image_data/vip_security/about.png"
-      },
-      {
-        "title": {
-          "en": "about page",
-          "pl": "sekcja o firmie"
-        },
-        "url": "assets/data/image_data/vip_security/about.png"
-      }
-    ],
-    "tools": [
-      {
-        "tool_name": "figma"
-      },
-      {
-        "tool_name": "affinity"
-      },
-      {
-        "tool_name": "next.js"
-      },
-      {
-        "tool_name": "tailwind"
-      },
-      {
-        "tool_name": "framer motion"
-      }
-    ],
-    "challanges": {
-      "en": "creating a brand and visual identity for a company specializing in several sectors of the security industry, focused mainly on the protection of mass events, VIPs and the training of qualified security staff, adapting the operating strategy to the individual needs of clients.",
-      "pl": "stworzenie marki i identyfikacji wizualnej dla firmy działającej w kilku sektorach branży ochrony, skoncentrowanej głównie na zabezpieczeniu imprez masowych, ochronie VIP oraz szkoleniu wykwalifikowanych pracowników ochrony, z dopasowaniem strategii działania do indywidualnych potrzeb klientów."
-    },
-    "solutions": [
-      {
-        "en": "creating a brand and visual identity",
-        "pl": "stworzenie marki i identyfikacji wizualnej"
-      },
-      {
-        "en": "creating a brand and visual identity",
-        "pl": "stworzenie marki i identyfikacji wizualnej"
-      },
-      {
-        "en": "creating a brand and visual identity",
-        "pl": "stworzenie marki i identyfikacji wizualnej"
       }
     ]
   }

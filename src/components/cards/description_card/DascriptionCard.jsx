@@ -1,6 +1,11 @@
 import styles from './dascriptionCard.module.css'
 
 export default function DascriptionCard({ title = '', description = '', children }) {
+  const hasDescription =
+    typeof description === 'string'
+      ? description.trim().length > 0
+      : Boolean(description?.__html?.trim())
+
   const descriptionProps =
     typeof description === 'string'
       ? { children: description }
@@ -11,11 +16,12 @@ export default function DascriptionCard({ title = '', description = '', children
       <h2 className={styles.title}>{title}</h2>
       <span className={styles.divider} />
       <div className={styles.body}>
-        <p className={`description ${styles.description}`} {...descriptionProps} />
+        {hasDescription ? (
+          <p className={`description ${styles.description}`} {...descriptionProps} />
+        ) : null}
         <div className={styles.childrenContainer}>
           {children}
         </div>
-        
       </div>
     </div>
   )

@@ -8,6 +8,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 import IconLink from '../../components/buttons/icon_link/icon_link'
 import DascriptionCard from '../../components/cards/description_card/DascriptionCard'
+import descriptionCardStyles from '../../components/cards/description_card/dascriptionCard.module.css'
 import ChipButton from '../../components/buttons/chip_button/chipButton'
 import { toHtml } from '../../utils/convert/stringConvert'
 import IconButton from '../../components/buttons/icon_button/icon_button'
@@ -812,7 +813,7 @@ export default function About() {
     const getCardParts = (cardEl) => {
       const title = cardEl.querySelector('h2')
       const divider = cardEl.querySelector('span')
-      const bodyText = cardEl.querySelector('p')
+      const bodyText = cardEl.querySelector('p, ul')
       const chipEls = Array.from(cardEl.querySelectorAll('button, a'))
       return {
         title,
@@ -1076,7 +1077,20 @@ export default function About() {
                   <DascriptionCard
                   key={`details-${index}`}
                   title={item.title}
-                  description={toHtml(item.description)}
+                  description={Array.isArray(item.description) ? '' : toHtml(item.description)}
+                  children={
+                    Array.isArray(item.description) ? (
+                      <ul className={`description ${descriptionCardStyles.description} ${descriptionCardStyles.descriptionList}`}>
+                        {item.description.map((descriptionItem, descriptionIndex) => (
+                          <li
+                            key={`${item.id ?? index}-description-${descriptionIndex}`}
+                            className={descriptionCardStyles.descriptionListItem}
+                            dangerouslySetInnerHTML={toHtml(descriptionItem)}
+                          />
+                        ))}
+                      </ul>
+                    ) : null
+                  }
                 />
                 </div>
               ))

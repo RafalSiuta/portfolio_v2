@@ -37,7 +37,7 @@
       }
     ],
     "edu": {
-      "title": "Hi, call me Rafi!",
+      "title": "Call me Rafi!",
       "educations": [
         {
           "id": "1",
@@ -46,8 +46,11 @@
         },
         {
           "id": "2",
-          "title": "education",
-          "description": "<strong>2024 — Bachelor’s degree</strong> in Computer Graphics, Academy of Humanities and Economics in Lodz"
+          "title": "study",
+          "description": [
+            "<strong>2024 — Bachelor’s degree</strong> in Computer Graphic Design, Academy of Humanities and Economics in Lodz",
+            "<strong>2017 — computer science</strong> WSINF Łódź - unfinished, I dropped out after a year and started learning programming technologies individually on my own, I am developing these skills to this day.</strong>"
+          ]
         }
       ]
     }
