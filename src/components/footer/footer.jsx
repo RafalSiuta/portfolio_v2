@@ -27,9 +27,11 @@ function Footer({ variant = 'floating' }) {
   const isInline = variant === 'inline'
   const isDetail = variant === 'detail'
   const isAlwaysVisible = isInline
-  const shouldShowSocial = isTabletDown
-    ? isAlwaysVisible || isMenuOpen || (isDetail && isDetailFooterVisible)
-    : isAlwaysVisible || (isDetail && isDetailFooterVisible) || pageCounter === 0 || pageCounter === lastIndex
+  const shouldShowSocial = isDetail
+    ? isDetailFooterVisible
+    : isTabletDown
+      ? isAlwaysVisible || isMenuOpen
+      : isAlwaysVisible || pageCounter === 0 || pageCounter === lastIndex
   const [isSocialListVisible, setIsSocialListVisible] = useState(shouldShowSocial)
 
   useEffect(() => {

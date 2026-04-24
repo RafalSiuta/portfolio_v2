@@ -163,9 +163,10 @@ export default function ProjectDetails() {
       const scrollTop = smoother
         ? smoother.scrollTop()
         : window.scrollY || window.pageYOffset || 0
-      const viewportHeight = window.innerHeight
-      const documentHeight = document.documentElement.scrollHeight
-      const isAtBottom = scrollTop + viewportHeight >= documentHeight - 2
+      const maxScroll = smoother?.scrollTrigger?.end
+        ?? ScrollTrigger.maxScroll(window)
+        ?? Math.max(document.documentElement.scrollHeight - window.innerHeight, 0)
+      const isAtBottom = scrollTop >= maxScroll - 24
 
       if (isAtBottom && !hasLoggedBottom) {
         console.log('scroll to bottom')
