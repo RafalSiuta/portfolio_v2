@@ -33,15 +33,13 @@ export default function BaseModal({
   buttonText,
 }) {
   const shouldRender = isOpen || isClosing
-  if (!shouldRender) return null
+  const cardRef = useRef(null)
 
   const defaults = isError ? DEFAULT_ERROR : DEFAULT_SUCCESS
   const displayTitle = title ?? defaults.title
   const displaySubtitle = subtitle ?? defaults.subtitle
   const displayMessage = message ?? defaults.message
   const displayButtonText = buttonText ?? defaults.buttonText
-
-  const cardRef = useRef(null)
 
   const overlayClasses = [
     styles.overlay,
@@ -60,7 +58,7 @@ export default function BaseModal({
 
   useEffect(() => {
     const el = cardRef.current
-    if (!el || isLoading) return
+    if (!shouldRender || !el || isLoading) return
 
     gsap.killTweensOf(el)
 
@@ -74,7 +72,9 @@ export default function BaseModal({
       { opacity: 0, scale: 0.5 },
       { opacity: 1, scale: 1, duration: 0.3, ease: 'power2.out' }
     )
-  }, [isLoading, isClosing])
+  }, [shouldRender, isLoading, isClosing])
+
+  if (!shouldRender) return null
 
   return (
     <div className={overlayClasses} onClick={onClose}>

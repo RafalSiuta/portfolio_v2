@@ -60,10 +60,10 @@ export function ContactProvider({ children }) {
     }
   }, [modalPhase, closeModal])
 
-  const submitForm = async (event) => {
+  const submitForm = useCallback(async (event) => {
     event.preventDefault()
 
-    if (isSending) return // blokada double-click
+    if (isSending) return
 
     const trimmedEmail = emailValue.trim()
     const trimmedTopic = topicValue.trim()
@@ -74,40 +74,32 @@ export function ContactProvider({ children }) {
     const isTopicValid = trimmedTopic.length > 0
     const isMessageValid = trimmedMessage.length > 0
 
-    // ustaw bledy UI (tak jak wczesniej)
     setEmailError(!trimmedEmail || !isEmailValid)
     setTopicError(!trimmedTopic)
     setMessageError(!trimmedMessage)
 
-    // logi diagnostyczne (opcjonalne)
     const missingFields = []
     if (!trimmedEmail) missingFields.push('email')
     if (!trimmedTopic) missingFields.push('topic')
     if (!trimmedMessage) missingFields.push('message')
 
     if (missingFields.length > 0) {
-      console.log('Missing fields:', missingFields)
       return
     }
 
     if (!isEmailValid) {
-      console.log('Invalid email format:', trimmedEmail)
       return
     }
 
     if (!isTopicValid || !isMessageValid) {
-      console.log('Validation failed (topic/message).')
       return
     }
 
-    // jesli wszystko OK -> wysylka do lokalnego backendu
     try {
       setIsSending(true)
       setModalPhase('loading')
 
-      console.log('Sending message to local mail server...')
-
-      const resp = await fetch('http://localhost:3001/api/contact', {
+      const resp = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -123,28 +115,25 @@ export function ContactProvider({ children }) {
         throw new Error(data.error || `Send failed (HTTP ${resp.status})`)
       }
 
-      console.log('Mail sent successfully:', {
-        email: trimmedEmail,
-        topic: trimmedTopic,
-        message: trimmedMessage,
-      })
-
-      // opcjonalnie: czysc pola po sukcesie
       setEmailValue('')
       setTopicValue('')
       setMessageValue('')
       clearErrors()
       openSuccessModal()
-    } catch (err) {
-      console.log('Mail send error:', err?.message || err)
+    } catch {
       openErrorModal()
-
-      // jesli chcesz, mozesz tu ustawic np. messageError=true
-      // setMessageError(true)
     } finally {
       setIsSending(false)
     }
-  }
+  }, [
+    clearErrors,
+    emailValue,
+    isSending,
+    messageValue,
+    openErrorModal,
+    openSuccessModal,
+    topicValue,
+  ])
 
   const isOverlayOpen = modalPhase !== 'idle'
   const isModalError = modalKind === 'error'
@@ -191,6 +180,7 @@ export function ContactProvider({ children }) {
       isModalReady,
       isLoading,
       clearErrors,
+      submitForm,
       closeModal,
     ]
   )

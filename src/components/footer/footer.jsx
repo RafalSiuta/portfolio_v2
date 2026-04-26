@@ -8,8 +8,6 @@ import { usePageTransitionContext } from '../../utils/providers/pageTransitionPr
 
 const iconsList = [
   { link: '#', name: 'Play', label: 'Odtworz' },
-  
-  // { link: '#', name: 'Youtube', label: 'YouTube' },
   { link: 'https://github.com/RafalSiuta', name: 'Github', label: 'GitHub' },
   
   { link: 'https://linkedin.com/in/rafal-siuta-3023ba323', name: 'Linkedin', label: 'LinkedIn' },

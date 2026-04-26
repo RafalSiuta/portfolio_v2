@@ -169,7 +169,6 @@ export default function ProjectDetails() {
       const isAtBottom = scrollTop >= maxScroll - 24
 
       if (isAtBottom && !hasLoggedBottom) {
-        console.log('scroll to bottom')
         setIsDetailFooterVisible(true)
         hasLoggedBottom = true
         return
@@ -1095,23 +1094,6 @@ export default function ProjectDetails() {
           <div className={styles.solutions_container} ref={solutionsSectionRef}>
             <h2>{detailsText.challanges}</h2>
               {project?.challanges ? <p>{project.challanges}</p> : null}
-            {/* <div className={styles.small_content}>
-              
-            </div> */}
-            {/* <div className={styles.small_content}>
-              <h2>solutions</h2>
-              {project?.role?.length ? (
-                <ul className={styles.roleList}>
-                  {project.solutions.map((item, index) => (
-                    <li key={`${item}-${index}`} className={styles.roleListItem}>
-                      <span className={styles.roleListBullet} aria-hidden="true" />
-                      <span className={styles.roleListText}>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </div> */}
-            
           </div>
           {relatedProjects.length ? (
             <div className={styles.related_projects_container} ref={relatedSectionRef}>

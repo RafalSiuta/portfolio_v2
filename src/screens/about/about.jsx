@@ -24,11 +24,7 @@ const ABOUT_DETAILS_TRIGGER_START = 0.82
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP)
 
-const ABOUT_DEBUG = false
-const logAboutDebug = (eventName, payload = {}) => {
-  if (!ABOUT_DEBUG) return
-  console.log(`[about-debug] ${eventName}`, payload)
-}
+const logAboutDebug = () => {}
 
 const iconsList = [
   { link: 'https://www.google.com/maps/place/Piotrkowska,+90-001+%C5%81%C3%B3d%C5%BA/@51.7605719,19.4582415,3a,75y,90t/data=!3m8!1e2!3m6!1sCIHM0ogKEICAgIC2w7bERQ!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-cs-s%2FAHVAwerFrfAfvQFomYqgLypUAAGS9acbDIpjl2tu226Sn2Rqnxyjgre9rFO1gsBBKqY41XRfuCbQERWqODRcjP44qV07Dhf85R6SEzbay7kJXg-1ciyuDg0TGVX1Q6KePnVzTSx2JW4g%3Dw203-h119-k-no!7i5559!8i3266!4m17!1m9!3m8!1s0x471a34d6b72fc851:0x96dbeb8c2cd474b0!2zUGlvdHJrb3dza2EsIDkwLTAwMSDFgcOzZMW6!3b1!8m2!3d51.7605694!4d19.458271!10e5!16s%2Fm%2F02rrybm!3m6!1s0x471a34d6b72fc851:0x96dbeb8c2cd474b0!8m2!3d51.7605694!4d19.458271!10e5!16s%2Fm%2F02rrybm?authuser=0&entry=ttu&g_ep=EgoyMDI2MDEyOC4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D', name: 'LDZ', label: '??d?' },

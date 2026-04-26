@@ -30,7 +30,9 @@ const getInitialLocale = () => {
     if (saved === 'pl' || saved === 'en') {
       return saved
     }
-  } catch {}
+  } catch {
+    return 'pl'
+  }
 
   return 'pl'
 }
@@ -75,7 +77,9 @@ export function LanguageProvider({ children }) {
       const next = prev === 'pl' ? 'en' : 'pl'
       try {
         localStorage.setItem(STORAGE_KEY, next)
-      } catch {}
+      } catch {
+        return next
+      }
       return next
     })
   }

@@ -55,7 +55,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
           profileImageSrc,
           (loaded) => {
             img = loaded
-            console.log(`IMAGE SOURCE ARE LOADED ${profileImageSrc}`)
             p.redraw()
           },
           (err) => {
@@ -88,7 +87,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
       const imageAnimationForwardDelayMs = 0
       const smallShapesAnimationDurationMs = 400
 
-      // Rysowanie lukow (elementy ARC_LIST)
       const drawArcs = (progress = 1) => {
         for (let i = 0; i < ARC_LIST.length; i += 1) {
           const arcItem = ARC_LIST[i]
@@ -122,7 +120,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
       const getListItemCount = (list) =>
         list.reduce((count, item) => count + Object.keys(item).length, 0)
 
-      // Rysowanie kwadratow (elementy SQUARES_LIST) z fade in/out
       const drawSquares = (progress = 1, scaleFactor = 1, line5Angle = 0, line5Length = 0) => {
         const total = getListItemCount(SQUARES_LIST)
         let itemIndex = 0
@@ -151,7 +148,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
         }
       }
 
-      // Rysowanie duzych linii (elementy LARGE_LINES i LARGE_LINES_2)
       const drawLargeLines = (linesList, progress = 1, scaleFactor = 1) => {
         const safeProgress = Math.max(0, Math.min(1, progress))
         for (let i = 0; i < linesList.length; i += 1) {
@@ -173,7 +169,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
         }
       }
 
-      // Rysowanie malych linii (elementy SMALL_LINES_TOP i SMALL_LINES_BOTTOM) z fade in/out
       const drawSmallLines = (linesList, progress = 1, scaleFactor = 1) => {
         const total = getListItemCount(linesList)
         let itemIndex = 0
@@ -198,7 +193,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
         }
       }
 
-      // Rysowanie kropek (elementy DOTS_LIST_TOP i DOTS_LIST_BOTTOM) z fade in/out
       const drawDots = (dotsList, progress = 1) => {
         const total = getListItemCount(dotsList)
         let itemIndex = 0
@@ -234,7 +228,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
         }
       }
 
-      // Rysowanie obrazka (img) ze skalowaniem i fade in/out
       const drawImage = (progress = 1, centerX = 0, centerY = 0, size = 0) => {
         if (!img) return
         const safeProgress = Math.max(0, Math.min(1, progress))
@@ -250,7 +243,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
         p.pop()
       }
 
-      // Rysowanie calej kompozycji (kwadraty, luki, linie, kropki, obraz)
       const drawLargeArc = (
         arcProgress = 1,
         lineProgress = 1,
@@ -273,27 +265,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
         p.strokeCap(p.SQUARE)
         p.push()
         p.scale(scaleFactor)
-        
-
-        //##################
-        // const circleCenter = { x: 407, y: 407 }
-        // const circleRadius = 230
-        // const circleGradient = context.createLinearGradient(
-        //   0,
-        //   circleCenter.y - circleRadius,
-        //   0,
-        //   circleCenter.y + circleRadius
-        // )
-        // circleGradient.addColorStop(0, '#1B1B1B')
-        // circleGradient.addColorStop(1, '#2F2F2F')
-        // context.save()
-        // context.beginPath()
-        // context.arc(circleCenter.x, circleCenter.y, circleRadius, 0, Math.PI * 2)
-        // context.fillStyle = circleGradient
-        // context.fill()
-        // context.restore()
-        //##################
-
         drawSquares(squaresProgress, scaleFactor, line5Angle, line5Length)
 
         drawArcs(arcProgress)
@@ -302,8 +273,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
         drawImage(imageProgress, imageCenterX, imageCenterY, imageSize)
 
         drawLargeLines(LARGE_LINES, lineProgress, scaleFactor)
-
-        
 
         drawSmallLines(SMALL_LINES_BOTTOM, smallLinesProgress, scaleFactor)
 
@@ -341,7 +310,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
         p.noLoop()
       }
 
-      // Animacja rysowania lukow od arc_start do arc_end
       const startArcAnimation = ({ restart = false, direction } = {}) => {
         if (restart) {
           setArcAnimationProgress(direction === 'backward' ? 1 : 0)
@@ -364,7 +332,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
         p.loop()
       }
 
-      // Animacja rysowania duzych linii (LARGE_LINES i LARGE_LINES_2)
       const startLargeLinesAnimation = (deltaMs, deltaProgress) => {
         if (arcAnimationElapsedMs < lineAnimationDelayMs) return
         lineProgressTarget = Math.max(
@@ -385,7 +352,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
         }
       }
 
-      // Animacja zanikania kwadratow (SQUARES_LIST) sekwencyjnie
       const startSquaresAnimation = (deltaMs) => {
         if (arcAnimationElapsedMs < squaresAnimationDelayMs) return
         const squaresDeltaProgress = deltaMs / smallShapesAnimationDurationMs
@@ -407,7 +373,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
         }
       }
 
-      // Animacja zanikania malych linii i kropek (SMALL_LINES_* + DOTS_*) sekwencyjnie
       const startSmallLinesAnimation = (deltaMs) => {
         if (arcAnimationElapsedMs < smallLinesAnimationDelayMs) return
         const smallLinesDeltaProgress = deltaMs / smallShapesAnimationDurationMs
@@ -429,7 +394,6 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
         }
       }
 
-      // Animacja obrazka (img) ze skalowaniem i fade in/out
       const startImageAnimation = (deltaMs) => {
         const delayMs = arcAnimationForward
           ? imageAnimationForwardDelayMs

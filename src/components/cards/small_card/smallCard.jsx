@@ -1,6 +1,5 @@
 ﻿
 
-// export default SmallCard
 import { useEffect, useMemo, useRef } from 'react';
 import VanillaTilt from 'vanilla-tilt';
 import SystemIcon from '../../../utils/icons/system_icon';
@@ -66,10 +65,8 @@ function SmallCard({
         </clipPath>
       </defs>
 
-      {/* TŁO + TREŚĆ, przycięte clipPath-em */}
       <g clipPath="url(#smallCardClip)">
         <foreignObject x="0" y="0" width="146.25" height="195">
-          {/* UWAGA: potrzebne xmlns dla HTML w foreignObject */}
           <div
             xmlns="http://www.w3.org/1999/xhtml"
             className={styles.content}
@@ -96,7 +93,6 @@ function SmallCard({
         </foreignObject>
       </g>
 
-      {/* OBRYS – pełna kontrola stroke */}
       <path
         d="M120.1524 0.225586 L132.5406 13.690425 V13.691895 L146.0244 28.79445 V194.775 H0.225586 V0.225586 H120.1524 Z"
         className={borderClassName}

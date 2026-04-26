@@ -15,12 +15,6 @@ function waitForNextFrame() {
   })
 }
 
-function waitForTimeout(ms) {
-  return new Promise((resolve) => {
-    window.setTimeout(resolve, ms)
-  })
-}
-
 export function PageTransitionProvider({ children }) {
   const location = useLocation()
   const navigate = useNavigate()

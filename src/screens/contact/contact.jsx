@@ -47,7 +47,6 @@ export default function Contact() {
   const initialHashRef = useRef(typeof window !== 'undefined' ? window.location.hash : '')
   const lastLocaleRef = useRef(locale)
   const shouldAnimateLocaleChangeRef = useRef(false)
-  const hasLoggedContactRefreshRef = useRef(false)
   const shouldReplayContactRefreshRef = useRef(isBrowserRefreshNavigation())
   const contactAnimationRef = useRef({
     isReady: false,
@@ -99,35 +98,6 @@ export default function Contact() {
     return rect.top < window.innerHeight * 0.78
       && rect.bottom > window.innerHeight * 0.22
   }, [])
-
-  const handleContactRefresh = useCallback(() => {
-    console.log('section refreshed', {
-      pageCounter: pageCounterRef.current,
-      scrollProgress: scrollProgressRef.current,
-    })
-  }, [])
-
-  useEffect(() => {
-    if (hasLoggedContactRefreshRef.current) return undefined
-
-    const isBrowserRefresh = isBrowserRefreshNavigation()
-
-    if (!isBrowserRefresh) return undefined
-
-    const frameId = window.requestAnimationFrame(() => {
-      const isContactRefresh = initialHashRef.current === '#contact'
-        || window.location.hash === '#contact'
-        || pageCounterRef.current === CONTACT_SECTION_INDEX
-        || isContactInViewport()
-
-      if (!isContactRefresh) return
-
-      hasLoggedContactRefreshRef.current = true
-      handleContactRefresh()
-    })
-
-    return () => window.cancelAnimationFrame(frameId)
-  }, [handleContactRefresh, isContactInViewport])
 
   const evaluateContactAnimationState = useCallback(() => {
     const animation = contactAnimationRef.current

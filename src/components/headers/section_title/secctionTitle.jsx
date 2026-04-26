@@ -5,7 +5,6 @@ const titles = ['r85studio', 'my work', 'about me', 'contact']
 
 export default function SectionTitle({ className = '' }) {
   const { pageCounter } = useNavContext()
-  const isFirstPage = pageCounter === 0
   const title = titles[pageCounter] ?? titles[0]
   const headingClassName = [
     styles.sectionTitle,

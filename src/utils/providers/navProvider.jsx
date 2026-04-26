@@ -19,9 +19,7 @@ export function NavProvider({ children }) {
     }
     return window.sessionStorage.getItem('lastSectionId') || sectionIds[0] || 'home'
   })
-  //todo fix scroll to contact section and pagecounter que order
 
-  // ✅ nowość: referencja do ScrollSmoother
   const [smoother, setSmoother] = useState(null)
 
   const toggleMenu = () => {
@@ -121,7 +119,6 @@ export function NavProvider({ children }) {
       setIsMenuOpen,
       toggleMenu,
 
-      // ✅ expose
       smoother,
       setSmoother,
       scrollToSectionId,

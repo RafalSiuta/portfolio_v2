@@ -17,7 +17,6 @@ function sendJson(res, status, data) {
 }
 
 const server = http.createServer(async (req, res) => {
-  // Preflight (CORS)
   if (req.method === 'OPTIONS') {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': ALLOW_ORIGIN,
