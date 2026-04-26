@@ -16,6 +16,9 @@ import {
 
 const SVG_VIEWBOX_SIZE = 800
 
+p5.disableFriendlyErrors = true
+p5.disableSketchChecker = true
+
 export default function ArtCanvas({ onAnimationReady, onClick }) {
   const containerRef = useRef(null)
   const instanceRef = useRef(null)

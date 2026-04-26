@@ -207,6 +207,8 @@ export default function ParticlesBackground({ children, className = '', contentC
       if (isDisposed || !canvasContainer.current) return
 
       p5Constructor = p5Module.default
+      p5Constructor.disableFriendlyErrors = true
+      p5Constructor.disableSketchChecker = true
       sketchInstance = new p5Constructor(sketch)
 
       if (canvasContainer.current && typeof ResizeObserver !== 'undefined') {
