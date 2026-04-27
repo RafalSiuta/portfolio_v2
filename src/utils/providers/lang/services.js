@@ -82,6 +82,13 @@ export function getNavText(t) {
     detailBack: t('nav.detail_back', 'go back'),
     detailCurrent: t('nav.detail_current', 'details'),
     r85Current: t('nav.r85_current', 'r85'),
+    subpageCurrent: {
+      r85: t('r85.nav_label', 'r85'),
+      policy: t('policy.nav_label', 'policy'),
+      qa: t('qa.nav_label', 'q&a'),
+      video: t('video.nav_label', 'video'),
+      errorPage: t('error_page.nav_label', '404'),
+    },
   }
 }
 
@@ -105,6 +112,45 @@ export function getDetailsText(t) {
     projectsList: t('details.projects_list', 'other projects'),
     ctaButton: t('details.cta_button', "what's your idea?"),
     errorMessage: t('details.error_message', 'Project not found'),
+  }
+}
+
+export function getR85Text(t) {
+  return {
+    title: t('r85.title', 'r85studio'),
+    navLabel: t('r85.nav_label', 'r85'),
+  }
+}
+
+export function getPolicyText(t) {
+  return {
+    title: t('policy.title', 'privacy policy'),
+    status: t('policy.status', 'build in progress'),
+    navLabel: t('policy.nav_label', 'policy'),
+  }
+}
+
+export function getQaText(t) {
+  return {
+    title: t('qa.title', 'questions & answers'),
+    status: t('qa.status', 'build in progress'),
+    navLabel: t('qa.nav_label', 'q&a'),
+  }
+}
+
+export function getVideoText(t) {
+  return {
+    title: t('video.title', 'video'),
+    status: t('video.status', 'build in progress'),
+    navLabel: t('video.nav_label', 'video'),
+  }
+}
+
+export function getErrorPageText(t) {
+  return {
+    title: t('error_page.title', '404'),
+    subtitle: t('error_page.subtitle', 'page not found'),
+    navLabel: t('error_page.nav_label', '404'),
   }
 }
 

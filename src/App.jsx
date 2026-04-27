@@ -16,6 +16,9 @@ import Projects from './screens/projects/projects'
 import About from './screens/about/about'
 import Contact from './screens/contact/contact'
 import R85 from './screens/r85/r85'
+import Policy from './screens/policy/policy'
+import Qa from './screens/qa/qa'
+import Video from './screens/video/video'
 import ProjectDetails from './screens/project_details/projectDetails'
 import ErrorPage from './screens/404/error_page'
 import styles from './screens/home/home.module.css'
@@ -61,6 +64,9 @@ function AppRoutes() {
       <Route path="/" element={<MainLanding />} />
       <Route path="/projects/:projectId" element={<ProjectDetails />} />
       <Route path="/r85" element={<R85 />} />
+      <Route path="/policy" element={<Policy />} />
+      <Route path="/qa" element={<Qa />} />
+      <Route path="/video" element={<Video />} />
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   )

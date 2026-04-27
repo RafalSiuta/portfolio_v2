@@ -3,10 +3,11 @@ import { matchPath, useLocation, useNavigate } from 'react-router-dom'
 import { useNavContext } from './navProvider'
 
 const PageTransitionContext = createContext(null)
-const DETAIL_ROUTE_PATTERNS = ['/projects/:projectId', '/r85']
+const DETAIL_ROUTE_PATTERNS = ['/projects/:projectId', '/r85', '/policy', '/qa', '/video']
 
 function matchesDetailRoute(pathname) {
-  return DETAIL_ROUTE_PATTERNS.some((pattern) => matchPath(pattern, pathname))
+  if (pathname === '/') return false
+  return DETAIL_ROUTE_PATTERNS.some((pattern) => matchPath(pattern, pathname)) || pathname !== '/'
 }
 
 function waitForNextFrame() {

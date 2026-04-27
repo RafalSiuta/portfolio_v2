@@ -1,0 +1,60 @@
+{
+  "name": "Rafal Siuta Portfolio",
+  "short_name": "R85 Studio",
+  "description": "Portfolio Rafala Siuty: frontend, UI design, brand identity and interactive web projects.",
+  "id": "https://r85studio.com/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#161616",
+  "theme_color": "#161616",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "categories": ["portfolio", "design", "development"],
+  "icons": [
+    {
+      "src": "/icons/favicon192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/favicon512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/android-chrome-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/android-chrome-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/thumbnail.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/images/thumbnail-small.png",
+      "sizes": "600x315",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
+}

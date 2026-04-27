@@ -1,10 +1,15 @@
 import HeroWrapper from '../../components/containers/herowrapper/heroWrapper'
-import r85Desktop from '../../assets/images/r85.jpg'
-import r85Tablet from '../../assets/images/r85_M.jpg'
-import r85Mobile from '../../assets/images/r85_S.jpg'
+import r85Desktop from '../../assets/images/404.jpg'
+import r85Tablet from '../../assets/images/404_M.jpg'
+import r85Mobile from '../../assets/images/404_S.jpg'
+import { useI18n } from '../../utils/providers/lang/langProvider'
+import { getErrorPageText } from '../../utils/providers/lang/services'
 import styles from './error_page.module.css'
 
 export default function ErrorPage() {
+  const { t } = useI18n()
+  const errorPageText = getErrorPageText(t)
+
   return (
     <HeroWrapper
       id="404"
@@ -17,8 +22,8 @@ export default function ErrorPage() {
       isLastSection={true}
     >
       <div className={styles.content}>
-        <h1 className="strokeText">404</h1>
-        <h2>page not found</h2>
+        <h1 className="strokeText">{errorPageText.title}</h1>
+        <h2>{errorPageText.subtitle}</h2>
       </div>
     </HeroWrapper>
   )

@@ -53,7 +53,15 @@ function Nav() {
   const [isSmallHorizontal, setIsSmallHorizontal] = useState(false)
   const currentMode = isDetailRoute ? 'detail' : 'landing'
   const isProjectDetailRoute = !!matchPath('/projects/:projectId', location.pathname)
-  const detailLabel = isProjectDetailRoute ? navText.detailCurrent : navText.r85Current
+  const getDetailLabel = () => {
+    if (isProjectDetailRoute) return navText.detailCurrent
+    if (matchPath('/r85', location.pathname)) return navText.subpageCurrent.r85
+    if (matchPath('/policy', location.pathname)) return navText.subpageCurrent.policy
+    if (matchPath('/qa', location.pathname)) return navText.subpageCurrent.qa
+    if (matchPath('/video', location.pathname)) return navText.subpageCurrent.video
+    return navText.subpageCurrent.errorPage
+  }
+  const detailLabel = getDetailLabel()
   const detailItems = [
     {
       key: 'detail-back',

@@ -11,6 +11,16 @@ import plProjects from '../../../assets/i18/pl/projects.json'
 import enProjects from '../../../assets/i18/en/projects.json'
 import plDetails from '../../../assets/i18/pl/details.json'
 import enDetails from '../../../assets/i18/en/details.json'
+import plR85 from '../../../assets/i18/pl/r85.json'
+import enR85 from '../../../assets/i18/en/r85.json'
+import plPolicy from '../../../assets/i18/pl/policy.json'
+import enPolicy from '../../../assets/i18/en/policy.json'
+import plQa from '../../../assets/i18/pl/qa.json'
+import enQa from '../../../assets/i18/en/qa.json'
+import plVideo from '../../../assets/i18/pl/video.json'
+import enVideo from '../../../assets/i18/en/video.json'
+import plErrorPage from '../../../assets/i18/pl/error_page.json'
+import enErrorPage from '../../../assets/i18/en/error_page.json'
 
 const LanguageContext = createContext(null)
 
@@ -18,8 +28,32 @@ const STORAGE_KEY = 'r85_lang'
 const SUPPORTED_LOCALES = ['pl', 'en']
 
 const dictionaries = {
-  pl: { ...plHome, ...plAbout, ...plContact, ...plNav, ...plProjects, ...plDetails },
-  en: { ...enHome, ...enAbout, ...enContact, ...enNav, ...enProjects, ...enDetails },
+  pl: {
+    ...plHome,
+    ...plAbout,
+    ...plContact,
+    ...plNav,
+    ...plProjects,
+    ...plDetails,
+    ...plR85,
+    ...plPolicy,
+    ...plQa,
+    ...plVideo,
+    ...plErrorPage,
+  },
+  en: {
+    ...enHome,
+    ...enAbout,
+    ...enContact,
+    ...enNav,
+    ...enProjects,
+    ...enDetails,
+    ...enR85,
+    ...enPolicy,
+    ...enQa,
+    ...enVideo,
+    ...enErrorPage,
+  },
 }
 
 const getInitialLocale = () => {
