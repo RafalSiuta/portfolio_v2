@@ -160,7 +160,7 @@ export default function About() {
     const currentPageCounter = pageCounterRef.current
     const currentScrollProgress = scrollProgressRef.current
     const currentScrollDirection = scrollDirectionRef.current
-    const isAboutActive = currentPageCounter === ABOUT_SECTION_INDEX || (isAboutHash && isWelcomeVisible)
+    const isAboutActive = currentPageCounter === ABOUT_SECTION_INDEX || isWelcomeVisible || isAboutHash
     const isLeavingAbout = isAboutActive
       && currentPageCounter === ABOUT_SECTION_INDEX
       && hasReachedFirstDetails
@@ -505,7 +505,8 @@ export default function About() {
         : false
       const isAboutHash = window.location.hash === '#about' || initialHashRef.current === '#about'
       const isAboutActive = pageCounterRef.current === ABOUT_SECTION_INDEX
-        || (isAboutHash && isWelcomeVisible)
+        || isWelcomeVisible
+        || isAboutHash
       const shouldAnimateLocaleChange = shouldAnimateLocaleChangeRef.current
         && welcomeAnimationRef.current.hasAnimatedOnce
         && isAboutActive
@@ -556,6 +557,21 @@ export default function About() {
       welcomeAnimationRef.current.animateOut = animateOut
 
       initialTrigger?.kill()
+      const playInitialWelcomeAnimation = () => {
+        if (
+          welcomeAnimationRef.current.hasInitialTriggerPlayed
+          || welcomeAnimationRef.current.hasAnimatedThisVisit
+        ) {
+          return
+        }
+
+        welcomeAnimationRef.current.hasInitialTriggerPlayed = true
+        welcomeAnimationRef.current.hasAnimatedThisVisit = true
+        welcomeAnimationRef.current.hasAnimatedOnce = true
+        welcomeAnimationRef.current.wasActive = true
+        animateIn({ isReentry: false })
+      }
+
       initialTrigger = ScrollTrigger.create({
         trigger: welcomeEl,
         start: 'top 78%',
@@ -570,14 +586,7 @@ export default function About() {
             hasInitialTriggerPlayed: welcomeAnimationRef.current.hasInitialTriggerPlayed,
             hasAnimatedThisVisit: welcomeAnimationRef.current.hasAnimatedThisVisit,
           })
-          if (welcomeAnimationRef.current.hasInitialTriggerPlayed || welcomeAnimationRef.current.hasAnimatedThisVisit) {
-            return
-          }
-          welcomeAnimationRef.current.hasInitialTriggerPlayed = true
-          welcomeAnimationRef.current.hasAnimatedThisVisit = true
-          welcomeAnimationRef.current.hasAnimatedOnce = true
-          welcomeAnimationRef.current.wasActive = true
-          animateIn({ isReentry: false })
+          playInitialWelcomeAnimation()
         },
       })
 
@@ -588,11 +597,7 @@ export default function About() {
           pageCounter: pageCounterRef.current,
           scrollProgress: scrollProgressRef.current,
         })
-        welcomeAnimationRef.current.hasInitialTriggerPlayed = true
-        welcomeAnimationRef.current.hasAnimatedThisVisit = true
-        welcomeAnimationRef.current.hasAnimatedOnce = true
-        welcomeAnimationRef.current.wasActive = true
-        animateIn({ isReentry: false })
+        playInitialWelcomeAnimation()
       }
 
       if (shouldAnimateLocaleChange) {
@@ -604,6 +609,8 @@ export default function About() {
       stateEvalFrame = window.requestAnimationFrame(() => {
         stateEvalFrame = null
         ScrollTrigger.refresh()
+        initialTrigger?.refresh()
+
         if (shouldAnimateLocaleChange) {
           welcomeAnimationRef.current.hasAnimatedThisVisit = true
           animateLocaleTextIn()
@@ -618,6 +625,22 @@ export default function About() {
             scrollProgress: scrollProgressRef.current,
           })
           evaluateWelcomeAnimationState()
+        }
+
+        const isStillWelcomeVisible = welcomeEl.getBoundingClientRect().top < window.innerHeight * 0.78
+          && welcomeEl.getBoundingClientRect().bottom > window.innerHeight * 0.22
+        const hasStillReachedFirstDetails = firstDetailsHeadingEl
+          ? firstDetailsHeadingEl.getBoundingClientRect().top <= window.innerHeight * ABOUT_DETAILS_TRIGGER_START
+          : false
+
+        if (
+          isStillWelcomeVisible
+          && !hasStillReachedFirstDetails
+          && !welcomeAnimationRef.current.hasInitialTriggerPlayed
+          && !welcomeAnimationRef.current.hasAnimatedThisVisit
+          && !welcomeAnimationRef.current.delayedCall
+        ) {
+          playInitialWelcomeAnimation()
         }
       })
     }

@@ -38,7 +38,11 @@ export default function ParticlesBackground({ children, className = '', contentC
       let lastDpr = 1
       let isCanvasReady = false
 
+      const hasRenderer = () => !isDisposed && isCanvasReady && p._renderer
+
       const resolveDotColor = () => {
+        if (isDisposed) return
+
         const target = canvasContainer.current || document.documentElement
         const colorValue = getComputedStyle(target).getPropertyValue('--pattern-color').trim()
         dotColor = colorValue || PATTERN_COLORS.BASE
@@ -52,7 +56,7 @@ export default function ParticlesBackground({ children, className = '', contentC
       }
 
       const setPixelDensity = () => {
-        if (!isCanvasReady) return
+        if (!hasRenderer()) return
 
         const dpr = Math.min(2, window.devicePixelRatio || 1)
         if (dpr !== lastDpr) {
@@ -62,6 +66,8 @@ export default function ParticlesBackground({ children, className = '', contentC
       }
 
       const selectAccentShapes = () => {
+        if (isDisposed || !hasRenderer()) return
+
         const cycleId = ++accentCycleId
         clearAccentTimers()
         accentShapes = []
@@ -100,7 +106,7 @@ export default function ParticlesBackground({ children, className = '', contentC
 
         const queueShape = (step) => {
           const handle = setTimeout(() => {
-            if (cycleId !== accentCycleId) return
+            if (isDisposed || cycleId !== accentCycleId || !hasRenderer()) return
             const dotIndex = pickDotIndex()
             const { x, y } = dots[dotIndex]
             accentShapes.push({ type: nextType(), x, y, dotIndex, createdAt: p.millis() })
@@ -113,15 +119,19 @@ export default function ParticlesBackground({ children, className = '', contentC
         }
 
         const restartHandle = setTimeout(() => {
-          if (cycleId !== accentCycleId) return
+          if (isDisposed || cycleId !== accentCycleId || !hasRenderer()) return
           selectAccentShapes()
         }, shapesToSpawn * delay + duration)
 
         accentTimers.push(restartHandle)
-        p.loop()
+        if (hasRenderer()) {
+          p.loop()
+        }
       }
 
       const buildGrid = () => {
+        if (isDisposed) return
+
         containerSize = getContainerSize()
         const { w, h } = containerSize
         dots = []
@@ -135,6 +145,8 @@ export default function ParticlesBackground({ children, className = '', contentC
       }
 
       const drawDots = () => {
+        if (!hasRenderer()) return
+
         p.clear()
         const now = p.millis()
         accentShapes = accentShapes.filter(({ createdAt }) => !createdAt || now - createdAt < duration)
@@ -165,7 +177,7 @@ export default function ParticlesBackground({ children, className = '', contentC
       }
 
       const forceResize = () => {
-        if (!isCanvasReady) return
+        if (!hasRenderer()) return
 
         const { w, h } = getContainerSize()
         setPixelDensity()
@@ -178,6 +190,8 @@ export default function ParticlesBackground({ children, className = '', contentC
       p.__forceResize = forceResize
 
       p.setup = () => {
+        if (isDisposed || !canvasContainer.current) return
+
         const { w, h } = getContainerSize()
         const canvas = p.createCanvas(w, h)
         canvas.parent(canvasContainer.current)
@@ -191,6 +205,8 @@ export default function ParticlesBackground({ children, className = '', contentC
       }
 
       p.draw = () => {
+        if (!hasRenderer()) return
+
         const currentDpr = Math.min(2, window.devicePixelRatio || 1)
         if (currentDpr !== lastDpr) {
           forceResize()
@@ -230,6 +246,7 @@ export default function ParticlesBackground({ children, className = '', contentC
         resizeObserverRef.current.disconnect()
       }
       if (sketchInstance) {
+        sketchInstance.noLoop?.()
         sketchInstance.remove()
       }
       accentCycleId += 1

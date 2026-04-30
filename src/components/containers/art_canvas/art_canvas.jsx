@@ -35,6 +35,7 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
   useLayoutEffect(() => {
     const container = containerRef.current
     if (!container) return undefined
+    let isDisposed = false
 
     if (instanceRef.current) {
       instanceRef.current.remove()
@@ -53,14 +54,18 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
         layoutStrokePx = Number.isFinite(parsed) ? parsed : 0.5
       }
       let img = null
+      const hasRenderer = () => !isDisposed && p._renderer
+
       const loadProfileImage = () => {
         p.loadImage(
           profileImageSrc,
           (loaded) => {
+            if (isDisposed || !hasRenderer()) return
             img = loaded
             p.redraw()
           },
           (err) => {
+            if (isDisposed) return
             console.error('IMAGE SOURCE LOAD FAILED', err)
           }
         )
@@ -253,6 +258,8 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
         smallLinesProgress = 1,
         imageProgress = 1
       ) => {
+        if (!hasRenderer()) return
+
         const scaleFactor = p.width / SVG_VIEWBOX_SIZE
         const imageCenterX = 407
         const imageCenterY = 407
@@ -310,10 +317,14 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
           smallLinesProgressCurrent,
           imageProgressCurrent
         )
-        p.noLoop()
+        if (hasRenderer()) {
+          p.noLoop()
+        }
       }
 
       const startArcAnimation = ({ restart = false, direction } = {}) => {
+        if (!hasRenderer()) return
+
         if (restart) {
           setArcAnimationProgress(direction === 'backward' ? 1 : 0)
         }
@@ -425,6 +436,8 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
       p.resetArcAnimation = setArcAnimationProgress
 
       p.setup = () => {
+        if (isDisposed || !container.isConnected) return
+
         const size = Math.min(
           container.clientWidth,
           container.clientHeight
@@ -449,6 +462,8 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
       }
 
       p.draw = () => {
+        if (!hasRenderer()) return
+
         if (!arcAnimationActive) {
           drawLargeArc(
             arcProgressCurrent,
@@ -526,6 +541,8 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
       }
 
       p.windowResized = () => {
+        if (!hasRenderer() || !container.isConnected) return
+
         const size = Math.min(
           container.clientWidth,
           container.clientHeight
@@ -539,12 +556,22 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
     const instance = new p5(sketch)
     instanceRef.current = instance
     onAnimationReady?.({
-      start: (options) => instance.startArcAnimation?.(options),
-      reset: (progress = 0) => instance.resetArcAnimation?.(progress),
+      start: (options) => {
+        if (!isDisposed) {
+          instance.startArcAnimation?.(options)
+        }
+      },
+      reset: (progress = 0) => {
+        if (!isDisposed) {
+          instance.resetArcAnimation?.(progress)
+        }
+      },
     })
 
     return () => {
+      isDisposed = true
       onAnimationReady?.(null)
+      instance.noLoop?.()
       instance.remove()
       container.innerHTML = ''
       instanceRef.current = null

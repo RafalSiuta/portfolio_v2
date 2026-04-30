@@ -1,6 +1,6 @@
 import styles from './heroWrapper.module.css'
 
-export default function HeroWrapper({ className, images, children, style, ...props }) {
+export default function HeroWrapper({ className, images, children, style, isLastSection, ...props }) {
   const combinedClassName = [styles.heroWrapper, className].filter(Boolean).join(' ')
   const backgroundStyle = images
     ? {
@@ -11,7 +11,11 @@ export default function HeroWrapper({ className, images, children, style, ...pro
     : {}
 
   return (
-    <section {...props} className={combinedClassName}>
+    <section
+      {...props}
+      className={combinedClassName}
+      data-last-section={isLastSection ? 'true' : undefined}
+    >
       <div
         className={styles.heroSurface}
         style={{ ...backgroundStyle, ...style }}
