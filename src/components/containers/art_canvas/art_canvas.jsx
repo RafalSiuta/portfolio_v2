@@ -1,8 +1,8 @@
 import { useLayoutEffect, useRef } from 'react'
-import p5 from 'p5'
 import styles from './art_canvas.module.css'
 import { drawDot, drawSquare } from '../../../utils/shapes/draw_shapes'
 import profileImageSrc from '../../../assets/images/profile_2.png'
+import getP5Lite from '../../../utils/p5/p5Lite'
 import {
   ARC_LIST,
   LARGE_LINES,
@@ -16,8 +16,7 @@ import {
 
 const SVG_VIEWBOX_SIZE = 800
 
-p5.disableFriendlyErrors = true
-p5.disableSketchChecker = true
+const p5 = getP5Lite()
 
 export default function ArtCanvas({ onAnimationReady, onClick }) {
   const containerRef = useRef(null)
@@ -43,6 +42,8 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
     }
 
     container.innerHTML = ''
+    let resizeObserver = null
+    let resizeFrame = null
 
     const sketch = (p) => {
 
@@ -435,14 +436,31 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
       p.startArcAnimation = startArcAnimation
       p.resetArcAnimation = setArcAnimationProgress
 
+      const getCanvasSize = () => {
+        const rect = container.getBoundingClientRect()
+        const width = container.clientWidth || rect.width
+        const height = container.clientHeight || rect.height || width
+        return Math.max(1, Math.round(Math.min(width, height)))
+      }
+
+      const resizeCanvasToContainer = () => {
+        if (!hasRenderer() || !container.isConnected) return
+
+        const size = getCanvasSize()
+        if (p.width !== size || p.height !== size) {
+          p.resizeCanvas(size, size)
+        }
+        updateLayoutStroke()
+        p.redraw()
+      }
+
+      p.resizeToContainer = resizeCanvasToContainer
+
       p.setup = () => {
         if (isDisposed || !container.isConnected) return
 
-        const size = Math.min(
-          container.clientWidth,
-          container.clientHeight
-        )
-        const canvas = p.createCanvas(size || 1, size || 1)
+        const size = getCanvasSize()
+        const canvas = p.createCanvas(size, size)
         canvas.parent(container)
         const canvases = container.querySelectorAll('canvas')
         canvases.forEach((node) => {
@@ -541,20 +559,30 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
       }
 
       p.windowResized = () => {
-        if (!hasRenderer() || !container.isConnected) return
-
-        const size = Math.min(
-          container.clientWidth,
-          container.clientHeight
-        )
-        p.resizeCanvas(size || 1, size || 1)
-        updateLayoutStroke()
-        p.redraw()
+        resizeCanvasToContainer()
       }
     }
 
     const instance = new p5(sketch)
     instanceRef.current = instance
+
+    const scheduleResize = () => {
+      if (isDisposed) return
+      if (resizeFrame) {
+        window.cancelAnimationFrame(resizeFrame)
+      }
+      resizeFrame = window.requestAnimationFrame(() => {
+        resizeFrame = null
+        instance.resizeToContainer?.()
+      })
+    }
+
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(scheduleResize)
+      resizeObserver.observe(container)
+    }
+    scheduleResize()
+
     onAnimationReady?.({
       start: (options) => {
         if (!isDisposed) {
@@ -570,6 +598,10 @@ export default function ArtCanvas({ onAnimationReady, onClick }) {
 
     return () => {
       isDisposed = true
+      resizeObserver?.disconnect()
+      if (resizeFrame) {
+        window.cancelAnimationFrame(resizeFrame)
+      }
       onAnimationReady?.(null)
       instance.noLoop?.()
       instance.remove()

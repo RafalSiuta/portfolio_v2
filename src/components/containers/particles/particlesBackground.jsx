@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import styles from './particlesBackground.module.css'
 import { drawCircle, drawCross, drawDot, drawSquare, drawTriangle } from '../../../utils/shapes/draw_shapes'
+import getP5Lite from '../../../utils/p5/p5Lite'
 
 const PATTERN_COLORS = {
   ACCENT: '#ffa84a',
@@ -219,12 +220,8 @@ export default function ParticlesBackground({ children, className = '', contentC
       }
     }
 
-    import('p5').then((p5Module) => {
-      if (isDisposed || !canvasContainer.current) return
-
-      p5Constructor = p5Module.default
-      p5Constructor.disableFriendlyErrors = true
-      p5Constructor.disableSketchChecker = true
+    if (!isDisposed && canvasContainer.current) {
+      p5Constructor = getP5Lite()
       sketchInstance = new p5Constructor(sketch)
 
       if (canvasContainer.current && typeof ResizeObserver !== 'undefined') {
@@ -237,7 +234,7 @@ export default function ParticlesBackground({ children, className = '', contentC
       }
 
       window.addEventListener('orientationchange', sketchInstance.__forceResize)
-    })
+    }
 
     return () => {
       isDisposed = true

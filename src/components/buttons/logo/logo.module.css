@@ -4,7 +4,6 @@
   display: inline-block;
   transform-origin: center;
   transition: transform 150ms ease;
-  will-change: transform;
   cursor: pointer;
   outline: none;
   -webkit-tap-highlight-color: transparent;
@@ -23,5 +22,4 @@
 
 .logoPath {
   transition: fill-opacity 220ms ease, stroke-opacity 220ms ease;
-  will-change: fill-opacity, stroke-opacity;
 }

@@ -210,7 +210,6 @@ function Nav() {
         scale: 0.5,
         yPercent: -50,
         transformOrigin: '50% 50%',
-        willChange: 'transform, opacity',
       })
       gsap.set(logoEl, {
         scale: 0.2,
@@ -220,7 +219,6 @@ function Nav() {
         scale: 0.92,
         yPercent: -18,
         transformOrigin: '50% 50%',
-        willChange: 'transform, opacity',
       })
     }
 
@@ -290,13 +288,11 @@ function Nav() {
     gsap.set(dividerEl, {
       scaleX: 0,
       transformOrigin: '0% 50%',
-      willChange: 'transform',
     })
     gsap.set(indicatorEl, {
       autoAlpha: 0,
       scaleX: 0,
       transformOrigin: '50% 50%',
-      willChange: 'transform, opacity',
     })
 
     const timeline = gsap.timeline({
@@ -353,7 +349,6 @@ function Nav() {
     gsap.set(menuTextEls, {
       autoAlpha: 0,
       yPercent: 65,
-      willChange: 'transform, opacity',
     })
 
     const timeline = gsap.timeline()
@@ -394,26 +389,22 @@ function Nav() {
       scale: 0.5,
       yPercent: -50,
       transformOrigin: '50% 50%',
-      willChange: 'transform, opacity',
     })
     gsap.set(menuItemEls, {
       autoAlpha: 0,
       scale: 0.92,
       yPercent: -18,
       transformOrigin: '50% 50%',
-      willChange: 'transform, opacity',
     })
     gsap.set(dividerEl, {
       opacity: 0,
       scaleX: 0,
       transformOrigin: '0% 50%',
-      willChange: 'transform, opacity',
     })
     gsap.set(indicatorEl, {
       autoAlpha: 0,
       scaleX: 0.72,
       transformOrigin: '50% 50%',
-      willChange: 'transform, opacity',
     })
 
     const timeline = gsap.timeline()

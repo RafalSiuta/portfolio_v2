@@ -354,13 +354,11 @@ export default function About() {
       gsap.set(getTextTargets(), {
         opacity: 0,
         yPercent: 65,
-        willChange: 'transform, opacity',
       })
       gsap.set(socialItems, {
         autoAlpha: 0,
         scale: 0.8,
         yPercent: 16,
-        willChange: 'transform, opacity',
       })
       if (socialItems[0]) {
         gsap.set(socialItems[0], { scale: 0.72, yPercent: 24 })
@@ -374,13 +372,11 @@ export default function About() {
       gsap.set(getTextTargets(), {
         opacity: 1,
         yPercent: 0,
-        willChange: 'transform, opacity',
       })
       gsap.set(socialItems, {
         autoAlpha: 1,
         scale: 1,
         yPercent: 0,
-        willChange: 'transform, opacity',
       })
       setArtCanvasVisibleState()
     }
@@ -868,7 +864,6 @@ export default function About() {
       gsap.set(headingEl, {
         opacity: 0,
         yPercent: 42,
-        willChange: 'transform, opacity',
       })
 
       triggers.push(ScrollTrigger.create({
@@ -888,12 +883,10 @@ export default function About() {
 
       gsap.set(title, {
         opacity: 0,
-        willChange: 'opacity',
       })
       gsap.set(bodyTargets, {
         opacity: 0,
         yPercent: 42,
-        willChange: 'transform, opacity',
       })
       if (chipEls.length) {
         gsap.set(chipEls, {
@@ -963,7 +956,6 @@ export default function About() {
         opacity: 0,
         scale: 0.9,
         yPercent: 18,
-        willChange: 'transform, opacity',
       })
       triggers.push(ScrollTrigger.create({
         trigger: nextPageRowEl,

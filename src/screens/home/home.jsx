@@ -322,7 +322,6 @@ function Home() {
         rotationX: -95,
         yPercent: 110,
         opacity: 0,
-        willChange: 'transform, opacity',
       })
     }
 
@@ -330,7 +329,6 @@ function Home() {
       gsap.set(descriptionLineEls, {
         opacity: 0,
         yPercent: 115,
-        willChange: 'transform, opacity',
       })
     }
 
@@ -338,7 +336,6 @@ function Home() {
       gsap.set(descriptionLineEls, {
         opacity: 1,
         yPercent: 0,
-        willChange: 'transform, opacity',
       })
     }
 
@@ -347,7 +344,6 @@ function Home() {
         rotationX: 0,
         yPercent: 0,
         opacity: 1,
-        willChange: 'transform, opacity',
       })
     }
 
@@ -462,13 +458,11 @@ function Home() {
         rotationX: 0,
         yPercent: 0,
         opacity: 1,
-        willChange: 'transform, opacity',
       })
       gsap.set(groups.subtitle, {
         rotationX: 0,
         yPercent: 0,
         opacity: 1,
-        willChange: 'transform, opacity',
       })
       setDescriptionVisibleState()
     }
@@ -653,24 +647,15 @@ function Home() {
         opacity: 0,
         scale: 0.9,
         yPercent: 18,
-        willChange: 'transform, opacity',
       })
-      if (cardEls[0]) {
-        gsap.set(cardEls[0], {
-          scale: 0.82,
-          yPercent: 26,
-        })
-      }
       gsap.set(dividerEl, {
         scaleX: 0,
         transformOrigin: '0% 50%',
-        willChange: 'transform, width',
       })
       gsap.set(iconButtonWrapperEl, {
         opacity: 0,
         scale: 0.9,
         yPercent: 18,
-        willChange: 'transform, opacity',
       })
     }
 
@@ -679,12 +664,10 @@ function Home() {
         opacity: 1,
         scale: 1,
         yPercent: 0,
-        willChange: 'transform, opacity',
       })
       gsap.set(dividerEl, {
         scaleX: 1,
         transformOrigin: '0% 50%',
-        willChange: 'transform, width',
       })
     }
 

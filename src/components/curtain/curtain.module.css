@@ -8,7 +8,6 @@
   pointer-events: none;
   z-index: 20;
   overflow: hidden;
-  will-change: transform;
 }
 
 .panel {

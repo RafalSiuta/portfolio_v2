@@ -87,21 +87,17 @@ function SideIndicator() {
       scale: 0.5,
       yPercent: -50,
       transformOrigin: '50% 50%',
-      willChange: 'transform, opacity',
     })
     gsap.set(topBarEl, {
       scaleY: 0,
       transformOrigin: 'top center',
-      willChange: 'transform',
     })
     gsap.set(bottomBarEl, {
       scaleY: 0,
       transformOrigin: 'bottom center',
-      willChange: 'transform',
     })
     gsap.set([topFillEl, bottomFillEl], {
       autoAlpha: 0,
-      willChange: 'opacity, transform',
     })
 
     const timeline = gsap.timeline({

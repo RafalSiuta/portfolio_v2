@@ -1,8 +1,11 @@
 .tiltWrapper {
-  display: inline-block;
+  display: block;
   width: var(--small-card-max-width);
   max-width: var(--small-card-max-width);
   aspect-ratio: 97.5 / 130;
+  line-height: 0;
+  vertical-align: top;
+  flex-shrink: 0;
   clip-path: polygon(0% 0%, 82% 0%, 90.7% 7%, 100% 14.8%, 100% 100%, 0% 100%);
   overflow: hidden;
   transform-style: preserve-3d;
@@ -13,8 +16,9 @@
 
 .container {
   display: block;
-  width: var(--small-card-max-width);
-  max-width: var(--small-card-max-width);
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
   /* odpowiada proporcjom patha: 146 / 195 ~ 97.5 / 130 */
   aspect-ratio: 97.5 / 130;
   flex-shrink: 0;

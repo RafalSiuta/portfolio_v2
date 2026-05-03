@@ -1,6 +1,6 @@
 ﻿
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useId, useMemo, useRef } from 'react';
 import VanillaTilt from 'vanilla-tilt';
 import SystemIcon from '../../../utils/icons/system_icon';
 import { resolveProjectSvgComponent } from '../../../utils/projects/projectAssets';
@@ -21,6 +21,8 @@ function SmallCard({
         : label
       : String(label ?? '');
   const LogoComponent = useMemo(() => resolveProjectSvgComponent(logo), [logo]);
+  const reactId = useId();
+  const clipPathId = `small-card-clip-${reactId.replace(/:/g, '')}`;
 
   useEffect(() => {
     if (!tiltRef.current) return;
@@ -32,12 +34,20 @@ function SmallCard({
       scale: 1.01,
       glare: true,
       'max-glare': 0.05,
-      gyroscope: true,
+      gyroscope: false,
       reverse: false,
       reset: true,
       easing: 'cubic-bezier(.03,.98,.52,.99)',
     });
+    el.style.willChange = '';
+
+    const clearWillChange = () => {
+      el.style.willChange = '';
+    };
+    el.addEventListener('mouseleave', clearWillChange);
+
     return () => {
+      el.removeEventListener('mouseleave', clearWillChange);
       el.vanillaTilt?.destroy();
     };
   }, []);
@@ -60,12 +70,12 @@ function SmallCard({
         role="group"
       >
       <defs>
-        <clipPath id="smallCardClip">
+        <clipPath id={clipPathId}>
           <path d="M120.1524 0.225586 L132.5406 13.690425 V13.691895 L146.0244 28.79445 V194.775 H0.225586 V0.225586 H120.1524 Z" />
         </clipPath>
       </defs>
 
-      <g clipPath="url(#smallCardClip)">
+      <g clipPath={`url(#${clipPathId})`}>
         <foreignObject x="0" y="0" width="146.25" height="195">
           <div
             xmlns="http://www.w3.org/1999/xhtml"

@@ -224,7 +224,6 @@ export default function ProjectDetails() {
         opacity: index === currentScreenIndexRef.current ? 1 : 0,
         yPercent: index === currentScreenIndexRef.current ? 0 : 100,
         zIndex: index === currentScreenIndexRef.current ? 2 : 0,
-        willChange: 'transform, opacity',
       })
     })
 
@@ -269,13 +268,11 @@ export default function ProjectDetails() {
       opacity: 1,
       yPercent: incomingY,
       zIndex: 3,
-      willChange: 'transform, opacity',
     })
     gsap.set(outgoingSlideEl, {
       opacity: 1,
       yPercent: 0,
       zIndex: 2,
-      willChange: 'transform, opacity',
     })
 
     screenTransitionRef.current = gsap.timeline({
@@ -361,35 +358,29 @@ export default function ProjectDetails() {
     const setInitialState = () => {
       gsap.set([headerEl, contentEl, imageContainerEl, counterContainerEl].filter(Boolean), {
         opacity: 0,
-        willChange: 'opacity',
       })
       gsap.set(imageFrameEl, {
         opacity: 0,
         scale: 0.92,
         transformOrigin: '50% 50%',
-        willChange: 'transform, opacity',
       })
       gsap.set(headerTextEls, {
         opacity: 0,
         yPercent: 65,
-        willChange: 'transform, opacity',
       })
       gsap.set([slideControllerEl, ...counterIndicatorEls].filter(Boolean), {
         opacity: 0,
         scale: 0.9,
         transformOrigin: '50% 50%',
-        willChange: 'transform, opacity',
       })
       gsap.set(counterTextEls, {
         opacity: 0,
         yPercent: 65,
-        willChange: 'transform, opacity',
       })
       gsap.set(shotEls, {
         opacity: 0,
         scale: 0.9,
         yPercent: 18,
-        willChange: 'transform, opacity',
       })
     }
 
@@ -640,7 +631,6 @@ export default function ProjectDetails() {
         gsap.set(safeTextTargets, {
           opacity: 0,
           yPercent: 42,
-          willChange: 'transform, opacity',
         })
       }
       if (safeListTargets.length) {
@@ -648,7 +638,6 @@ export default function ProjectDetails() {
           opacity: 0,
           scale: 0.9,
           yPercent: 18,
-          willChange: 'transform, opacity',
         })
       }
 
@@ -846,7 +835,6 @@ export default function ProjectDetails() {
         opacity: 0,
         yPercent: 28,
         scale: 0.98,
-        willChange: 'transform, opacity',
       })
 
       localeTimeline = gsap.timeline({

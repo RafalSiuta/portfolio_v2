@@ -75,6 +75,8 @@
 
 .cardSlot {
   display: flex;
+  align-items: flex-start;
+  line-height: 0;
   flex-shrink: 0;
 }
 

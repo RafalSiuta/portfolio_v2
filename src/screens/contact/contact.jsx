@@ -192,7 +192,6 @@ export default function Contact() {
         rotationX: -95,
         yPercent: 110,
         opacity: 0,
-        willChange: 'transform, opacity',
       })
     }
 
@@ -202,7 +201,6 @@ export default function Contact() {
       gsap.set(getFieldWindowEls(), {
         opacity: 0,
         yPercent: 18,
-        willChange: 'transform, opacity',
       })
       if (getSubmitButtonEl()) {
         gsap.set(getSubmitButtonEl(), {
@@ -210,7 +208,6 @@ export default function Contact() {
           scale: 0.88,
           yPercent: 12,
           transformOrigin: '50% 50%',
-          willChange: 'transform, opacity',
         })
       }
     }
@@ -220,25 +217,21 @@ export default function Contact() {
         rotationX: 0,
         yPercent: 0,
         opacity: 1,
-        willChange: 'transform, opacity',
       })
       gsap.set(getPlaceholderLines(), {
         rotationX: 0,
         yPercent: 0,
         opacity: 1,
-        willChange: 'transform, opacity',
       })
       gsap.set(getFieldWindowEls(), {
         opacity: 1,
         yPercent: 0,
-        willChange: 'transform, opacity',
       })
       if (getSubmitButtonEl()) {
         gsap.set(getSubmitButtonEl(), {
           opacity: 1,
           scale: 1,
           yPercent: 0,
-          willChange: 'transform, opacity',
         })
       }
     }
@@ -348,7 +341,6 @@ export default function Contact() {
       gsap.set(fieldWindowEls, {
         opacity: 1,
         yPercent: 0,
-        willChange: 'transform, opacity',
       })
       setTextInitialState(textTargets)
       if (submitButtonEl) {
@@ -407,7 +399,6 @@ export default function Contact() {
         gsap.set(getFieldWindowEls(), {
           opacity: 1,
           yPercent: 0,
-          willChange: 'transform, opacity',
         })
         setTextInitialState(getTextTargets())
         if (getSubmitButtonEl()) {
@@ -416,7 +407,6 @@ export default function Contact() {
             scale: 0.92,
             yPercent: 10,
             transformOrigin: '50% 50%',
-            willChange: 'transform, opacity',
           })
         }
       } else if (shouldReplayInitialAnimation) {

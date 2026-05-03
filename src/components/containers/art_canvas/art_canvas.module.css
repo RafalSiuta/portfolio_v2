@@ -3,11 +3,13 @@
   position: relative;
 }
 .canvas {
-  height: 70vh;
-  aspect-ratio: 2 / 2;
-  margin-right: var(--vertical-large-padding);
+  width: min(100%, 70vh);
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  margin: 0 auto;
   position: relative;
-  transform: translateX(-10%);
+  transform: none;
   /* background-color: black; */
 }
 
@@ -22,7 +24,7 @@
 
 @media screen and (max-width: 1024px) {
   .canvas {
-    height: 55vh;
+    width: min(55vh, 100%);
     transform: none;
     margin: auto;
   }
@@ -30,7 +32,7 @@
 
 @media screen and (max-width: 600px) {
   .canvas {
-    height: 45vh;
+    width: min(45vh, 100%);
     transform: none;
     margin: auto;
   }

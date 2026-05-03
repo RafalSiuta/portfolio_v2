@@ -1,4 +1,4 @@
-﻿import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -213,7 +213,6 @@ export default function Projects() {
         gsap.set(projectDescriptionLineRefs.current, {
           opacity: shouldKeepVisible ? 1 : 0,
           yPercent: shouldKeepVisible ? 0 : 65,
-          willChange: 'transform, opacity',
         })
 
         if (!sectionAnimationRef.current.hasInitialTriggerPlayed) {
@@ -304,41 +303,34 @@ export default function Projects() {
 
       gsap.set([contentEl, imageContainerEl, textContainerEl, counterContainerRef.current].filter(Boolean), {
         opacity: 0,
-        willChange: 'opacity',
       })
       gsap.set(imageFrameEl, {
         opacity: 0,
         scale: 0.92,
         transformOrigin: '50% 50%',
-        willChange: 'transform, opacity',
       })
       gsap.set([...primaryTextEls, ...toolsLabelEls], {
         opacity: 0,
         yPercent: 65,
-        willChange: 'transform, opacity',
       })
       gsap.set([chipEls, cardEls, textLinkRef.current].filter(Boolean), {
         opacity: 0,
         scale: 0.9,
         yPercent: 18,
-        willChange: 'transform, opacity',
       })
       gsap.set([slideControllerRef.current, ...counterIndicatorEls].filter(Boolean), {
         opacity: 0,
         scale: 0.9,
         transformOrigin: '50% 50%',
-        willChange: 'transform, opacity',
       })
       gsap.set(counterTextEls, {
         opacity: 0,
         yPercent: 65,
-        willChange: 'transform, opacity',
       })
       gsap.set(dividerRef.current, {
         opacity: 0,
         scaleX: 0,
         transformOrigin: '0% 50%',
-        willChange: 'transform, opacity',
       })
     }
 
@@ -348,39 +340,32 @@ export default function Projects() {
 
       gsap.set([contentEl, imageContainerEl, textContainerEl, counterContainerRef.current].filter(Boolean), {
         opacity: 1,
-        willChange: 'opacity',
       })
       gsap.set(imageFrameEl, {
         opacity: 1,
         scale: 1,
-        willChange: 'transform, opacity',
       })
       gsap.set([...primaryTextEls, ...toolsLabelEls], {
         opacity: 1,
         yPercent: 0,
-        willChange: 'transform, opacity',
       })
       gsap.set([chipEls, cardEls, textLinkRef.current].filter(Boolean), {
         opacity: 1,
         scale: 1,
         yPercent: 0,
-        willChange: 'transform, opacity',
       })
       gsap.set([slideControllerRef.current, ...counterIndicatorEls].filter(Boolean), {
         opacity: 1,
         scale: 1,
-        willChange: 'transform, opacity',
       })
       gsap.set(counterTextEls, {
         opacity: 1,
         yPercent: 0,
-        willChange: 'transform, opacity',
       })
       gsap.set(dividerRef.current, {
         opacity: 1,
         scaleX: 1,
         transformOrigin: '0% 50%',
-        willChange: 'transform, opacity',
       })
     }
 
@@ -673,13 +658,11 @@ export default function Projects() {
       gsap.set(primaryTextEls, {
         opacity: 0,
         yPercent: 42,
-        willChange: 'transform, opacity',
       })
       gsap.set(detailEls, {
         opacity: 0,
         scale: 0.9,
         yPercent: 18,
-        willChange: 'transform, opacity',
       })
 
       localeTimeline = gsap.timeline({
@@ -748,7 +731,6 @@ export default function Projects() {
         opacity: index === currentIndexRef.current ? 1 : 0,
         yPercent: index === currentIndexRef.current ? 0 : 100,
         zIndex: index === currentIndexRef.current ? 2 : 0,
-        willChange: 'transform, opacity',
       })
     })
 
@@ -776,13 +758,11 @@ export default function Projects() {
     gsap.set(textEls, {
       opacity: 0,
       yPercent: fromY,
-      willChange: 'transform, opacity',
     })
     gsap.set(chipEls, {
       opacity: 0,
       scale: 0.9,
       yPercent: 18,
-      willChange: 'transform, opacity',
     })
 
     const timeline = gsap.timeline()
@@ -846,13 +826,11 @@ export default function Projects() {
       opacity: 1,
       yPercent: incomingY,
       zIndex: 3,
-      willChange: 'transform, opacity',
     })
     gsap.set(outgoingSlideEl, {
       opacity: 1,
       yPercent: 0,
       zIndex: 2,
-      willChange: 'transform, opacity',
     })
 
     projectTransitionRef.current = gsap.timeline({
