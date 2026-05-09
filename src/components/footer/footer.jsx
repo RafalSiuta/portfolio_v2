@@ -1,10 +1,21 @@
 import { useEffect, useState, useMemo, useRef } from 'react'
 import { gsap } from 'gsap'
 import IconLink from '../buttons/icon_link/icon_link'
+import FooterLink from '../buttons/footer_link/footerLink'
 import styles from './footer.module.css'
 import { useNavContext } from '../../utils/providers/navProvider'
 import navLinks from '../../utils/constants/navLinks'
 import { usePageTransitionContext } from '../../utils/providers/pageTransitionProvider'
+
+const footerLinks = [
+  { to: '/r85', name: "copyrights'26", isLink:true },
+  { to: 'mailto:r85unit@gmail.com', name: 'r85unit@gmail.com' },
+  { to: '/policy', name: 'privacy policy', isLink: true },
+  { to: '/qa', name: 'q&a', isLink: true },
+  { to: 'https://buymeacoffee.com/r85apps', name: 'buy me a coffe' },
+  { to: '/r85', name: 'r85studio', isLink: true },
+  { to: 'https://play.google.com/store/apps/details?id=org.r85.calendar_todo', name: 'google playstore' },
+]
 
 const iconsList = [
   { link: '#', name: 'Play', label: 'Odtworz' },
@@ -19,8 +30,11 @@ function Footer({ variant = 'floating' }) {
   const { isDetailFooterVisible } = usePageTransitionContext()
   const [isTabletDown, setIsTabletDown] = useState(false)
   const iconRefs = useRef([])
+  const footerLinkRefs = useRef([])
   const socialAnimationRef = useRef(null)
+  const footerLinksAnimationRef = useRef(null)
   const previousSocialVisibilityRef = useRef(null)
+  const previousFooterLinksVisibilityRef = useRef(null)
   const lastIndex = useMemo(() => Math.max(navLinks.length - 1, 0), [])
   const isInline = variant === 'inline'
   const isDetail = variant === 'detail'
@@ -31,6 +45,12 @@ function Footer({ variant = 'floating' }) {
       ? isAlwaysVisible || isMenuOpen
       : isAlwaysVisible || pageCounter === 0 || pageCounter === lastIndex
   const [isSocialListVisible, setIsSocialListVisible] = useState(shouldShowSocial)
+  const shouldShowFooterLinks = isDetail
+    ? false
+    : isTabletDown
+      ? isAlwaysVisible || isMenuOpen
+      : isAlwaysVisible || pageCounter === lastIndex
+  const [isFooterLinksVisible, setIsFooterLinksVisible] = useState(shouldShowFooterLinks)
 
   useEffect(() => {
     if (isAlwaysVisible) return undefined
@@ -118,7 +138,81 @@ function Footer({ variant = 'floating' }) {
     }
   }, [shouldShowSocial])
 
+  useEffect(() => {
+    const linkEls = footerLinkRefs.current.filter(Boolean)
+    if (!linkEls.length) return undefined
+
+    const previousFooterLinksVisibility = previousFooterLinksVisibilityRef.current
+    const isInitialRender = previousFooterLinksVisibility === null
+    previousFooterLinksVisibilityRef.current = shouldShowFooterLinks
+
+    footerLinksAnimationRef.current?.kill()
+    footerLinksAnimationRef.current = null
+    gsap.killTweensOf(linkEls)
+
+    if (shouldShowFooterLinks) {
+      setIsFooterLinksVisible(true)
+      gsap.set(linkEls, {
+        visibility: 'visible',
+        pointerEvents: 'auto',
+      })
+
+      if (isInitialRender) {
+        gsap.set(linkEls, { opacity: 1, y: 0 })
+      } else {
+        footerLinksAnimationRef.current = gsap.fromTo(linkEls, {
+          opacity: 0,
+          y: 8,
+        }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.28,
+          ease: 'power2.out',
+          stagger: 0.04,
+          overwrite: 'auto',
+        })
+      }
+    } else if (isInitialRender) {
+      setIsFooterLinksVisible(false)
+      gsap.set(linkEls, {
+        opacity: 0,
+        y: 8,
+        visibility: 'hidden',
+        pointerEvents: 'none',
+      })
+    } else {
+      gsap.set(linkEls, {
+        visibility: 'visible',
+        pointerEvents: 'none',
+      })
+
+      footerLinksAnimationRef.current = gsap.to(linkEls.slice().reverse(), {
+        opacity: 0,
+        y: 8,
+        duration: 0.22,
+        ease: 'power2.in',
+        stagger: 0.03,
+        overwrite: 'auto',
+        onComplete: () => {
+          gsap.set(linkEls, {
+            visibility: 'hidden',
+            pointerEvents: 'none',
+          })
+          footerLinksAnimationRef.current = null
+          setIsFooterLinksVisible(false)
+        },
+      })
+    }
+
+    return () => {
+      footerLinksAnimationRef.current?.kill()
+      footerLinksAnimationRef.current = null
+      gsap.killTweensOf(linkEls)
+    }
+  }, [shouldShowFooterLinks])
+
   iconRefs.current.length = iconsList.length
+  footerLinkRefs.current.length = footerLinks.length
 
   return (
     <footer
@@ -126,7 +220,7 @@ function Footer({ variant = 'floating' }) {
         styles.footer,
         isInline ? styles.footerInline : '',
         isDetail ? styles.footerDetail : '',
-        isTabletDown && isSocialListVisible ? styles.footerMobileVisible : '',
+        isTabletDown && (isSocialListVisible || isFooterLinksVisible) ? styles.footerMobileVisible : '',
       ].filter(Boolean).join(' ')}
     >
       <div
@@ -136,6 +230,24 @@ function Footer({ variant = 'floating' }) {
           isDetail ? styles.footerContainerDetail : '',
         ].filter(Boolean).join(' ')}
       >
+        <div
+          className={[
+            styles.footerLinks,
+            isFooterLinksVisible ? styles.footerLinksVisible : styles.footerLinksHidden,
+          ].join(' ')}
+        >
+          {footerLinks.map(({ to, name, isLink = false }, index) => (
+            <FooterLink
+              key={name}
+              ref={(node) => {
+                footerLinkRefs.current[index] = node
+              }}
+              to={to}
+              name={name}
+              isLink={isLink}
+            />
+          ))}
+        </div>
         <div
           className={[
             styles.socialList,
