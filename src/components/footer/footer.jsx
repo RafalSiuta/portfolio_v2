@@ -29,6 +29,9 @@ function Footer({ variant = 'floating' }) {
   const { isMenuOpen, pageCounter } = useNavContext()
   const { isDetailFooterVisible } = usePageTransitionContext()
   const [isTabletDown, setIsTabletDown] = useState(false)
+  const [isMobileViewport, setIsMobileViewport] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
+  )
   const iconRefs = useRef([])
   const footerLinkRefs = useRef([])
   const socialAnimationRef = useRef(null)
@@ -47,9 +50,11 @@ function Footer({ variant = 'floating' }) {
   const [isSocialListVisible, setIsSocialListVisible] = useState(shouldShowSocial)
   const shouldShowFooterLinks = isDetail
     ? false
-    : isTabletDown
-      ? isAlwaysVisible || isMenuOpen
-      : isAlwaysVisible || pageCounter === lastIndex
+    : isMobileViewport
+      ? false
+      : isTabletDown
+        ? isAlwaysVisible || isMenuOpen
+        : isAlwaysVisible || pageCounter === lastIndex
   const [isFooterLinksVisible, setIsFooterLinksVisible] = useState(shouldShowFooterLinks)
 
   useEffect(() => {
@@ -61,6 +66,21 @@ function Footer({ variant = 'floating' }) {
     media.addEventListener('change', handleChange)
     return () => media.removeEventListener('change', handleChange)
   }, [isAlwaysVisible])
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 768px)')
+    const handleChange = (event) => setIsMobileViewport(event.matches)
+
+    setIsMobileViewport(media.matches)
+    media.addEventListener('change', handleChange)
+    return () => media.removeEventListener('change', handleChange)
+  }, [])
+
+  useEffect(() => {
+    if (isMobileViewport) {
+      setIsFooterLinksVisible(false)
+    }
+  }, [isMobileViewport])
 
   useEffect(() => {
     const iconEls = iconRefs.current.filter(Boolean)
@@ -212,7 +232,7 @@ function Footer({ variant = 'floating' }) {
   }, [shouldShowFooterLinks])
 
   iconRefs.current.length = iconsList.length
-  footerLinkRefs.current.length = footerLinks.length
+  footerLinkRefs.current.length = isMobileViewport ? 0 : footerLinks.length
 
   return (
     <footer
@@ -230,24 +250,26 @@ function Footer({ variant = 'floating' }) {
           isDetail ? styles.footerContainerDetail : '',
         ].filter(Boolean).join(' ')}
       >
-        <div
-          className={[
-            styles.footerLinks,
-            isFooterLinksVisible ? styles.footerLinksVisible : styles.footerLinksHidden,
-          ].join(' ')}
-        >
-          {footerLinks.map(({ to, name, isLink = false }, index) => (
-            <FooterLink
-              key={name}
-              ref={(node) => {
-                footerLinkRefs.current[index] = node
-              }}
-              to={to}
-              name={name}
-              isLink={isLink}
-            />
-          ))}
-        </div>
+        {!isMobileViewport && (
+          <div
+            className={[
+              styles.footerLinks,
+              isFooterLinksVisible ? styles.footerLinksVisible : styles.footerLinksHidden,
+            ].join(' ')}
+          >
+            {footerLinks.map(({ to, name, isLink = false }, index) => (
+              <FooterLink
+                key={name}
+                ref={(node) => {
+                  footerLinkRefs.current[index] = node
+                }}
+                to={to}
+                name={name}
+                isLink={isLink}
+              />
+            ))}
+          </div>
+        )}
         <div
           className={[
             styles.socialList,

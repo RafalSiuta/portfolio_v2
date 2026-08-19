@@ -36,6 +36,9 @@ export default function Projects() {
   const projectsText = getProjectsText(t)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobileViewport, setIsMobileViewport] = useState(false)
+  const [isCompactViewport, setIsCompactViewport] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
+  )
   const [loadPercent, setLoadPercent] = useState(0)
   const [isAutoplayPaused, setIsAutoplayPaused] = useState(false)
   const [descriptionSplitVersion, setDescriptionSplitVersion] = useState(0)
@@ -138,6 +141,15 @@ export default function Projects() {
     updateViewport()
     window.addEventListener('resize', updateViewport)
     return () => window.removeEventListener('resize', updateViewport)
+  }, [])
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 768px)')
+    const handleChange = (event) => setIsCompactViewport(event.matches)
+
+    setIsCompactViewport(media.matches)
+    media.addEventListener('change', handleChange)
+    return () => media.removeEventListener('change', handleChange)
   }, [])
 
   const evaluateSectionAnimationState = useCallback(() => {
@@ -538,6 +550,24 @@ export default function Projects() {
         }, '>-0.04')
     }
 
+    if (isCompactViewport) {
+      clearDelayedCall()
+      killMotion()
+      setVisibleState()
+      sectionAnimationRef.current.isReady = false
+      sectionAnimationRef.current.wasActive = false
+      sectionAnimationRef.current.hasAnimatedThisVisit = true
+      sectionAnimationRef.current.hasAnimatedOnce = true
+      sectionAnimationRef.current.hasInitialTriggerPlayed = true
+      sectionAnimationRef.current.animateIn = () => {}
+      sectionAnimationRef.current.animateOut = () => {}
+      sectionAnimationRef.current.reset = () => {}
+
+      return () => {
+        killMotion()
+      }
+    }
+
     const isProjectsActive = pageCounterRef.current === PROJECTS_SECTION_INDEX
     const shouldKeepVisibleState = isProjectsActive && sectionAnimationRef.current.hasAnimatedThisVisit
 
@@ -609,6 +639,7 @@ export default function Projects() {
       getProjectDescriptionLineTargets,
       getProjectSectionTextTargets,
       descriptionSplitVersion,
+      isCompactViewport,
     ],
     revertOnUpdate: true,
   })
@@ -720,7 +751,7 @@ export default function Projects() {
 
   useEffect(() => {
     evaluateSectionAnimationState()
-  }, [evaluateSectionAnimationState, pageCounter, scrollDirection, scrollProgress])
+  }, [evaluateSectionAnimationState, isCompactViewport, pageCounter, scrollDirection, scrollProgress])
 
   useGSAP(() => {
     const slideEls = imageSlideRefs.current.filter(Boolean)
